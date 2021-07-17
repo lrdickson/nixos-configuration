@@ -152,7 +152,7 @@
       enable = true;
       allowReboot = false;
     };
-    stateVersion = "21.05";
+    #stateVersion = "21.05";
+    stateVersion = "unstable";
   };
 }
-
