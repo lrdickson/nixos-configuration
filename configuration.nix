@@ -139,6 +139,14 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Add Nix Flakes
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+   };
+
   system = {
     autoUpgrade = {
       enable = true;
