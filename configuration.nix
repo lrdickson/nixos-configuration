@@ -3,12 +3,16 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+ 
 
 {
   imports =
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      # Add home manager options
+      <home-manager/nixos>
     ];
 
   boot = {
@@ -63,12 +67,15 @@
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
+  home-manager.users.lyn = {
+    imports = [
+      ./home.nix
+    ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; with xfce; [
-
-    # Need lates linux kernel for wifi to work
-    linux_testing
+  environment.systemPackages = with pkgs; [
 
     # NTFS driver
     ntfs3g
@@ -76,13 +83,15 @@
     # Services
     udiskie
 
+    # Manager Per User Configuration
+    home-manager
+
     # Terminal applications
     gnupg
     htop
     tmux
     w3m
     wget
-    wpa_supplicant
     xclip
  
     # Desktop stuff
@@ -92,15 +101,11 @@
     qutebrowser
     sakura
     xscreensaver
-    xfce4-whiskermenu-plugin
+    xfce.xfce4-whiskermenu-plugin
 
     # programming
-    vimHugeX # gvim
     git
-
-    # pass
-    pass
-    qtpass
+    vimHugeX # gvim
   ];
 
   # Setup x
@@ -152,7 +157,7 @@
       enable = true;
       allowReboot = false;
     };
-    #stateVersion = "21.05";
-    stateVersion = "unstable";
+    stateVersion = "21.05";
+    #stateVersion = "unstable";
   };
 }
