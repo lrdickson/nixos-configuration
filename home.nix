@@ -15,4 +15,13 @@
       set completion-ignore-case On
       '';
   };
+
+  programs.ssh = {
+    enable = true;
+    # Stop git from complaining about gitlab
+    extraConfig = ''
+      Host gitlab.com
+        UpdateHostKeys no
+      '';
+  };
 }
