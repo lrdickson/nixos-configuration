@@ -2,5 +2,5 @@
 highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 syntax on
-syn match ExtraWhitespace /\s\+$\| \+\ze\t/
-autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
+autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
