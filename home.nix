@@ -8,6 +8,21 @@
     qtpass
   ];
 
+  # Git settings
+  programs.git = {
+    enable = true;
+    ignores = [
+      "*~"
+      "*.swp"
+    ];
+    extraConfig = {
+      core = {
+        # Fix git for cross collaboration with Windows
+        autocrlf = "input";
+      };
+    };
+  };
+
   # Ignore case in bash tab completion
   programs.readline = {
     enable = true;
@@ -25,6 +40,7 @@
       '';
   };
 
+  # Vim settings
   home.file.".vimrc".source = ./vimrc;
   home.file.".vim" = {
     source = ./vim;
@@ -34,6 +50,7 @@
     enable = true;
     plugins = with pkgs.vimPlugins; [
       ale
+      vim-gitgutter
     ];
   };
 }
