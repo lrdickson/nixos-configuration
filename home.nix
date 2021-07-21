@@ -26,4 +26,14 @@
   };
 
   home.file.".vimrc".source = ./vimrc;
+  home.file.".vim" = {
+    source = ./vim;
+    recursive = true;
+  };
+  programs.vim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      ale
+    ];
+  };
 }
