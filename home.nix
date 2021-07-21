@@ -24,4 +24,6 @@
         UpdateHostKeys no
       '';
   };
+
+  home.file.".vimrc".source = ./vimrc;
 }
