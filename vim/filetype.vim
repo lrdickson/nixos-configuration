@@ -3,5 +3,7 @@ if exists("did_load_filetypes")
 endif
 augroup filetypedetect
 	" Xaml
-	au BufNewFile,BufRead *.xaml	setf xml
+	au BufNewFile,BufRead *.xaml setf xml
+	" csv
+	au! BufNewFile,BufRead *.csv setf csv
 augroup end

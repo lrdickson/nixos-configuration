@@ -2,10 +2,7 @@
 
 {
   home.packages = with pkgs; [
-
-    # pass
-    pass
-    qtpass
+    universal-ctags
   ];
 
   # Git settings
@@ -19,6 +16,9 @@
       core = {
         # Fix git for cross collaboration with Windows
         autocrlf = "input";
+
+        # vim as default editor
+        editor = "vim";
       };
     };
   };
@@ -41,16 +41,23 @@
   };
 
   # Vim settings
-  home.file.".vimrc".source = ./vimrc;
   home.file.".vim" = {
     source = ./vim;
     recursive = true;
   };
-  programs.vim = {
+  programs.neovim = {
     enable = true;
+    viAlias = true;
+    vimAlias = true;
+    extraConfig = builtins.readFile ./vimrc;
     plugins = with pkgs.vimPlugins; [
       ale
+      lightline-vim
+      nerdcommenter
+      rainbow
+      taglist-vim
       vim-gitgutter
+      vim-surround
     ];
   };
 }

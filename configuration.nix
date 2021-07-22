@@ -3,7 +3,6 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
- 
 
 {
   imports =
@@ -73,13 +72,19 @@
     ];
   };
 
+  home-manager.users.root = {
+    imports = [
+      ./home.nix
+    ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
 
     # NTFS driver
     ntfs3g
-    
+
     # Services
     udiskie
 
@@ -93,7 +98,7 @@
     w3m
     wget
     xclip
- 
+
     # Desktop stuff
     firefox
     chromium
@@ -105,8 +110,18 @@
 
     # programming
     git
-    vimHugeX # gvim
+
+    # pass
+    pass
+    qtpass
   ];
+
+  # Neovim
+  programs.neovim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+  };
 
   # Setup x
   services.xserver = {
@@ -151,6 +166,9 @@
       experimental-features = nix-command flakes
     '';
    };
+
+  # Security
+  hardware.cpu.intel.updateMicrocode = true;
 
   system = {
     autoUpgrade = {
