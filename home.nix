@@ -1,5 +1,21 @@
 { pkgs, ... }:
 
+let
+  vimConfiguration =
+    {
+      enable = true;
+      extraConfig = builtins.readFile ./vimrc;
+      plugins = with pkgs.vimPlugins; [
+        ale
+        lightline-vim
+        nerdcommenter
+        rainbow
+        taglist-vim
+        vim-gitgutter
+        vim-surround
+      ];
+    };
+in
 {
   home.packages = with pkgs; [
     universal-ctags
@@ -45,19 +61,8 @@
     source = ./vim;
     recursive = true;
   };
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    extraConfig = builtins.readFile ./vimrc;
-    plugins = with pkgs.vimPlugins; [
-      ale
-      lightline-vim
-      nerdcommenter
-      rainbow
-      taglist-vim
-      vim-gitgutter
-      vim-surround
-    ];
+  programs = {
+    vim = (vimConfiguration // {});
+    neovim = (vimConfiguration // {});
   };
 }
