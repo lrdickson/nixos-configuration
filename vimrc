@@ -17,3 +17,11 @@ highlight GitGutterAdd ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
+
+" vim-plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'OmniSharp/omnisharp-vim'
+
+call plug#end()
+let g:OmniSharp_server_path = 'omnisharp'

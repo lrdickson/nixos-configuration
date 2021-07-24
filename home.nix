@@ -12,12 +12,20 @@ let
         rainbow
         taglist-vim
         vim-gitgutter
+        vim-plug
         vim-surround
       ];
     };
+  vimPlugRepo = builtins.fetchGit {
+    url = "https://github.com/junegunn/vim-plug.git";
+    ref = "master";
+  };
 in
 {
   home.packages = with pkgs; [
+    dotnet-sdk
+    mono
+    omnisharp-roslyn
     universal-ctags
   ];
 
@@ -57,10 +65,13 @@ in
   };
 
   # Vim settings
-  home.file.".vim" = {
-    source = ./vim;
+  home.file.".vim/filetype.vim".source = ./vim/filetype.vim;
+  home.file.".vim/ftplugin" = {
+    source = ./vim/ftplugin;
     recursive = true;
   };
+  home.file.".vim/autoload/plug.vim".source =
+    "${vimPlugRepo}/plug.vim";
   programs = {
     vim = (vimConfiguration // {});
     neovim = (vimConfiguration // {});

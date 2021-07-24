@@ -78,6 +78,9 @@
     ];
   };
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -114,14 +117,18 @@
     # pass
     pass
     qtpass
+
+    steam
+    mesa
+    driversi686Linux.mesa
   ];
 
+  # Steam
+  programs.steam.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+
   # Neovim
-  programs.neovim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-  };
+  programs.neovim.enable = true;
 
   # Setup x
   services.xserver = {
@@ -169,6 +176,10 @@
 
   # Security
   hardware.cpu.intel.updateMicrocode = true;
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
+  };
 
   system = {
     autoUpgrade = {
