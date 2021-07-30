@@ -51,11 +51,18 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.hplipWithPlugin ];
+  };
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+  };
+  nixpkgs.config.pulseaudio = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -63,7 +70,9 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lyn = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "audio" ];
   };
 
   home-manager.users.lyn = {
@@ -105,6 +114,7 @@
     # Desktop stuff
     firefox
     chromium
+    libsForQt5.okular
     pinentry-gtk2
     qutebrowser
     sakura
@@ -114,13 +124,18 @@
     # programming
     git
 
+    # rust
+    cargo
+    rustc
+    rustup
+
     # pass
     pass
     qtpass
 
-    steam
-    mesa
-    driversi686Linux.mesa
+    # Printing
+    #hplipWithPlugin
+    #python39Packages.pyqt5
   ];
 
   # Steam

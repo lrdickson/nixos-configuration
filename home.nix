@@ -10,6 +10,7 @@ let
         lightline-vim
         nerdcommenter
         rainbow
+        rust-vim
         taglist-vim
         vim-gitgutter
         vim-plug
@@ -44,6 +45,9 @@ in
         # vim as default editor
         editor = "vim";
       };
+
+      # Set merge as the default pull action
+      pull.rebase = false;
     };
   };
 
@@ -76,4 +80,7 @@ in
     vim = (vimConfiguration // {});
     neovim = (vimConfiguration // {});
   };
+
+  # Other config files
+  home.file.".gnupg/gpg-agent.conf".source = ./gpg-agent.conf;
 }
