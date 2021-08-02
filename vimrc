@@ -24,4 +24,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'OmniSharp/omnisharp-vim'
 
 call plug#end()
+
+let g:ale_linters = {
+\	'rust': ['analyzer'],
+\}
 let g:OmniSharp_server_path = 'omnisharp'

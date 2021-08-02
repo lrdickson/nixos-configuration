@@ -27,6 +27,7 @@ in
     dotnet-sdk
     mono
     omnisharp-roslyn
+    rust-analyzer
     universal-ctags
   ];
 
@@ -75,7 +76,10 @@ in
     recursive = true;
   };
   home.file.".vim/autoload/plug.vim".source =
-    "${vimPlugRepo}/plug.vim";
+    builtins.fetchurl {
+      url = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
+    };
+    # "${vimPlugRepo}/plug.vim";
   programs = {
     vim = (vimConfiguration // {});
     neovim = (vimConfiguration // {});
