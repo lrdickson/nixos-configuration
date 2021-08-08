@@ -112,9 +112,11 @@
     xclip
 
     # Desktop stuff
-    firefox
+    brave
     chromium
+    firefox
     libsForQt5.okular
+    minecraft
     pinentry-gtk2
     qutebrowser
     sakura
@@ -137,6 +139,9 @@
     #hplipWithPlugin
     #python39Packages.pyqt5
   ];
+
+  # IFPS
+  services.ipfs.enable = true;
 
   # Steam
   programs.steam.enable = true;

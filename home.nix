@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   vimConfiguration =
@@ -13,7 +13,6 @@ let
         rust-vim
         taglist-vim
         vim-gitgutter
-        vim-plug
         vim-surround
       ];
     };
@@ -23,11 +22,15 @@ let
   };
 in
 {
+  imports = [
+    ./home-manager-options.nix
+  ];
+
   home.packages = with pkgs; [
     dotnet-sdk
     mono
     omnisharp-roslyn
-    rust-analyzer
+    pandoc
     universal-ctags
   ];
 
@@ -84,7 +87,4 @@ in
     vim = (vimConfiguration // {});
     neovim = (vimConfiguration // {});
   };
-
-  # Other config files
-  home.file.".gnupg/gpg-agent.conf".source = ./gpg-agent.conf;
 }
