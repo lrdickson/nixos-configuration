@@ -72,16 +72,22 @@ in
       '';
   };
 
+  # tmux settings
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+  };
+
   # Vim settings
   home.file.".vim/filetype.vim".source = ./vim/filetype.vim;
   home.file.".vim/ftplugin" = {
     source = ./vim/ftplugin;
     recursive = true;
   };
-  home.file.".vim/autoload/plug.vim".source =
-    builtins.fetchurl {
-      url = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
-    };
+  # home.file.".vim/autoload/plug.vim".source =
+    # builtins.fetchurl {
+      # url = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
+    # };
     # "${vimPlugRepo}/plug.vim";
   programs = {
     vim = (vimConfiguration // {});
