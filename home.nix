@@ -31,6 +31,7 @@ in
     mono
     omnisharp-roslyn
     pandoc
+    python
     universal-ctags
   ];
 

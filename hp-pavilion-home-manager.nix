@@ -13,6 +13,9 @@
     cargo-generate
     openocd
     qemu_full
+
+    # Rust wasm
+    wasm-pack
   ];
 
   # Other config files
