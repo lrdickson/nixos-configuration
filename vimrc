@@ -18,7 +18,10 @@ highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
 
+" Rust linting
 let g:ale_linters = {
 \	'rust': ['analyzer'],
 \}
-let g:OmniSharp_server_path = 'omnisharp'
+
+" Activate rainbow
+let g:rainbow_active = 1 "set to 0 if you want to enable via :RainbowToggle

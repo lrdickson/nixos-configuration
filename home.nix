@@ -16,6 +16,10 @@ let
         vim-surround
       ];
     };
+  vimConfigFiles = {
+    source = ./vim;
+    recursive = true;
+  };
   vimPlugRepo = builtins.fetchGit {
     url = "https://github.com/junegunn/vim-plug.git";
     ref = "master";
@@ -79,16 +83,8 @@ in
   };
 
   # Vim settings
-  home.file.".vim/filetype.vim".source = ./vim/filetype.vim;
-  home.file.".vim/ftplugin" = {
-    source = ./vim/ftplugin;
-    recursive = true;
-  };
-  # home.file.".vim/autoload/plug.vim".source =
-    # builtins.fetchurl {
-      # url = https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim;
-    # };
-    # "${vimPlugRepo}/plug.vim";
+  home.file.".vim" = vimConfigFiles;
+  home.file.".config/nvim" = vimConfigFiles;
   programs = {
     vim = (vimConfiguration // {});
     neovim = (vimConfiguration // {});
