@@ -1,14 +1,27 @@
 { config, pkgs, ... }:
 
 let
+  omnisharp-vim = pkgs.vimUtils.buildVimPlugin
+  {
+    name = "omnisharp-vim";
+    src = pkgs.fetchFromGitHub {
+      owner = "OmniSharp";
+      repo = "Omnisharp-vim";
+      rev = "390c8880f6c6d2a3ba24f18c045770aba39d126f";
+      sha256 = "1i19996h92dx5c6v9hmv62cg0y3a20ph2wv94r7fqf9db0izlcf7";
+    };
+  };
   vimConfiguration =
     {
       enable = true;
-      extraConfig = builtins.readFile ./vimrc;
+      extraConfig = (builtins.readFile ./vimrc) + ''
+        let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
+        '';
       plugins = with pkgs.vimPlugins; [
         ale
         lightline-vim
         nerdcommenter
+        omnisharp-vim
         rainbow
         rust-vim
         taglist-vim

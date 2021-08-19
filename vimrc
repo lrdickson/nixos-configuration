@@ -21,6 +21,7 @@ highlight GitGutterChangeDelete ctermfg=4
 " Rust linting
 let g:ale_linters = {
 \	'rust': ['analyzer'],
+"\	'cs': ['OmniSharp'],
 \}
 
 " Activate rainbow
