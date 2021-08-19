@@ -125,6 +125,7 @@
 
     # programming
     git
+    docker-compose
 
     # rust
     cargo
@@ -139,6 +140,9 @@
     #hplipWithPlugin
     #python39Packages.pyqt5
   ];
+
+  # Docker
+  virtualisation.docker.enable = true;
 
   # IFPS
   services.ipfs.enable = true;

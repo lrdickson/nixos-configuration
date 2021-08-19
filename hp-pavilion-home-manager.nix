@@ -2,10 +2,17 @@
 
 {
   home.packages = with pkgs; [
+    libreoffice
+    patchelf
+    usbutils
+
+    # programming
+    arduino
+    arduino-cli
+    gcc
     gdb
 
     # General rust development
-    gcc
     rust-analyzer
 
     # Rust embedded development

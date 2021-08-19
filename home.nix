@@ -28,6 +28,7 @@ in
 
   home.packages = with pkgs; [
     dotnet-sdk
+    file
     mono
     omnisharp-roslyn
     pandoc
