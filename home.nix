@@ -21,7 +21,7 @@ let
         ale
         lightline-vim
         nerdcommenter
-        omnisharp-vim
+        #omnisharp-vim
         rainbow
         rust-vim
         taglist-vim
