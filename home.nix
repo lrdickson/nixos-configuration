@@ -19,6 +19,7 @@ let
         '';
       plugins = with pkgs.vimPlugins; [
         ale
+        awesome-vim-colorschemes
         lightline-vim
         nerdcommenter
         #omnisharp-vim

@@ -6,10 +6,15 @@ syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 
 " Set colorscheme for Git Gutter to be more readable
-colorscheme darkblue
+"colorscheme OceanNext
+"colorscheme PaperColor
+colorscheme apprentice
+"colorscheme challenger_deep
+"colorscheme darkblue
+"colorscheme dogrun
 
 " Git Gutter
-"set updatetime=250
+set updatetime=250
 "let g:gitgutter_max_signs = 500
 " No mapping
 "let g:gitgutter_map_keys = 0
@@ -29,3 +34,6 @@ let g:ale_linters = {
 
 " Activate rainbow
 let g:rainbow_active = 1 "set to 0 if you want to enable via :RainbowToggle
+
+
+
