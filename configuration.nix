@@ -55,6 +55,7 @@
     enable = true;
     drivers = [ pkgs.hplipWithPlugin ];
   };
+  programs.system-config-printer.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -135,10 +136,6 @@
     # pass
     pass
     qtpass
-
-    # Printing
-    #hplipWithPlugin
-    #python39Packages.pyqt5
   ];
 
   # Docker
