@@ -8,10 +8,15 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 " Set colorscheme for Git Gutter to be more readable
 "colorscheme OceanNext
 "colorscheme PaperColor
-colorscheme apprentice
+"colorscheme apprentice
 "colorscheme challenger_deep
 "colorscheme darkblue
 "colorscheme dogrun
+"colorscheme hybrid
+"colorscheme hybrid_material
+"colorscheme jellybeans
+colorscheme meta5
+"colorscheme molokai
 
 " Git Gutter
 set updatetime=250
