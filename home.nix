@@ -5,10 +5,11 @@ let
   {
     name = "omnisharp-vim";
     src = pkgs.fetchFromGitHub {
-      owner = "OmniSharp";
+      #owner = "OmniSharp";
+      owner = "lrdickson";
       repo = "Omnisharp-vim";
-      rev = "390c8880f6c6d2a3ba24f18c045770aba39d126f";
-      sha256 = "1i19996h92dx5c6v9hmv62cg0y3a20ph2wv94r7fqf9db0izlcf7";
+      rev = "e872388fae59bdb078abf4aa23c29b4acf36d464";
+      sha256 = "sha256-ltsjCbX8w2eqj0LCW/BbW0YXMZJo15YchtEkVtqm8o0=";
     };
   };
   vimConfiguration =
@@ -22,7 +23,7 @@ let
         awesome-vim-colorschemes
         lightline-vim
         nerdcommenter
-        #omnisharp-vim
+        omnisharp-vim
         rainbow
         rust-vim
         taglist-vim

@@ -33,6 +33,7 @@ set updatetime=250
 
 " Rust linting
 let g:ale_linters = {
+\	'cs': ['OmniSharp'],
 \	'rust': ['analyzer'],
 \}
 "\	'cs': ['OmniSharp'],
@@ -40,5 +41,7 @@ let g:ale_linters = {
 " Activate rainbow
 let g:rainbow_active = 1 "set to 0 if you want to enable via :RainbowToggle
 
+" Set OmniSharp-vim log dir
+let g:OmniSharp_log_dir = '/home/lyn/Documents/OmniSharp_vim_log'
 
 
