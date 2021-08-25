@@ -27,6 +27,7 @@ let
         rainbow
         rust-vim
         taglist-vim
+	vim-autoformat
         vim-gitgutter
         vim-surround
       ];
