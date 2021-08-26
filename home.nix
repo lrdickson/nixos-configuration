@@ -23,6 +23,7 @@ let
         awesome-vim-colorschemes
         lightline-vim
         nerdcommenter
+	nnn-vim
         omnisharp-vim
         rainbow
         rust-vim
@@ -50,10 +51,12 @@ in
     dotnet-sdk
     file
     mono
+    nnn # terminal file manager
     omnisharp-roslyn
     pandoc
     python
     universal-ctags
+    vifm
   ];
 
   # Git settings

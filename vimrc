@@ -17,9 +17,10 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 "colorscheme jellybeans "Washed out looking Git Gutter
 "colorscheme meta5 "Find and replace difficult to use on nvim
 "colorscheme molokai
+"colorscheme purify "colorful comments, Git Gutter and rainbow braces, high contrast, errors in vim
 colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
 "colorscheme stellarized "Works with nvim but no vim
-"colorscheme tender
+"colorscheme tender "comments difficult to see in nvim, Colorful Git Gutter
 
 " Git Gutter
 set updatetime=250
