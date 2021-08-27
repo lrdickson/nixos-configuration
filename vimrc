@@ -9,6 +9,7 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 "colorscheme OceanNext "Comments difficult to see on nvim
 "colorscheme PaperColor
 "colorscheme apprentice "Comments difficult to see on nvim
+colorscheme atom
 "colorscheme challenger_deep
 "colorscheme darkblue "Difficult to see GitGutter
 "colorscheme dogrun "Comments difficult to see on nvim
@@ -18,7 +19,7 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 "colorscheme meta5 "Find and replace difficult to use on nvim
 "colorscheme molokai
 "colorscheme purify "colorful comments, Git Gutter and rainbow braces, high contrast, errors in vim
-colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
+"colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
 "colorscheme stellarized "Works with nvim but no vim
 "colorscheme tender "comments difficult to see in nvim, Colorful Git Gutter
 
@@ -26,14 +27,14 @@ colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
 set updatetime=250
 "let g:gitgutter_max_signs = 500
 " No mapping
-"let g:gitgutter_map_keys = 0
+let g:gitgutter_map_keys = 0
 " Colors
-"let g:gitgutter_override_sign_column_highlight = 0
-"highlight clear SignColumn
-"highlight GitGutterAdd ctermfg=2
-"highlight GitGutterChange ctermfg=3
-"highlight GitGutterDelete ctermfg=1
-"highlight GitGutterChangeDelete ctermfg=4
+let g:gitgutter_override_sign_column_highlight = 0
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=2
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+highlight GitGutterChangeDelete ctermfg=4
 
 " Rust linting
 let g:ale_linters = {

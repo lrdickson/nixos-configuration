@@ -37,10 +37,6 @@ let
     source = ./vim;
     recursive = true;
   };
-  vimPlugRepo = builtins.fetchGit {
-    url = "https://github.com/junegunn/vim-plug.git";
-    ref = "master";
-  };
 in
 {
   imports = [
@@ -58,6 +54,21 @@ in
     universal-ctags
     vifm
   ];
+
+  # bashrc
+  programs.bash = {
+    enable = true;
+    # Add nnn change directory on quit
+    bashrcExtra = builtins.readFile (builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/jarun/nnn/v4.2/misc/quitcd/quitcd.bash_zsh";
+    });
+  };
+
+  # fzf
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+  };
 
   # Git settings
   programs.git = {
