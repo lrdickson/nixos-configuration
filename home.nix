@@ -38,25 +38,29 @@ let
       source = ./vim;
       recursive = true;
     };
-        in
-        {
-          imports = [
-            ./home-manager-options.nix
-          ];
+    in
+    {
+      imports = [
+        ./home-manager-options.nix
+      ];
 
-          home.packages = with pkgs; [
-            dotnet-sdk
-            file # Provide information about a file
-            mono
-            nnn # terminal file manager
-            omnisharp-roslyn
-            pandoc
-            python
-            ripgrep
-            ripgrep-all
-            universal-ctags
-            w3m # terminal web browser
-          ];
+      home.packages = with pkgs; [
+        dotnet-sdk
+        file # Provide information about a file
+        mono
+        nnn # terminal file manager
+        omnisharp-roslyn
+        pandoc
+        python
+        ripgrep
+        ripgrep-all
+        universal-ctags
+        w3m # terminal web browser
+      ];
+
+      nixpkgs.overlays = [
+        ( self: super: { nnn = super.nnn.override { withIcons = true; };})
+      ];
 
   # bashrc
   programs.bash = {
