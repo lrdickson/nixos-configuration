@@ -64,11 +64,12 @@ let
     # Add nnn change directory on quit
     bashrcExtra =
       builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
-      builtins.readFile ./bashrc/rga-fzf.bash_zsh;
+      builtins.readFile ./bashrc/rga-fzf.bash_zsh + ''
+      [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
+      ''
+        ;
     profileExtra = ''
-      if [ test -f "$HOME/.bash_profile_extra" ]; then
-        . "$HOME/.bash_profile_extra"
-      fi
+      [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
       '';
     };
 
