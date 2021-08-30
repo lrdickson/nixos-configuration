@@ -5,11 +5,10 @@ let
   {
     name = "omnisharp-vim";
     src = pkgs.fetchFromGitHub {
-      #owner = "OmniSharp";
-      owner = "lrdickson";
+      owner = "OmniSharp";
       repo = "Omnisharp-vim";
-      rev = "e872388fae59bdb078abf4aa23c29b4acf36d464";
-      sha256 = "sha256-ltsjCbX8w2eqj0LCW/BbW0YXMZJo15YchtEkVtqm8o0=";
+      rev = "ab6348c61211fb88bad19a1e89ee65ec3243f0b7";
+      sha256 = "sha256-FgoesU0PihWGzS9eq0GlLlHtV9AwEpGghvahZ4rwnJQ=";
     };
   };
   vimConfiguration =
@@ -21,14 +20,17 @@ let
       plugins = with pkgs.vimPlugins; [
         ale
         awesome-vim-colorschemes
+        fzf-vim
         lightline-vim
         nerdcommenter
 	nnn-vim
         omnisharp-vim
         rainbow
         rust-vim
-        taglist-vim
+        tagbar
 	vim-autoformat
+        vim-devicons
+        vim-fugitive
         vim-gitgutter
         vim-surround
       ];
@@ -45,23 +47,25 @@ in
 
   home.packages = with pkgs; [
     dotnet-sdk
-    file
+    file # Provide information about a file
     mono
     nnn # terminal file manager
     omnisharp-roslyn
     pandoc
     python
+    ripgrep
+    ripgrep-all
     universal-ctags
-    vifm
+    w3m # terminal web browser
   ];
 
   # bashrc
   programs.bash = {
     enable = true;
     # Add nnn change directory on quit
-    bashrcExtra = builtins.readFile (builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/jarun/nnn/v4.2/misc/quitcd/quitcd.bash_zsh";
-    });
+    bashrcExtra = 
+    builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
+    builtins.readFile ./bashrc/rga-fzf.bash_zsh;
   };
 
   # fzf

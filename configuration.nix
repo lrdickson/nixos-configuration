@@ -108,7 +108,6 @@
     gnupg
     htop
     tmux
-    w3m
     wget
     xclip
 
