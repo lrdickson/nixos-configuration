@@ -65,6 +65,11 @@ let
     bashrcExtra =
       builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
       builtins.readFile ./bashrc/rga-fzf.bash_zsh;
+    profileExtra = ''
+      if [ test -f "$HOME/.bash_profile_extra" ]; then
+        . "$HOME/.bash_profile_extra"
+      fi
+      '';
     };
 
   # fzf
