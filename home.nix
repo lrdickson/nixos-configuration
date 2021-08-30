@@ -16,57 +16,56 @@ let
       enable = true;
       extraConfig = (builtins.readFile ./vimrc) + ''
         let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
-        '';
+      '';
       plugins = with pkgs.vimPlugins; [
         ale
         awesome-vim-colorschemes
         fzf-vim
         lightline-vim
         nerdcommenter
-	nnn-vim
+        nnn-vim
         omnisharp-vim
         rainbow
         rust-vim
         tagbar
-	vim-autoformat
-        vim-devicons
+        vim-autoformat
         vim-fugitive
         vim-gitgutter
         vim-surround
       ];
     };
-  vimConfigFiles = {
-    source = ./vim;
-    recursive = true;
-  };
-in
-{
-  imports = [
-    ./home-manager-options.nix
-  ];
+    vimConfigFiles = {
+      source = ./vim;
+      recursive = true;
+    };
+        in
+        {
+          imports = [
+            ./home-manager-options.nix
+          ];
 
-  home.packages = with pkgs; [
-    dotnet-sdk
-    file # Provide information about a file
-    mono
-    nnn # terminal file manager
-    omnisharp-roslyn
-    pandoc
-    python
-    ripgrep
-    ripgrep-all
-    universal-ctags
-    w3m # terminal web browser
-  ];
+          home.packages = with pkgs; [
+            dotnet-sdk
+            file # Provide information about a file
+            mono
+            nnn # terminal file manager
+            omnisharp-roslyn
+            pandoc
+            python
+            ripgrep
+            ripgrep-all
+            universal-ctags
+            w3m # terminal web browser
+          ];
 
   # bashrc
   programs.bash = {
     enable = true;
     # Add nnn change directory on quit
-    bashrcExtra = 
-    builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
-    builtins.readFile ./bashrc/rga-fzf.bash_zsh;
-  };
+    bashrcExtra =
+      builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
+      builtins.readFile ./bashrc/rga-fzf.bash_zsh;
+    };
 
   # fzf
   programs.fzf = {
@@ -100,7 +99,7 @@ in
     enable = true;
     extraConfig = ''
       set completion-ignore-case On
-      '';
+    '';
   };
 
   programs.ssh = {
@@ -109,7 +108,7 @@ in
     extraConfig = ''
       Host gitlab.com
         UpdateHostKeys no
-      '';
+    '';
   };
 
   # tmux settings
