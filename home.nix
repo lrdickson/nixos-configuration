@@ -48,7 +48,7 @@ let
         dotnet-sdk
         file # Provide information about a file
         mono
-        nerdfonts # fonts for nnn
+        #nerdfonts # fonts for nnn
         nnn # terminal file manager
         omnisharp-roslyn
         pandoc
@@ -60,9 +60,9 @@ let
         w3m # terminal web browser
       ];
 
-      nixpkgs.overlays = [
-        ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
-      ];
+      #nixpkgs.overlays = [
+        #( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
+      #];
 
   # bashrc
   programs.bash = {
