@@ -48,18 +48,20 @@ let
         dotnet-sdk
         file # Provide information about a file
         mono
+        nerdfonts # fonts for nnn
         nnn # terminal file manager
         omnisharp-roslyn
         pandoc
         python
         ripgrep
         ripgrep-all
+        screen # terminal multiplexer
         universal-ctags
         w3m # terminal web browser
       ];
 
       nixpkgs.overlays = [
-        ( self: super: { nnn = super.nnn.override { withIcons = true; };})
+        ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
       ];
 
   # bashrc
