@@ -18,6 +18,14 @@ set updatetime=250
 "let g:gitgutter_max_signs = 500
 " No mapping
 let g:gitgutter_map_keys = 0
+" Colors
+" I'm not sure this section accomplishes anything when a colorscheme is set
+let g:gitgutter_override_sign_column_highlight = 0
+highlight clear SignColumn
+highlight GitGutterAdd ctermfg=2
+highlight GitGutterChange ctermfg=3
+highlight GitGutterDelete ctermfg=1
+highlight GitGutterChangeDelete ctermfg=4
 
 " Rust linting
 let g:ale_linters = {
@@ -44,3 +52,15 @@ nnoremap <silent> <Leader>f :Rg<CR>
 
 " Autoformat mapping
 nnoremap <silent> <C-k> :Autoformat<CR>
+
+" Lightline config
+" Display git branch
+let g:lightline = {
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\ },
+			\ 'component_function': {
+			\   'gitbranch': 'FugitiveHead'
+			\ },
+			\ }
