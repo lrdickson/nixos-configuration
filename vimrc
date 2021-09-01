@@ -64,3 +64,15 @@ let g:lightline = {
 			\   'gitbranch': 'FugitiveHead'
 			\ },
 			\ }
+" Fix lightline colors when running sudo
+if !has('gui_running')
+  set t_Co=256
+endif
+
+" Set Tab Width Command
+fu! SetTabWidth(w)
+	let &l:shiftwidth = a:w
+	let &l:tabstop = a:w
+	let &l:softtabstop = a:w
+endf
+command! -nargs=* SetTabWidth call SetTabWidth(<f-args>)

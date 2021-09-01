@@ -31,6 +31,7 @@ let
         vim-autoformat
         vim-fugitive
         vim-gitgutter
+	vim-nix # Fixes nix syntax highlighting for nvim
         vim-surround
       ];
     };
@@ -53,6 +54,7 @@ let
         omnisharp-roslyn
         pandoc
         python
+	python39Packages.sqlparse # For vim SQL formatting
         ripgrep
         ripgrep-all
         screen # terminal multiplexer
@@ -72,6 +74,7 @@ let
       builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
       builtins.readFile ./bashrc/rga-fzf.bash_zsh + ''
       [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
+      export TERM=xterm-256color
       ''
         ;
     profileExtra = ''
