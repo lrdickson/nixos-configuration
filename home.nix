@@ -48,16 +48,18 @@ let
       home.packages = with pkgs; [
         dotnet-sdk
         file # Provide information about a file
-        mono
+        mono # open source dotnet framework implementation
         #nerdfonts # fonts for nnn
         nnn # terminal file manager
-        omnisharp-roslyn
-        pandoc
+        omnisharp-roslyn # C# linting engine
+        pandoc # universal document converter
         python
 	python39Packages.sqlparse # For vim SQL formatting
         ripgrep
         ripgrep-all
+        sakura
         screen # terminal multiplexer
+        sqlint
         universal-ctags
         w3m # terminal web browser
       ];

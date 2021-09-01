@@ -7,9 +7,10 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 
 " Set colorscheme for Git Gutter to be more readable
 "colorscheme PaperColor
-colorscheme darkblue
+"colorscheme darkblue
 "colorscheme deep-space
 "colorscheme purify "colorful comments, Git Gutter and rainbow braces, high contrast, errors in vim
+colorscheme solarized8_high
 "colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
 "colorscheme stellarized "Works with nvim but no vim
 
@@ -58,7 +59,7 @@ nnoremap <silent> <C-k> :Autoformat<CR>
 let g:lightline = {
 			\ 'active': {
 			\   'left': [ [ 'mode', 'paste' ],
-			\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\             [ 'gitbranch', 'readonly', 'relativepath', 'modified' ] ]
 			\ },
 			\ 'component_function': {
 			\   'gitbranch': 'FugitiveHead'
