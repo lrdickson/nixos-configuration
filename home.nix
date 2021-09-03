@@ -11,7 +11,9 @@ let
       sha256 = "sha256-FgoesU0PihWGzS9eq0GlLlHtV9AwEpGghvahZ4rwnJQ=";
     };
   };
-  options = import ./options.nix;
+  homeOptions = {
+    personalComputer = false;
+  } // import ./options.nix;
   vimConfiguration =
     {
       enable = true;
@@ -42,7 +44,7 @@ let
     '';
     in
     {
-      imports = if options.personalComputer then
+      imports = if homeOptions.personalComputer then
           [ ./personal-computer-home.nix ]
         else
           [];
