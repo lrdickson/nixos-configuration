@@ -1,4 +1,4 @@
 *.swp
 *~
 hardware-configuration.nix
-home-manager-options.nix
+options.nix

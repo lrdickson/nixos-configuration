@@ -107,7 +107,6 @@
     # Terminal applications
     gnupg
     htop
-    tmux
     wget
     xclip
 
