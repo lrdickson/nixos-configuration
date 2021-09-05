@@ -6,6 +6,8 @@
 
 let
   options = import ./defaultOptions.nix // import ./options.nix;
+  desktopConfiguration =
+    if options.desktop then [ ./desktop-configuration.nix ] else [];
   hpPavilionConfiguration =
     if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
 in
@@ -17,7 +19,9 @@ in
 
       # Add home manager options
       <home-manager/nixos>
-    ] ++ hpPavilionConfiguration;
+    ] ++
+    hpPavilionConfiguration ++
+    desktopConfiguration;
 
   boot = {
     loader = {
@@ -26,7 +30,7 @@ in
       efi.canTouchEfiVariables = true;
 
       # Automatically detect other OS
-      grub.useOSProber = true;
+      grub.useOSProber = if options.multiboot then true else false;
     };
   };
 
@@ -45,28 +49,12 @@ in
   # services.xserver.xkbOptions = "eurosign:e";
 
   networking = {
-    hostName = "hpbox";
     networkmanager.enable = true;
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     useDHCP = false;
   };
-
-  # Enable CUPS to print documents.
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.hplipWithPlugin ];
-  };
-  programs.system-config-printer.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
-  nixpkgs.config.pulseaudio = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -152,17 +140,6 @@ in
   # Neovim
   programs.neovim.enable = true;
 
-  # Setup x
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-    displayManager.defaultSession = "xfce";
-    libinput.touchpad.tapping = false;
-  };
-
   # Tmux configuration
   programs.tmux = {
     enable = true;
@@ -198,10 +175,10 @@ in
 
   # Security
   hardware.cpu.intel.updateMicrocode = true;
-  services.clamav = {
-    daemon.enable = true;
-    updater.enable = true;
-  };
+  #services.clamav = {
+    #daemon.enable = true;
+    #updater.enable = true;
+  #};
 
   system = {
     autoUpgrade = {

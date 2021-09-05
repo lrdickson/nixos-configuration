@@ -12,4 +12,6 @@
       pkgs.linuxPackages.rtl8821ce
     ];
   };
+
+  networking.hostName = "hpbox";
 }
