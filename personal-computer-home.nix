@@ -2,9 +2,12 @@
 
 {
   home.packages = with pkgs; [
+    # Gui
     libreoffice
-    patchelf
+
+    # Terminal utilities
     usbutils
+    nerdfonts # fonts for terminal
 
     # programming
     arduino
@@ -27,4 +30,9 @@
 
   # Other config files
   home.file.".gnupg/gpg-agent.conf".source = ./gpg-agent.conf;
+
+  # Add icons to nnn
+  nixpkgs.overlays = [
+    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
+  ];
 }

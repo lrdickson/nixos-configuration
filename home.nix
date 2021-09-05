@@ -11,9 +11,7 @@ let
       sha256 = "sha256-FgoesU0PihWGzS9eq0GlLlHtV9AwEpGghvahZ4rwnJQ=";
     };
   };
-  homeOptions = {
-    personalComputer = false;
-  } // import ./options.nix;
+  options = import ./defaultOptions.nix // import ./options.nix;
   vimConfiguration =
     {
       enable = true;
@@ -44,17 +42,16 @@ let
     '';
     in
     {
-      imports = if homeOptions.personalComputer then
-          [ ./personal-computer-home.nix ]
-        else
-          [];
+      imports = if options.personalComputer then
+        [ ./personal-computer-home.nix ]
+      else
+        [];
 
 
       home.packages = with pkgs; [
         dotnet-sdk
         file # Provide information about a file
         mono # open source dotnet framework implementation
-        #nerdfonts # fonts for nnn
         nnn # terminal file manager
         omnisharp-roslyn # C# linting engine
         pandoc # universal document converter
@@ -68,10 +65,6 @@ let
         universal-ctags
         w3m # terminal web browser
       ];
-
-      #nixpkgs.overlays = [
-        #( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
-      #];
 
   # bashrc
   programs.bash = {

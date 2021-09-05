@@ -4,6 +4,11 @@
 
 { config, pkgs, ... }:
 
+let
+  options = import ./defaultOptions.nix // import ./options.nix;
+  hpPavilionConfiguration =
+    if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
+in
 {
   imports =
     [
@@ -12,11 +17,9 @@
 
       # Add home manager options
       <home-manager/nixos>
-    ];
+    ] ++ hpPavilionConfiguration;
 
   boot = {
-    # Use newer kernel for wifi support
-    kernelPackages = pkgs.linuxPackages_testing;
     loader = {
       # Use the systemd-boot EFI boot loader.
       systemd-boot.enable = true;
