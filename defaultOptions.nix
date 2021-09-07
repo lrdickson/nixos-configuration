@@ -3,4 +3,5 @@
   hpPavilion = false;
   multiboot = false;
   personalComputer = false;
+  wsl = false;
 }

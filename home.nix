@@ -33,49 +33,46 @@ let
         vim-surround
       ];
     };
-    vimConfigFiles = {
-      source = ./vim;
-      recursive = true;
-    };
-    vimrc = (builtins.readFile ./vimrc) + ''
-      let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
-    '';
-    in
-    {
-      imports = if options.personalComputer then
-        [ ./personal-computer-home.nix ]
-      else
-        [];
+  vimConfigFiles = {
+    source = ./vim;
+    recursive = true;
+  };
+  vimrc = (builtins.readFile ./vimrc) + ''
+    let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
+  '';
+  wslBashProfile =
+    if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
+  in
+  {
+    imports = if options.personalComputer then
+      [ ./personal-computer-home.nix ]
+    else
+      [];
 
 
-      home.packages = with pkgs; [
-        # Command line
-        dotnet-sdk
-        file # Provide information about a file
-        html-tidy # Formatter for HTML
-        mono # open source dotnet framework implementation
-        nnn # terminal file manager
-        omnisharp-roslyn # C# linting engine
-        pandoc # universal document converter
-        python
-        python39Packages.sqlparse # For vim SQL formatting
-        ripgrep
-        ripgrep-all
-        screen # terminal multiplexer
-        sqlint
-        universal-ctags
-        unzip
-        w3m # terminal web browser
-        zip
+    home.packages = with pkgs; [
+      # Command line
+      dotnet-sdk
+      file # Provide information about a file
+      html-tidy # Formatter for HTML
+      mono # open source dotnet framework implementation
+      nnn # terminal file manager
+      omnisharp-roslyn # C# linting engine
+      pandoc # universal document converter
+      python
+      python39Packages.sqlparse # For vim SQL formatting
+      ripgrep
+      ripgrep-all
+      screen # terminal multiplexer
+      sqlint
+      universal-ctags
+      unzip
+      w3m # terminal web browser
+      zip
 
-        # GUI
-        #cinnamon.iso-flags-svg
-        #cinnamon.mint-themes
-        #cinnamon.mint-x-icons
-        #cinnamon.nemo # File browser
-        #libsForQt5.dolphin
-        sakura
-      ];
+      # GUI
+      sakura
+    ];
 
   # bashrc
   programs.bash = {
@@ -90,7 +87,7 @@ let
       ;
       profileExtra = ''
         [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
-      '';
+      '' + wslBashProfile;
     };
 
   # fzf
@@ -112,8 +109,8 @@ let
         # Fix git for cross collaboration with Windows
         autocrlf = "input";
 
-        # vim as default editor
-        editor = "vim";
+        # nvim as default editor
+        editor = "nvim";
       };
 
       # Set merge as the default pull action
