@@ -12,6 +12,10 @@ let
     };
   };
   options = import ./defaultOptions.nix // import ./options.nix;
+  importPersonalComputer =
+    if options.personalComputer then [ ./personal-computer-home.nix ] else [];
+  importWsl =
+    if options.wsl then [ ./wsl-home.nix ] else [];
   vimConfiguration =
     {
       enable = true;
@@ -29,6 +33,7 @@ let
         vim-autoformat
         vim-fugitive
         vim-gitgutter
+        vim-gutentags # Automatically generates tag files
         vim-nix # Fixes nix syntax highlighting for nvim
         vim-surround
       ];
@@ -44,11 +49,7 @@ let
     if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
   in
   {
-    imports = if options.personalComputer then
-      [ ./personal-computer-home.nix ]
-    else
-      [];
-
+    imports = importPersonalComputer ++ importWsl;
 
     home.packages = with pkgs; [
       # Command line
