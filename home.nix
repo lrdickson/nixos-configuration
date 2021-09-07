@@ -11,12 +11,10 @@ let
       sha256 = "sha256-FgoesU0PihWGzS9eq0GlLlHtV9AwEpGghvahZ4rwnJQ=";
     };
   };
+  options = import ./defaultOptions.nix // import ./options.nix;
   vimConfiguration =
     {
       enable = true;
-      extraConfig = (builtins.readFile ./vimrc) + ''
-        let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
-      '';
       plugins = with pkgs.vimPlugins; [
         ale
         awesome-vim-colorschemes
@@ -31,7 +29,7 @@ let
         vim-autoformat
         vim-fugitive
         vim-gitgutter
-	vim-nix # Fixes nix syntax highlighting for nvim
+        vim-nix # Fixes nix syntax highlighting for nvim
         vim-surround
       ];
     };
@@ -39,11 +37,16 @@ let
       source = ./vim;
       recursive = true;
     };
+    vimrc = (builtins.readFile ./vimrc) + ''
+      let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
+    '';
     in
     {
-      imports = [
-        ./home-manager-options.nix
-      ];
+      imports = if options.personalComputer then
+        [ ./personal-computer-home.nix ]
+      else
+        [];
+
 
       home.packages = with pkgs; [
         # Command line
@@ -51,12 +54,11 @@ let
         file # Provide information about a file
         html-tidy # Formatter for HTML
         mono # open source dotnet framework implementation
-        #nerdfonts # fonts for nnn
         nnn # terminal file manager
         omnisharp-roslyn # C# linting engine
         pandoc # universal document converter
         python
-	python39Packages.sqlparse # For vim SQL formatting
+        python39Packages.sqlparse # For vim SQL formatting
         ripgrep
         ripgrep-all
         screen # terminal multiplexer
@@ -75,10 +77,6 @@ let
         sakura
       ];
 
-      #nixpkgs.overlays = [
-        #( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
-      #];
-
   # bashrc
   programs.bash = {
     enable = true;
@@ -86,12 +84,12 @@ let
     bashrcExtra =
       builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
       builtins.readFile ./bashrc/rga-fzf.bash_zsh + ''
-      [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
-      export TERM=xterm-256color
+        [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
+        export TERM=xterm-256color
       ''
-        ;
-    profileExtra = ''
-      [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
+      ;
+      profileExtra = ''
+        [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
       '';
     };
 
@@ -150,7 +148,15 @@ let
   home.file.".vim" = vimConfigFiles;
   home.file.".config/nvim" = vimConfigFiles;
   programs = {
-    vim = (vimConfiguration // {});
-    neovim = (vimConfiguration // {});
+    vim = (vimConfiguration // {
+      extraConfig = vimrc + ''
+        colorscheme solarized8_high
+      '';
+    });
+    neovim = (vimConfiguration // {
+      extraConfig = vimrc + ''
+        colorscheme solarized8_high
+      '';
+    });
   };
 }

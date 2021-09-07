@@ -10,7 +10,6 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/ containedin=ALL
 "colorscheme darkblue
 "colorscheme deep-space
 "colorscheme purify "colorful comments, Git Gutter and rainbow braces, high contrast, errors in vim
-colorscheme solarized8_high
 "colorscheme space-vim-dark "colorful comments, Git Gutter and rainbow braces
 "colorscheme stellarized "Works with nvim but no vim
 
