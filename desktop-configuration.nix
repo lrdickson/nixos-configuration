@@ -6,14 +6,14 @@
   services.xserver = {
     enable = true;
     desktopManager = {
-      #cinnamon.enable = true;
-      gnome.enable = true;
+      cinnamon.enable = true;
+      #gnome.enable = true;
       #plasma5.enable = true;
-      xfce.enable = true;
+      #xfce.enable = true;
       xterm.enable = false;
     };
-    displayManager.defaultSession = "xfce";
-    displayManager.gdm.wayland = true;
+    displayManager.defaultSession = "cinnamon";
+    #displayManager.gdm.wayland = true;
     libinput.touchpad.tapping = false;
   };
   hardware.opengl.enable = true;
