@@ -124,7 +124,6 @@
     xfce.xfce4-whiskermenu-plugin
 
     # programming
-    git
     docker-compose
 
     # rust

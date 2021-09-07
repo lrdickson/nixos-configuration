@@ -46,8 +46,10 @@ let
       ];
 
       home.packages = with pkgs; [
+        # Command line
         dotnet-sdk
         file # Provide information about a file
+        html-tidy # Formatter for HTML
         mono # open source dotnet framework implementation
         #nerdfonts # fonts for nnn
         nnn # terminal file manager
@@ -57,11 +59,20 @@ let
 	python39Packages.sqlparse # For vim SQL formatting
         ripgrep
         ripgrep-all
-        sakura
         screen # terminal multiplexer
         sqlint
         universal-ctags
+        unzip
         w3m # terminal web browser
+        zip
+
+        # GUI
+        #cinnamon.iso-flags-svg
+        #cinnamon.mint-themes
+        #cinnamon.mint-x-icons
+        #cinnamon.nemo # File browser
+        #libsForQt5.dolphin
+        sakura
       ];
 
       #nixpkgs.overlays = [
@@ -93,6 +104,7 @@ let
   # Git settings
   programs.git = {
     enable = true;
+    package = pkgs.gitFull;
     ignores = [
       "*~"
       "*.swp"
