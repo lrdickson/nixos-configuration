@@ -30,6 +30,7 @@ let
         rainbow
         rust-vim
         tagbar
+        ultisnips
         vim-autoformat
         vim-fugitive
         vim-gitgutter
