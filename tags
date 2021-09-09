@@ -1,0 +1,76 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/etc/nixos/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	//
+$	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> $ :let b:csv_column=b:csv_max_col<CR>:call <SID>Highlight(b:csv_colum/;"	m
+0	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> 0 :let b:csv_column=1<CR>:call <SID>Highlight(b:csv_column)<CR>$/;"	m
+<C-b>	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <C-b> <PageUp>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+<C-d>	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <C-d> <C-d>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+<C-f>	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <C-f> <PageDown>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+<C-f>	vimrc	/^nnoremap <silent> <C-f> :Files<CR>$/;"	m
+<C-k>	vimrc	/^nnoremap <silent> <C-k> :Autoformat<CR>$/;"	m
+<C-u>	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <C-u> <C-u>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+<Leader>ad	vimrc	/^nnoremap <silent> <Leader>ad :ALEDetail<CR>$/;"	m
+<Leader>f	vimrc	/^nnoremap <silent> <Leader>f :Rg<CR>$/;"	m
+<Leader>tb	vimrc	/^nnoremap <silent> <Leader>tb :TagbarToggle<CR>$/;"	m
+<LocalLeader>J	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <LocalLeader>J J$/;"	m
+<LocalLeader>K	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <LocalLeader>K K$/;"	m
+<space>	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> <space> :call <SID>Focus_Cursor()<CR>$/;"	m
+CC	vim/ftplugin/csv.vim	/^command! -buffer -nargs=* CC call s:CopyColumn('<args>')$/;"	c
+CSVH	vim/ftplugin/csv.vim	/^function! CSVH(colnr)$/;"	f
+Csv	vim/ftplugin/csv.vim	/^command! -nargs=1 Csv :call CSVH(<args>)$/;"	c
+DC	vim/ftplugin/csv.vim	/^command! -buffer -nargs=? DC call s:DeleteColumn('<args>')$/;"	c
+Delimiter	vim/ftplugin/csv.vim	/^command! -buffer -nargs=? Delimiter call s:Delimiter('<args>')$/;"	c
+H	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> H :call <SID>HighlightPrevColumn()<CR>$/;"	m
+HL	vim/ftplugin/csv.vim	/^command! -buffer -nargs=? HL call s:SetHeadinglineNumber('<args>')$/;"	c
+J	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> J <Down>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+K	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> K <Up>:call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+L	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> L :call <SID>HighlightNextColumn()<CR>$/;"	m
+SC	vim/ftplugin/csv.vim	/^command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n$/;"	c
+SetTabWidth	vimrc	/^command! -nargs=* SetTabWidth call SetTabWidth(<f-args>)$/;"	c
+SetTabWidth	vimrc	/^fu! SetTabWidth(w)$/;"	f
+Sort	vim/ftplugin/csv.vim	/^command! -bang -buffer -nargs=* -range=0 Sort call s:SortColumn('<bang>', <count>, <line1>, <lin/;"	c
+b:changed_done	vim/ftplugin/csv.vim	/^let b:changed_done = -1$/;"	v
+b:csv_column	vim/ftplugin/csv.vim	/^  let b:csv_column = 1$/;"	v
+b:csv_heading_line_number	vim/ftplugin/csv.vim	/^let b:csv_heading_line_number=1$/;"	v
+b:did_ftplugin	vim/ftplugin/csv.vim	/^let b:did_ftplugin = 1$/;"	v
+b:undo_ftplugin	vim/ftplugin/csv.vim	/^let b:undo_ftplugin = "setlocal wrap< textwidth<"$/;"	v
+filetypedetect	vim/filetype.vim	/^augroup filetypedetect$/;"	a
+g:OmniSharp_log_dir	vimrc	/^let g:OmniSharp_log_dir = $HOME . '\/.omnisharp_vim_log'$/;"	v
+g:OmniSharp_want_snippet	vimrc	/^let g:OmniSharp_want_snippet=1$/;"	v
+g:Omnisharp_selector_iu	vimrc	/^let g:Omnisharp_selector_iu = 'fzf'$/;"	v
+g:ale_linters	vimrc	/^let g:ale_linters = {$/;"	v
+g:formatdef_my_custom_cs	vimrc	/^let g:formatdef_my_custom_cs = '"dotnet format --files"'$/;"	v
+g:formatters_cs	vimrc	/^let g:formatters_cs = ['my_custom_cs']$/;"	v
+g:gitgutter_map_keys	vimrc	/^let g:gitgutter_map_keys = 0$/;"	v
+g:gitgutter_override_sign_column_highlight	vimrc	/^let g:gitgutter_override_sign_column_highlight = 0$/;"	v
+g:lightline	vimrc	/^let g:lightline = {$/;"	v
+g:rainbow_active	vimrc	/^let g:rainbow_active = 1 "set to 0 if you want to enable via :RainbowToggle$/;"	v
+gm	vim/ftplugin/csv.vim	/^nnoremap <silent> <buffer> gm :call <SID>Focus_Column(b:csv_column)<CR>$/;"	m
+omnisharp_commands	vimrc	/^augroup omnisharp_commands$/;"	a
+s:CharLen	vim/ftplugin/csv.vim	/^function! s:CharLen(str)$/;"	f
+s:CompareLines	vim/ftplugin/csv.vim	/^function! s:CompareLines(line1, line2)$/;"	f
+s:CopyColumn	vim/ftplugin/csv.vim	/^function! s:CopyColumn(args)$/;"	f
+s:DeleteColumn	vim/ftplugin/csv.vim	/^function! s:DeleteColumn(colnr)$/;"	f
+s:Delimiter	vim/ftplugin/csv.vim	/^function! s:Delimiter(delim)$/;"	f
+s:Focus_Column	vim/ftplugin/csv.vim	/^function! s:Focus_Column(colnr)$/;"	f
+s:Focus_Cursor	vim/ftplugin/csv.vim	/^function! s:Focus_Cursor()$/;"	f
+s:GetExpr	vim/ftplugin/csv.vim	/^function! s:GetExpr(colnr, ...)$/;"	f
+s:GetNumCols	vim/ftplugin/csv.vim	/^function! s:GetNumCols(...)$/;"	f
+s:GetStr	vim/ftplugin/csv.vim	/^function! s:GetStr(id)$/;"	f
+s:GetValue	vim/ftplugin/csv.vim	/^function! s:GetValue(line, regex)$/;"	f
+s:Highlight	vim/ftplugin/csv.vim	/^function! s:Highlight(colnr)$/;"	f
+s:HighlightNextColumn	vim/ftplugin/csv.vim	/^function! s:HighlightNextColumn()$/;"	f
+s:HighlightPrevColumn	vim/ftplugin/csv.vim	/^function! s:HighlightPrevColumn()$/;"	f
+s:PrintColumnInfo	vim/ftplugin/csv.vim	/^function! s:PrintColumnInfo(colnr)$/;"	f
+s:SearchColumn	vim/ftplugin/csv.vim	/^function! s:SearchColumn(args)$/;"	f
+s:SetHeadinglineNumber	vim/ftplugin/csv.vim	/^function! s:SetHeadinglineNumber(linenr)$/;"	f
+s:SortColumn	vim/ftplugin/csv.vim	/^function! s:SortColumn(bang, range_given, line1, line2, ...) range$/;"	f
+s:Warn	vim/ftplugin/csv.vim	/^function! s:Warn(msg)$/;"	f
