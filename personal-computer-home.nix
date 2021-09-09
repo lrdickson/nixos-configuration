@@ -3,7 +3,9 @@
 {
   home.packages = with pkgs; [
     # Gui
+    etcher
     libreoffice
+    qbittorrent
 
     # Terminal utilities
     usbutils
