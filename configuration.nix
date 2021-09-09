@@ -10,6 +10,8 @@ let
     if options.desktop then [ ./desktop-configuration.nix ] else [];
   hpPavilionConfiguration =
     if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
+  serverConfiguration =
+    if options.server then [ ./server-configuration.nix ] else [];
 in
 {
   imports =
@@ -21,7 +23,8 @@ in
       <home-manager/nixos>
     ] ++
     hpPavilionConfiguration ++
-    desktopConfiguration;
+    desktopConfiguration ++
+    serverConfiguration;
 
   boot = {
     loader = {
@@ -30,7 +33,7 @@ in
       efi.canTouchEfiVariables = true;
 
       # Automatically detect other OS
-      grub.useOSProber = if options.multiboot then true else false;
+      grub.useOSProber = options.multiboot;
     };
   };
 
@@ -48,13 +51,10 @@ in
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
 
-  networking = {
-    networkmanager.enable = true;
-    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-    # Per-interface useDHCP will be mandatory in the future, so this generated config
-    # replicates the default behaviour.
-    useDHCP = false;
-  };
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # Per-interface useDHCP will be mandatory in the future, so this generated config
+  # replicates the default behaviour.
+  networking.useDHCP = false;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -62,9 +62,7 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lyn = {
     isNormalUser = true;
-    extraGroups = [
-      "wheel" # Enable ‘sudo’ for the user.
-      "audio" ];
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
   };
 
   home-manager.users.lyn = {
@@ -86,44 +84,18 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
 
-    # NTFS driver
-    ntfs3g
-
-    # Services
-    udiskie
-
     # Manager Per User Configuration
     home-manager
 
     # Terminal applications
     gnupg
     htop
+    neovim
+    vim
     wget
-    xclip
-
-    # Desktop stuff
-    brave
-    chromium
-    firefox
-    libsForQt5.okular
-    minecraft
-    pinentry-gtk2
-    qutebrowser
-    sakura
-    xscreensaver
-    xfce.xfce4-whiskermenu-plugin
 
     # programming
     docker-compose
-
-    # rust
-    cargo
-    rustc
-    rustup
-
-    # pass
-    pass
-    qtpass
   ];
 
   # Docker
@@ -131,13 +103,6 @@ in
 
   # IFPS
   services.ipfs.enable = true;
-
-  # Steam
-  programs.steam.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-
-  # Neovim
-  programs.neovim.enable = true;
 
   # Tmux configuration
   programs.tmux = {
@@ -163,14 +128,6 @@ in
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Add Nix Flakes
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-   };
 
   # Security
   hardware.cpu.intel.updateMicrocode = true;

@@ -1,6 +1,15 @@
 { config, pkgs, ... }:
 
 {
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.lyn = {
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "audio" ];
+  };
+
+  networking.networkmanager.enable = true;
+
   # Setup x
   programs.xwayland.enable = true;
   services.xserver = {
@@ -33,4 +42,43 @@
     support32Bit = true;
   };
   nixpkgs.config.pulseaudio = true;
+
+  environment.systemPackages = with pkgs; [
+    # NTFS driver
+    ntfs3g
+
+    # Terminal applications
+    xclip
+
+    # Desktop stuff
+    brave
+    chromium
+    firefox
+    libsForQt5.okular
+    minecraft
+    pinentry-gtk2
+    qutebrowser
+    sakura
+
+    # rust
+    cargo
+    rustc
+    rustup
+
+    # pass
+    pass
+    qtpass
+  ];
+
+  # Steam
+  programs.steam.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+
+  # Add Nix Flakes
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+   };
 }
