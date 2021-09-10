@@ -83,8 +83,14 @@ let
     bashrcExtra =
       builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
       builtins.readFile ./bashrc/rga-fzf.bash_zsh + ''
-        [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
+        # Set neovim as the default editor
+        export EDITOR=nvim
+
+        # Fix terminal colors
         export TERM=xterm-256color
+
+        # Source .bashrc_extra if it exists
+        [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
       ''
       ;
       profileExtra = ''
