@@ -10,6 +10,8 @@
     # Terminal utilities
     usbutils
     nerdfonts # fonts for terminal
+    OVMF # uefi firmware for qemu
+    qemu_full
 
     # programming
     arduino
@@ -24,7 +26,6 @@
     cargo-binutils
     cargo-generate
     openocd
-    qemu_full
 
     # Rust wasm
     wasm-pack

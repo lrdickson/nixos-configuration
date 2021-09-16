@@ -72,6 +72,9 @@ let
       w3m # terminal web browser
       zip
 
+      # latex support
+      texlive.combined.scheme-small
+
       # GUI
       sakura
     ];
