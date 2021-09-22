@@ -77,6 +77,7 @@ let
 
       # GUI
       sakura
+      zettlr
     ];
 
   # bashrc
@@ -84,8 +85,8 @@ let
     enable = true;
     # Add nnn change directory on quit
     bashrcExtra =
-      builtins.readFile ./bashrc/nnn_quitcd.bash_zsh +
-      builtins.readFile ./bashrc/rga-fzf.bash_zsh + ''
+      builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
+      builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh + ''
         # Set neovim as the default editor
         export EDITOR=nvim
 
@@ -102,10 +103,7 @@ let
     };
 
   # fzf
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
-  };
+  programs.fzf.enable = true;
 
   # Git settings
   programs.git = {
@@ -166,5 +164,31 @@ let
         colorscheme solarized8_high
       '';
     });
+  };
+
+  # zsh settings
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    enableSyntaxHighlighting = true;
+    autocd = true;
+    initExtra =
+      builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
+      builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
+    profileExtra = "";
+    zplug = {
+      enable = true;
+      plugins = [
+        { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+      ];
+    };
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "dirhistory"
+        "history"
+        "vi-mode"
+      ];
+    };
   };
 }

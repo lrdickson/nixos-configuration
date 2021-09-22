@@ -98,6 +98,9 @@ in
     docker-compose
   ];
 
+  # zsh autocompletion for system packages
+  environment.pathsToLink = [ "/share/zsh" ];
+
   # Docker
   virtualisation.docker.enable = true;
 
