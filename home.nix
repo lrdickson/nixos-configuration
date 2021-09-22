@@ -170,12 +170,14 @@ let
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
-    enableSyntaxHighlighting = true;
+    #enableSyntaxHighlighting = true;
     autocd = true;
     initExtra =
       builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
       builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
-    profileExtra = "";
+    profileExtra = ''
+        [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
+      '';
     zplug = {
       enable = true;
       plugins = [
