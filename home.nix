@@ -16,6 +16,10 @@ let
     if options.personalComputer then [ ./personal-computer-home.nix ] else [];
   importWsl =
     if options.wsl then [ ./wsl-home.nix ] else [];
+  gitstatusd-linux-x86_64 = pkgs.runCommandLocal "gsd" {} ''
+    mkdir $out
+    ln -s ${pkgs.gitstatus}/bin/gitstatusd $out/gitstatusd-linux-x86_64
+    '';
   vimConfiguration =
     {
       enable = true;
@@ -167,6 +171,8 @@ let
   };
 
   # zsh settings
+  # Stop powerlevel10k from complaining about gitstatusd
+  home.file.".cache/gitstastus".source = "${gitstatusd-linux-x86_64}";
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
