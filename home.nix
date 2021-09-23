@@ -172,7 +172,7 @@ let
 
   # zsh settings
   # Stop powerlevel10k from complaining about gitstatusd
-  home.file.".cache/gitstastus".source = "${gitstatusd-linux-x86_64}";
+  home.file.".cache/gitstatus".source = "${gitstatusd-linux-x86_64}";
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -182,14 +182,17 @@ let
       builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
       builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
     profileExtra = ''
-        [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
-      '';
+      export DRACULA_ARROW_ICON=">"
+      export DRACULA_DISPLAY_CONTEXT=1
+      [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
+    '';
     zplug = {
       enable = true;
       plugins = [
         #{ name = "mafredri/zsh-async"; }
         #{ name = "sindresorhus/pure"; tags = [ use:pure.zsh as:theme ]; }
-        { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+        #{ name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+        { name = "dracula/zsh"; tags = [ as:theme ]; }
       ];
     };
     oh-my-zsh = {
