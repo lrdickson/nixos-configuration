@@ -17,7 +17,7 @@
     desktopManager = {
       cinnamon.enable = true;
       #gnome.enable = true;
-      plasma5.enable = true;
+      #plasma5.enable = true;
       #xfce.enable = true;
       xterm.enable = false;
     };
