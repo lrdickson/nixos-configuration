@@ -172,7 +172,7 @@ let
 
   # zsh settings
   # Stop powerlevel10k from complaining about gitstatusd
-  home.file.".cache/gitstatus".source = "${gitstatusd-linux-x86_64}";
+  #home.file.".cache/gitstatus".source = "${gitstatusd-linux-x86_64}";
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
