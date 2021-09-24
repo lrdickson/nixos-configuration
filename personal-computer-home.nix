@@ -33,9 +33,4 @@
 
   # Other config files
   home.file.".gnupg/gpg-agent.conf".source = ./gpg-agent.conf;
-
-  # Add icons to nnn
-  nixpkgs.overlays = [
-    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
-  ];
 }

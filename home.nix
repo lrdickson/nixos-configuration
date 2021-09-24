@@ -106,6 +106,11 @@ let
       '' + wslBashProfile;
     };
 
+  # Add icons to nnn
+  nixpkgs.overlays = [
+    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
+  ];
+
   # fzf
   programs.fzf.enable = true;
 
@@ -146,6 +151,13 @@ let
       Host gitlab.com
         UpdateHostKeys no
     '';
+  };
+
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = false;
+    };
   };
 
   # tmux settings
