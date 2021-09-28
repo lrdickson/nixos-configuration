@@ -1,6 +1,20 @@
 { config, pkgs, ... }:
 
 let
+  importPersonalComputer =
+    if options.personalComputer then [ ./personal-computer-home.nix ] else [];
+  importWsl =
+    if options.wsl then [ ./wsl-home.nix ] else [];
+  gitstatusd-linux-x86_64 = pkgs.runCommandLocal "gsd" {} ''
+    mkdir $out
+    ln -s ${pkgs.gitstatus}/bin/gitstatusd $out/gitstatusd-linux-x86_64
+    '';
+  nix-env-fish = pkgs.fetchFromGitHub {
+    owner = "lilyball";
+    repo = "nix-env.fish";
+    rev = "00c6cc762427efe08ac0bd0d1b1d12048d3ca727";
+    sha256 = "1hrl22dd0aaszdanhvddvqz3aq40jp9zi2zn0v1hjnf7fx4bgpma";
+  };
   omnisharp-vim = pkgs.vimUtils.buildVimPlugin
   {
     name = "omnisharp-vim";
@@ -12,14 +26,6 @@ let
     };
   };
   options = import ./defaultOptions.nix // import ./options.nix;
-  importPersonalComputer =
-    if options.personalComputer then [ ./personal-computer-home.nix ] else [];
-  importWsl =
-    if options.wsl then [ ./wsl-home.nix ] else [];
-  gitstatusd-linux-x86_64 = pkgs.runCommandLocal "gsd" {} ''
-    mkdir $out
-    ln -s ${pkgs.gitstatus}/bin/gitstatusd $out/gitstatusd-linux-x86_64
-    '';
   vimConfiguration =
     {
       enable = true;
@@ -52,6 +58,8 @@ let
   '';
   wslBashProfile =
     if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
+  wslFishInit =
+    if options.wsl then builtins.readFile ./fish_init/wsl.fish else "";
   in
   {
     imports = importPersonalComputer ++ importWsl;
@@ -82,6 +90,9 @@ let
       # GUI
       sakura
       zettlr
+
+      ion
+      oil
     ];
 
   # bashrc
@@ -111,6 +122,19 @@ let
     ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
   ];
 
+  # Fish
+  home.file.".config/fish/conf.d/nix-env.fish".source =
+    "${nix-env-fish}/conf.d/nix-env.fish";
+  programs.fish = {
+    enable = true;
+    shellInit = ''
+      if test -f "$HOME/.fish_init_extra"
+        . "$HOME/.fish_init_extra"
+      end
+    '';
+    # + wslFishInit;
+  };
+
   # fzf
   programs.fzf.enable = true;
 
@@ -136,6 +160,13 @@ let
     };
   };
 
+  # Ion
+  home.file.".config/ion/" = {
+    source = ./ion;
+    recursive = true;
+  };
+
+
   # Ignore case in bash tab completion
   programs.readline = {
     enable = true;
@@ -156,7 +187,19 @@ let
   programs.starship = {
     enable = true;
     settings = {
-      add_newline = false;
+      #add_newline = false;
+      character = if options.wsl then {
+        success_symbol = "[>](bold green)";
+        error_symbol = "[>](bold red)";
+        vicmd_symbol = "[<](bold green)";
+      } else {};
+      git_status = if options.wsl then {
+        ahead = ">";
+        behind = "<";
+        diverged = "<=>";
+      } else {};
+      #hostname.ssh_only = false;
+      #username.show_always = true;
     };
   };
 
@@ -183,8 +226,6 @@ let
   };
 
   # zsh settings
-  # Stop powerlevel10k from complaining about gitstatusd
-  #home.file.".cache/gitstatus".source = "${gitstatusd-linux-x86_64}";
   programs.zsh = {
     enable = true;
     enableAutosuggestions = true;
@@ -194,24 +235,16 @@ let
       builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
       builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
     profileExtra = ''
-      export DRACULA_ARROW_ICON=">"
-      export DRACULA_DISPLAY_CONTEXT=1
       [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
-    '';
+    '' + wslBashProfile;
     zplug = {
       enable = true;
       plugins = [
-        #{ name = "mafredri/zsh-async"; }
-        #{ name = "sindresorhus/pure"; tags = [ use:pure.zsh as:theme ]; }
-        #{ name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
-        { name = "dracula/zsh"; tags = [ as:theme ]; }
       ];
     };
     oh-my-zsh = {
       enable = true;
       plugins = [
-        "dirhistory"
-        "history"
         "vi-mode"
       ];
     };
