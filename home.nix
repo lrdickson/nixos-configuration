@@ -49,6 +49,7 @@ let
         tagbar
         ultisnips
         vim-autoformat
+        vim-fish
         vim-fugitive
         vim-gitgutter
         vim-gutentags # Automatically generates tag files
@@ -97,9 +98,6 @@ let
       # GUI
       sakura
       zettlr
-
-      ion
-      oil
     ];
 
   # bashrc
@@ -172,13 +170,6 @@ let
     };
   };
 
-  # Ion
-  home.file.".config/ion/" = {
-    source = ./ion;
-    recursive = true;
-  };
-
-
   # Ignore case in bash tab completion
   programs.readline = {
     enable = true;
@@ -194,25 +185,6 @@ let
       Host gitlab.com
         UpdateHostKeys no
     '';
-  };
-
-  programs.starship = {
-    #enable = true;
-    settings = {
-      #add_newline = false;
-      character = if options.wsl then {
-        success_symbol = "[>](bold green)";
-        error_symbol = "[>](bold red)";
-        vicmd_symbol = "[<](bold green)";
-      } else {};
-      git_status = if options.wsl then {
-        ahead = ">";
-        behind = "<";
-        diverged = "<=>";
-      } else {};
-      #hostname.ssh_only = false;
-      #username.show_always = true;
-    };
   };
 
   # tmux settings
@@ -236,30 +208,5 @@ let
         colorscheme solarized8_high
       '';
     });
-  };
-
-  # zsh settings
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    #enableSyntaxHighlighting = true;
-    autocd = true;
-    initExtra =
-      builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
-      builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
-    profileExtra = ''
-      [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
-    '' + wslBashProfile;
-    zplug = {
-      enable = true;
-      plugins = [
-      ];
-    };
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "vi-mode"
-      ];
-    };
   };
 }
