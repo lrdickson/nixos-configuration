@@ -66,7 +66,7 @@ let
   wslBashProfile =
     if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
   wslFishInit =
-    if options.wsl then builtins.readFile ./fish_init/wsl.fish else "";
+    if options.wsl then builtins.readFile ./fish/wsl.fish else "";
   in
   {
     imports = importPersonalComputer ++ importWsl;
@@ -136,6 +136,9 @@ let
     "${nnn-git}/misc/quitcd/quitcd.fish";
   programs.fish = {
     enable = true;
+    functions = {
+      rga-fzf = builtins.readFile ./fish/rga-fzf.fish;
+    };
     shellInit = ''
       if test -f "$HOME/.fish_init_extra"
         . "$HOME/.fish_init_extra"
