@@ -128,8 +128,9 @@ let
   ];
 
   # Fish
-  home.file.".config/fish/conf.d/nix-env.fish".source =
-    "${nix-env-fish}/conf.d/nix-env.fish";
+  home.file.".config/fish/conf.d/nix-env.fish" = if options.wsl then {
+    source = "${nix-env-fish}/conf.d/nix-env.fish";
+  } else {};
   home.file.".config/fish/functions/n.fish".source =
     "${nnn-git}/misc/quitcd/quitcd.fish";
   programs.fish = {
