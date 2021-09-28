@@ -15,6 +15,13 @@ let
     rev = "00c6cc762427efe08ac0bd0d1b1d12048d3ca727";
     sha256 = "1hrl22dd0aaszdanhvddvqz3aq40jp9zi2zn0v1hjnf7fx4bgpma";
   };
+  nnn-git = pkgs.fetchFromGitHub {
+    owner = "jarun";
+    repo = "nnn";
+    rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
+    sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
+  };
+
   omnisharp-vim = pkgs.vimUtils.buildVimPlugin
   {
     name = "omnisharp-vim";
@@ -125,6 +132,8 @@ let
   # Fish
   home.file.".config/fish/conf.d/nix-env.fish".source =
     "${nix-env-fish}/conf.d/nix-env.fish";
+  home.file.".config/fish/functions/n.fish".source =
+    "${nnn-git}/misc/quitcd/quitcd.fish";
   programs.fish = {
     enable = true;
     shellInit = ''
@@ -185,7 +194,7 @@ let
   };
 
   programs.starship = {
-    enable = true;
+    #enable = true;
     settings = {
       #add_newline = false;
       character = if options.wsl then {
@@ -207,6 +216,7 @@ let
   programs.tmux = {
     enable = true;
     keyMode = "vi";
+    shell = "${pkgs.fish}/bin/fish";
   };
 
   # Vim settings
