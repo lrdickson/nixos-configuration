@@ -26,10 +26,7 @@ omnisharp-vim = pkgs.vimUtils.buildVimPlugin
   };
 };
 options = import ./defaultOptions.nix // import ./options.nix;
-vimConfiguration =
-  {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
+vimCommonPlugins = with pkgs.vimPlugins; [
       ale
       awesome-vim-colorschemes
       fzf-vim
@@ -40,7 +37,6 @@ vimConfiguration =
       rainbow
       rust-vim
       tagbar
-      ultisnips
       vim-autoformat
       vim-fish
       vim-fugitive
@@ -49,7 +45,10 @@ vimConfiguration =
       vim-nix # Fixes nix syntax highlighting for nvim
       vim-surround
     ];
-  };
+vimConfiguration =
+{
+  enable = true;
+};
 vimConfigFiles = {
   source = ./vim;
   recursive = true;
@@ -135,9 +134,6 @@ in
 
       # Turn on vi keybindings
       fish_vi_key_bindings
-
-      # unix porn
-      neofetch --disable packages
     '';
     shellInit = ''
       # Set the default editor
@@ -203,15 +199,21 @@ in
   home.file.".vim" = vimConfigFiles;
   home.file.".config/nvim" = vimConfigFiles;
   programs = {
+    # vim
     vim = (vimConfiguration // {
       extraConfig = vimrc + ''
-        colorscheme solarized8_high
+        colorscheme darkblue
       '';
+      plugins = vimCommonPlugins;
     });
+    # neovim
     neovim = (vimConfiguration // {
       extraConfig = vimrc + ''
         colorscheme solarized8_high
       '';
+      plugins = vimCommonPlugins ++ (with pkgs.vimPlugins; [
+        ultisnips
+      ]);
     });
   };
 }
