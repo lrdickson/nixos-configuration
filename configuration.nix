@@ -60,18 +60,14 @@ in
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
+  programs.fish.enable = true;
   users.users.lyn = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    shell = pkgs.fish;
   };
 
   home-manager.users.lyn = {
-    imports = [
-      ./home.nix
-    ];
-  };
-
-  home-manager.users.root = {
     imports = [
       ./home.nix
     ];
