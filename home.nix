@@ -1,6 +1,22 @@
 { config, pkgs, ... }:
 
 let
+  importPersonalComputer =
+    if options.personalComputer then [ ./personal-computer-home.nix ] else [];
+  importWsl =
+    if options.wsl then [ ./wsl-home.nix ] else [];
+  nix-env-fish = pkgs.fetchFromGitHub {
+    owner = "lilyball";
+    repo = "nix-env.fish";
+    rev = "00c6cc762427efe08ac0bd0d1b1d12048d3ca727";
+    sha256 = "1hrl22dd0aaszdanhvddvqz3aq40jp9zi2zn0v1hjnf7fx4bgpma";
+  };
+  nnn-git = pkgs.fetchFromGitHub {
+    owner = "jarun";
+    repo = "nnn";
+    rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
+    sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
+  };
   omnisharp-vim = pkgs.vimUtils.buildVimPlugin
   {
     name = "omnisharp-vim";
@@ -12,23 +28,6 @@ let
     };
   };
   options = import ./defaultOptions.nix // import ./options.nix;
-  importPersonalComputer =
-    if options.personalComputer then [ ./personal-computer-home.nix ] else [];
-  importWsl =
-    if options.wsl then [ ./wsl-home.nix ] else [];
-  ion-vim = pkgs.vimUtils.buildVimPlugin
-  {
-    name = "ion-vim";
-    src = pkgs.fetchgit {
-      url = "https://gitlab.redox-os.org/redox-os/ion-vim.git";
-      rev = "e9220920f93de102e4d79b991da8406e13e4ffb4";
-      sha256 = "sha256-GklGuGjXxgYsUbdgWKNqSdAO/RE4JII3M1/l25usBs4=";
-    };
-  };
-  gitstatusd-linux-x86_64 = pkgs.runCommandLocal "gsd" {} ''
-    mkdir $out
-    ln -s ${pkgs.gitstatus}/bin/gitstatusd $out/gitstatusd-linux-x86_64
-    '';
   vimConfiguration =
     {
       enable = true;
@@ -36,7 +35,6 @@ let
         ale
         awesome-vim-colorschemes
         fzf-vim
-        ion-vim
         lightline-vim
         nerdcommenter
         nnn-vim
@@ -46,6 +44,7 @@ let
         tagbar
         ultisnips
         vim-autoformat
+        vim-fish
         vim-fugitive
         vim-gitgutter
         vim-gutentags # Automatically generates tag files
@@ -62,6 +61,8 @@ let
   '';
   wslBashProfile =
     if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
+  wslFishInit =
+    if options.wsl then builtins.readFile ./fish/wsl.fish else "";
   in
   {
     imports = importPersonalComputer ++ importWsl;
@@ -92,8 +93,6 @@ let
       # GUI
       sakura
       zettlr
-
-      ion
     ];
 
   # bashrc
@@ -117,6 +116,29 @@ let
         [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
       '' + wslBashProfile;
     };
+
+  # Add icons to nnn
+  nixpkgs.overlays = [
+    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
+  ];
+
+  # Fish
+  home.file.".config/fish/conf.d/nix-env.fish" = if options.wsl then {
+    source = "${nix-env-fish}/conf.d/nix-env.fish";
+  } else {};
+  home.file.".config/fish/functions/n.fish".source =
+    "${nnn-git}/misc/quitcd/quitcd.fish";
+  programs.fish = {
+    enable = true;
+    functions = {
+      rga-fzf = builtins.readFile ./fish/rga-fzf.fish;
+    };
+    shellInit = ''
+      if test -f "$HOME/.fish_init_extra"
+        . "$HOME/.fish_init_extra"
+      end
+    '';
+  };
 
   # fzf
   programs.fzf.enable = true;
@@ -164,6 +186,7 @@ let
   programs.tmux = {
     enable = true;
     keyMode = "vi";
+    shell = "${pkgs.fish}/bin/fish";
   };
 
   # Vim settings
@@ -180,40 +203,5 @@ let
         colorscheme solarized8_high
       '';
     });
-  };
-
-  # zsh settings
-  # Stop powerlevel10k from complaining about gitstatusd
-  #home.file.".cache/gitstatus".source = "${gitstatusd-linux-x86_64}";
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    #enableSyntaxHighlighting = true;
-    autocd = true;
-    initExtra =
-      builtins.readFile ./bash_zsh_init/nnn_quitcd.bash_zsh +
-      builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh;
-    profileExtra = ''
-      export DRACULA_ARROW_ICON=">"
-      export DRACULA_DISPLAY_CONTEXT=1
-      [ -f "$HOME/.bash_profile_extra" ] && . "$HOME/.bash_profile_extra"
-    '';
-    zplug = {
-      enable = true;
-      plugins = [
-        #{ name = "mafredri/zsh-async"; }
-        #{ name = "sindresorhus/pure"; tags = [ use:pure.zsh as:theme ]; }
-        #{ name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
-        { name = "dracula/zsh"; tags = [ as:theme ]; }
-      ];
-    };
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "dirhistory"
-        "history"
-        "vi-mode"
-      ];
-    };
   };
 }
