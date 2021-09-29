@@ -71,6 +71,7 @@ in
     file # Provide information about a file
     html-tidy # Formatter for HTML
     mono # open source dotnet framework implementation
+    neofetch # Display a the distro logo
     nnn # terminal file manager
     omnisharp-roslyn # C# linting engine
     pandoc # universal document converter
@@ -85,12 +86,12 @@ in
     w3m # terminal web browser
     zip
 
-    # latex support
-    texlive.combined.scheme-small
-
     # GUI
     sakura
     zettlr
+
+    # latex support
+    texlive.combined.scheme-small
   ];
 
   # bashrc
@@ -131,6 +132,12 @@ in
     interactiveShellInit = ''
       # Fix terminal colors
       set -x TERM xterm-256color
+
+      # Turn on vi keybindings
+      fish_vi_key_bindings
+
+      # unix porn
+      neofetch --disable packages
     '';
     shellInit = ''
       # Set the default editor
