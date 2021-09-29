@@ -16,6 +16,15 @@ let
     if options.personalComputer then [ ./personal-computer-home.nix ] else [];
   importWsl =
     if options.wsl then [ ./wsl-home.nix ] else [];
+  ion-vim = pkgs.vimUtils.buildVimPlugin
+  {
+    name = "ion-vim";
+    src = pkgs.fetchgit {
+      url = "https://gitlab.redox-os.org/redox-os/ion-vim.git";
+      rev = "e9220920f93de102e4d79b991da8406e13e4ffb4";
+      sha256 = "sha256-GklGuGjXxgYsUbdgWKNqSdAO/RE4JII3M1/l25usBs4=";
+    };
+  };
   gitstatusd-linux-x86_64 = pkgs.runCommandLocal "gsd" {} ''
     mkdir $out
     ln -s ${pkgs.gitstatus}/bin/gitstatusd $out/gitstatusd-linux-x86_64
@@ -27,6 +36,7 @@ let
         ale
         awesome-vim-colorschemes
         fzf-vim
+        ion-vim
         lightline-vim
         nerdcommenter
         nnn-vim
@@ -82,6 +92,8 @@ let
       # GUI
       sakura
       zettlr
+
+      ion
     ];
 
   # bashrc
