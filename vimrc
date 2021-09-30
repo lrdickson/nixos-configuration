@@ -37,6 +37,11 @@ highlight GitGutterAdd ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
+nmap <silent> <buffer> <Leader>gnh :GitGutterNextHunk<CR>
+nmap <silent> <buffer> <Leader>gph :GitGutterPrevHunk<CR>
+nmap <silent> <buffer> <Leader>gpv :GitGutterPreviewHunk<CR>
+nmap <silent> <buffer> <Leader>gsh :GitGutterStageHunk<CR>
+nmap <silent> <buffer> <Leader>guh :GitGutterUndoHunk<CR>
 
 " ALE - linting engine
 let g:ale_linters = {
@@ -47,10 +52,6 @@ nnoremap <silent> <Leader>ad :ALEDetail<CR>
 
 " Activate rainbow
 let g:rainbow_active = 1 "set to 0 if you want to enable via :RainbowToggle
-
-" Set OmniSharp-vim log dir
-let g:OmniSharp_log_dir = $HOME . '/.omnisharp_vim_log'
-let g:Omnisharp_selector_iu = 'fzf'
 
 " Autoformat
 let g:formatdef_my_custom_cs = '"dotnet format --files"'
@@ -89,6 +90,10 @@ fu! SetTabWidth(w)
 	let &l:softtabstop = a:w
 endf
 command! -nargs=* SetTabWidth call SetTabWidth(<f-args>)
+
+" Set OmniSharp-vim log dir
+let g:OmniSharp_log_dir = $HOME . '/.omnisharp_vim_log'
+let g:Omnisharp_selector_iu = 'fzf'
 
 " Don't autoselect first omnicomplete option, show options even if there is only
 " one (so the preview documentation is accessible). Remove 'preview', 'popup'
