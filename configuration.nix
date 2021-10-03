@@ -5,23 +5,29 @@
 { config, pkgs, ... }:
 
 let
-  options = import ./defaultOptions.nix // import ./options.nix;
-  desktopConfiguration =
-    if options.desktop then [ ./desktop-configuration.nix ] else [];
-  hpPavilionConfiguration =
-    if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
-  serverConfiguration =
-    if options.server then [ ./server-configuration.nix ] else [];
+options = import ./defaultOptions.nix // import ./options.nix;
+desktopConfiguration =
+  if options.desktop then [ ./desktop-configuration.nix ] else [];
+homeManagerConfiguration =
+  if options.homeManager then [ ./home-manager-configuration.nix ] else [];
+hpPavilionConfiguration =
+  if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
+nnn-git = pkgs.fetchFromGitHub {
+  owner = "jarun";
+  repo = "nnn";
+  rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
+  sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
+};
+serverConfiguration =
+  if options.server then [ ./server-configuration.nix ] else [];
 in
 {
   imports =
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-
-      # Add home manager options
-      <home-manager/nixos>
     ] ++
+    homeManagerConfiguration ++
     hpPavilionConfiguration ++
     desktopConfiguration ++
     serverConfiguration;
@@ -60,17 +66,10 @@ in
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  programs.fish.enable = true;
   users.users.lyn = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     shell = pkgs.fish;
-  };
-
-  home-manager.users.lyn = {
-    imports = [
-      ./home.nix
-    ];
   };
 
   # Allow unfree packages
@@ -79,14 +78,10 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-
-    # Manager Per User Configuration
-    home-manager
-
     # Terminal applications
-    gnupg
     htop
     neovim
+    nnn
     vim
     wget
 
@@ -94,8 +89,36 @@ in
     docker-compose
   ];
 
-  # zsh autocompletion for system packages
-  environment.pathsToLink = [ "/share/zsh" ];
+  # bashrc
+  programs.bash = {
+    interactiveShellInit = ''
+        # Set neovim as the default editor
+        export EDITOR=nvim
+
+        # Fix terminal colors
+        export TERM=xterm-256color
+      '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh";
+    };
+
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      # Fix terminal colors
+      set -x TERM xterm-256color
+
+      # Turn on vi keybindings
+      fish_vi_key_bindings
+    '';
+    shellInit = ''
+      # Set the default editor
+      export EDITOR=nvim
+
+      # Source fish_init_extra if it exists
+      if test -f "$HOME/.fish_init_extra"
+        . "$HOME/.fish_init_extra"
+      end
+    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
+  };
 
   # Docker
   virtualisation.docker.enable = true;
