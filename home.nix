@@ -2,11 +2,11 @@
 
 let
 importNonNixos =
-  if options.nonNixos then [ ./non-nixos-home.nix ] else [];
+  if options.nonNixos then [ ./home_manager/non-nixos-home.nix ] else [];
 importPersonalComputer =
-  if options.personalComputer then [ ./personal-computer-home.nix ] else [];
+  if options.personalComputer then [ ./home_manager/personal-computer-home.nix ] else [];
 importWsl =
-  if options.wsl then [ ./wsl-home.nix ] else [];
+  if options.wsl then [ ./home_manager/wsl-home.nix ] else [];
 nnn-git = pkgs.fetchFromGitHub {
   owner = "jarun";
   repo = "nnn";
@@ -14,7 +14,7 @@ nnn-git = pkgs.fetchFromGitHub {
   sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
 };
 nonNixosBashProfile =
-  if options.nonNixos then builtins.readFile ./bash_profile/non_nixos_bash_profile.sh else "";
+  if options.nonNixos then builtins.readFile ./home_manager/bash_profile/non_nixos_bash_profile.sh else "";
 omnisharp-vim = pkgs.vimUtils.buildVimPlugin
 {
   name = "omnisharp-vim";
@@ -25,7 +25,7 @@ omnisharp-vim = pkgs.vimUtils.buildVimPlugin
     sha256 = "sha256-FgoesU0PihWGzS9eq0GlLlHtV9AwEpGghvahZ4rwnJQ=";
   };
 };
-options = import ../defaultOptions.nix // import ../options.nix;
+options = import ./defaultOptions.nix // import ./options.nix;
 vimCommonPlugins = with pkgs.vimPlugins; [
       ale
       awesome-vim-colorschemes
@@ -50,16 +50,16 @@ vimConfiguration =
   enable = true;
 };
 vimConfigFiles = {
-  source = ./vim;
+  source = ./home_manager/vim;
   recursive = true;
 };
-vimrc = (builtins.readFile ./vimrc) + ''
+vimrc = (builtins.readFile ./home_manager/vimrc) + ''
   let g:OmniSharp_server_path = '${pkgs.omnisharp-roslyn}/bin/omnisharp'
 '';
 wslBashProfile =
-  if options.wsl then builtins.readFile ./bash_profile/wsl_bash_profile.sh else "";
+  if options.wsl then builtins.readFile ./home_manager/bash_profile/wsl_bash_profile.sh else "";
 wslFishInit =
-  if options.wsl then builtins.readFile ./fish/wsl.fish else "";
+  if options.wsl then builtins.readFile ./home_manager/fish/wsl.fish else "";
 in
 {
   imports = importNonNixos ++ importPersonalComputer ++ importWsl;
@@ -105,7 +105,7 @@ in
     # Add nnn change directory on quit
     bashrcExtra =
       builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh" +
-      builtins.readFile ./bash_zsh_init/rga-fzf.bash_zsh + ''
+      builtins.readFile ./home_manager/bash_zsh_init/rga-fzf.bash_zsh + ''
         # Set neovim as the default editor
         export EDITOR=nvim
 
@@ -125,7 +125,7 @@ in
   programs.fish = {
     enable = true;
     functions = {
-      rga-fzf = builtins.readFile ./fish/rga-fzf.fish;
+      rga-fzf = builtins.readFile ./home_manager/fish/rga-fzf.fish;
     };
     interactiveShellInit = ''
       # Fix terminal colors
