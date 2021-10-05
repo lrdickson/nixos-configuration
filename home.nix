@@ -202,6 +202,7 @@ in
         behind = "<";
         diverged = "<=>";
       } else {};
+      time.disabled = false;
     };
   };
 
