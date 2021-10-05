@@ -207,6 +207,7 @@ in
         ahead = ">";
         behind = "<";
         diverged = "<=>";
+        deleted = "x";
       } else {};
       time.disabled = false;
     };

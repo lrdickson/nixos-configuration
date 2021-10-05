@@ -37,11 +37,11 @@ highlight GitGutterAdd ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
 highlight GitGutterChangeDelete ctermfg=4
-nmap <silent> <buffer> <Leader>gnh :GitGutterNextHunk<CR>
-nmap <silent> <buffer> <Leader>gph :GitGutterPrevHunk<CR>
-nmap <silent> <buffer> <Leader>gpv :GitGutterPreviewHunk<CR>
-nmap <silent> <buffer> <Leader>gsh :GitGutterStageHunk<CR>
-nmap <silent> <buffer> <Leader>guh :GitGutterUndoHunk<CR>
+nmap <silent> <Leader>gnh :GitGutterNextHunk<CR>
+nmap <silent> <Leader>gph :GitGutterPrevHunk<CR>
+nmap <silent> <Leader>gpv :GitGutterPreviewHunk<CR>
+nmap <silent> <Leader>gsh :GitGutterStageHunk<CR>
+nmap <silent> <Leader>guh :GitGutterUndoHunk<CR>
 
 " ALE - linting engine
 let g:ale_linters = {
