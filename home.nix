@@ -165,7 +165,7 @@ in
     extraConfig = {
       core = {
         # Fix git for cross collaboration with Windows
-        autocrlf = "input";
+        autocrlf = "false";
 
         # nvim as default editor
         editor = "nvim";
