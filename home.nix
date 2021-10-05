@@ -112,6 +112,9 @@ in
         # Fix terminal colors
         export TERM=xterm-256color
 
+        # Make NNN easier to read
+        export NNN_COLOR='6666'
+
         # Source .bashrc_extra if it exists
         [ -f "$HOME/.bashrc_extra" ] && . "$HOME/.bashrc_extra"
       ''
@@ -133,6 +136,9 @@ in
 
       # Turn on vi keybindings
       fish_vi_key_bindings
+
+      # Make NNN easier to read
+      set -x NNN_COLORS 6666
     '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
     shellInit = ''
       # Set the default editor
