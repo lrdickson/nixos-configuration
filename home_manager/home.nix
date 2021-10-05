@@ -187,6 +187,11 @@ in
     '';
   };
 
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = false;
+  };
+
   # tmux settings
   programs.tmux = {
     enable = true;
