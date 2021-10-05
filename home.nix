@@ -191,6 +191,18 @@ in
   programs.starship = {
     enable = true;
     enableBashIntegration = false;
+    settings = {
+      character = if options.wsl then {
+        success_symbol = "[>](bold green)";
+        error_symbol = "[>](bold red)";
+        vicmd_symbol = "[<](bold green)";
+      } else {};
+      git_status = if options.wsl then {
+        ahead = ">";
+        behind = "<";
+        diverged = "<=>";
+      } else {};
+    };
   };
 
   # tmux settings
