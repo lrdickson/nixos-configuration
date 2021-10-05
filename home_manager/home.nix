@@ -187,6 +187,7 @@ in
     '';
   };
 
+  # Starship settings
   programs.starship = {
     enable = true;
     enableBashIntegration = false;
