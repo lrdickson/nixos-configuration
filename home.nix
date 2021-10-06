@@ -139,7 +139,8 @@ in
 
       # Make NNN easier to read
       set -x NNN_COLORS 6666
-    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
+    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish" +
+    builtins.readFile ./home_manager/fish/zoxide.fish;
     shellInit = ''
       # Set the default editor
       export EDITOR=nvim
@@ -241,4 +242,7 @@ in
       ]);
     });
   };
+
+  # zoxide cd command that learns your habits
+  programs.zoxide.enable = true;
 }
