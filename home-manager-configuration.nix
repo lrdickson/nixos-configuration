@@ -9,7 +9,7 @@
 
   home-manager.users.lyn = {
     imports = [
-      ./home_manager/home.nix
+      ./home.nix
     ];
   };
 

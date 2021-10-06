@@ -7,6 +7,7 @@
     discord
     libreoffice
     qbittorrent
+    reaper
 
     # Terminal utilities
     gnupg
