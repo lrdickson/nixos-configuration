@@ -18,8 +18,8 @@ nnn-git = pkgs.fetchFromGitHub {
   rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
   sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
 };
-serverConfiguration =
-  if options.server then [ ./server-configuration.nix ] else [];
+nicoleConfiguration =
+  if options.nicole then [ ./nicole-configuration.nix ] else [];
 in
 {
   imports =
@@ -30,7 +30,7 @@ in
     homeManagerConfiguration ++
     hpPavilionConfiguration ++
     desktopConfiguration ++
-    serverConfiguration;
+    nicoleConfiguration;
 
   boot = {
     loader = {
@@ -78,15 +78,13 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # Terminal applications
+    docker-compose
+    git
     htop
     neovim
     nnn
     vim
     wget
-
-    # programming
-    docker-compose
   ];
 
   # bashrc
@@ -130,6 +128,10 @@ in
   programs.tmux = {
     enable = true;
     keyMode = "vi";
+    extraConfig = ''
+      set -g default-command ${pkgs.fish}/bin/fish
+      set -g default-shell ${pkgs.fish}/bin/fish
+      '';
   };
 
   # Some programs need SUID wrappers, can be configured further or are
