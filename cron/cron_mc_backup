@@ -1,0 +1,1 @@
+0 5 * * * /srv/minecraft_liberty_friends/backup.sh

@@ -94,11 +94,6 @@ in
     texlive.combined.scheme-small
   ];
 
-  # Add icons to nnn
-  nixpkgs.overlays = [
-    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
-  ];
-
   # bashrc
   programs.bash = {
     enable = true;
@@ -139,7 +134,9 @@ in
 
       # Make NNN easier to read
       set -x NNN_COLORS 6666
-    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
+      set -x NNN_PLUG "c:fzcd"
+    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish" +
+    builtins.readFile ./home_manager/fish/zoxide.fish;
     shellInit = ''
       # Set the default editor
       export EDITOR=nvim
@@ -183,6 +180,22 @@ in
       set completion-ignore-case On
     '';
   };
+
+  # Add icons to nnn
+  nixpkgs.overlays = [
+    ( self: super: { nnn = super.nnn.override { withNerdIcons = true; };})
+  ];
+  home.file.".config/nnn/plugins" = {
+    source = "${nnn-git}/plugins";
+    recursive = true;
+  };
+  # Unfortunately not a part of home-manager 21.05
+  #programs.nnn = {
+    #enable = true;
+    #plugins.mappings = {
+      #c = "fzcd";
+    #};
+  #};
 
   programs.ssh = {
     enable = true;
@@ -241,4 +254,7 @@ in
       ]);
     });
   };
+
+  # zoxide cd command that learns your habits
+  programs.zoxide.enable = true;
 }
