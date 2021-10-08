@@ -3,8 +3,9 @@
 {
   home.packages = with pkgs; [
     # Gui
-    etcher
     discord
+    etcher
+    filezilla
     libreoffice
     qbittorrent
     reaper
