@@ -20,6 +20,8 @@ nnn-git = pkgs.fetchFromGitHub {
 };
 nicoleConfiguration =
   if options.nicole then [ ./nicole-configuration.nix ] else [];
+cloudsdaleConfiguration =
+  if options.cloudsdale then [ ./cloudsdale-configuration.nix ] else [];
 in
 {
   imports =
@@ -27,6 +29,7 @@ in
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ] ++
+    cloudsdaleConfiguration ++
     homeManagerConfiguration ++
     hpPavilionConfiguration ++
     desktopConfiguration ++
@@ -79,6 +82,7 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     docker-compose
+    efibootmgr
     git
     htop
     neovim
