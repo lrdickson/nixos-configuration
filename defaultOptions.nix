@@ -1,8 +1,9 @@
 {
-  cloudsdale = true;
+  cloudsdale = false;
   desktop = false;
   homeManager = false;
   hpPavilion = false;
+  kubernetes = false;
   multiboot = false;
   nicole = false;
   nonNixos = false;

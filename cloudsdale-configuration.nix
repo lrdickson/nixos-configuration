@@ -1,9 +1,5 @@
 { config, pkgs, ... }:
-let
-  kubeMasterIP = "10.1.1.2";
-  kubeMasterHostname = "api.kube";
-  kubeMasterAPIServerPort = 6443;
-in
+
 {
   networking.hostName = "cloudsdale";
   networking.interfaces.eno1.useDHCP = true;
