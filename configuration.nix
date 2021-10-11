@@ -102,6 +102,7 @@ in
       '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh";
     };
 
+  users.users.root.shell = pkgs.fish;
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
