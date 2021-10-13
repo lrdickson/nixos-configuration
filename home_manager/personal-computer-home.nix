@@ -9,6 +9,7 @@
     libreoffice
     qbittorrent
     reaper
+    vlc
 
     # Terminal utilities
     gnupg
