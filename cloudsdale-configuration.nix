@@ -4,8 +4,6 @@
   networking.hostName = "cloudsdale";
   networking.interfaces.eno1.useDHCP = true;
 
-  services.k3s.enable = true;
-
   environment.systemPackages = with pkgs; [
     kubernetes-helm
   ];
