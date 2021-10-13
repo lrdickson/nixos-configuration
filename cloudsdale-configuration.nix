@@ -4,6 +4,19 @@
   networking.hostName = "cloudsdale";
   networking.interfaces.eno1.useDHCP = true;
 
+  # Authorize login using ssh key
+  users.users.lyn.openssh.authorizedKey.keyFiles = [
+    ./ssh_keys/hpbox_id_rsa.pub
+  ];
+  services.openssh = {
+    challengeRespoonseAuthentication = false;
+    extraConfig = ''
+      PasswordAuthentication no
+      PermitRootLogin no
+      UsePAM no
+      '';
+    };
+
   services.k3s.enable = true;
 
   environment.systemPackages = with pkgs; [
