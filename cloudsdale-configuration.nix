@@ -9,6 +9,7 @@
     ./ssh_keys/hpbox_id_rsa.pub
   ];
   services.openssh = {
+    enable = true;
     challengeResponseAuthentication = false;
     extraConfig = ''
       PasswordAuthentication no
