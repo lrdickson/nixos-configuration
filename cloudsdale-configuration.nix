@@ -5,11 +5,11 @@
   networking.interfaces.eno1.useDHCP = true;
 
   # Authorize login using ssh key
-  users.users.lyn.openssh.authorizedKey.keyFiles = [
+  users.users.lyn.openssh.authorizedKeys.keyFiles = [
     ./ssh_keys/hpbox_id_rsa.pub
   ];
   services.openssh = {
-    challengeRespoonseAuthentication = false;
+    challengeResponseAuthentication = false;
     extraConfig = ''
       PasswordAuthentication no
       PermitRootLogin no

@@ -76,7 +76,6 @@ in
   users.users.lyn = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    shell = pkgs.fish;
   };
 
   # Allow unfree packages
@@ -106,7 +105,8 @@ in
       '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh";
     };
 
-  users.users.root.shell = pkgs.fish;
+  # Fish
+  users.defaultUserShell = pkgs.fish;
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
