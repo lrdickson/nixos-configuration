@@ -11,11 +11,8 @@
   services.openssh = {
     enable = true;
     challengeResponseAuthentication = false;
-    extraConfig = ''
-      PasswordAuthentication no
-      PermitRootLogin no
-      UsePAM no
-      '';
+    passwordAuthentication = false;
+    permitRootLogin = "no";
   };
 
   environment.systemPackages = with pkgs; [
