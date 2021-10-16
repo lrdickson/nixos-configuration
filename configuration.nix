@@ -12,10 +12,6 @@ homeManagerConfiguration =
   if options.homeManager then [ ./home-manager-configuration.nix ] else [];
 hpPavilionConfiguration =
   if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
-kubernetesFishInit =
-  if options.kubernetes then ''
-    set -x KUBECONFIG /etc/rancher/k3s/k3s.yaml
-  '' else "";
 nnn-git = pkgs.fetchFromGitHub {
   owner = "jarun";
   repo = "nnn";
@@ -124,8 +120,7 @@ in
       if test -f "$HOME/.fish_init_extra"
         . "$HOME/.fish_init_extra"
       end
-    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish"
-    + kubernetesFishInit;
+    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
   };
 
   # Docker
