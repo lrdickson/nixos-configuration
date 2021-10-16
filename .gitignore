@@ -1,5 +1,15 @@
+# vim files
 *.swp
 *~
-hardware-configuration.nix
-options.nix
+
+# no need to save ctags "tags" file
 tags
+
+# The hardware-configuration file is generated at install time
+hardware-configuration.nix
+
+# computer specific options
+options.nix
+
+# environemt file to hold docker secrets
+docker/**/.env
