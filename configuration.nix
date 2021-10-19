@@ -86,6 +86,7 @@ in
     htop
     neovim
     nnn
+    tcpdump
     vim
     wget
   ];

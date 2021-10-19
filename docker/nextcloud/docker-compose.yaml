@@ -37,7 +37,7 @@ services:
     image: nginx
     restart: always
     ports:
-      - 80:80
+      - 8081:80
     links:
       - app
     volumes:

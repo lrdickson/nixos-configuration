@@ -21,8 +21,27 @@
 
   # Open ports in the firewall.
   networking.firewall.enable = true;
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
+
+  # Setup nginx to handle https and automate certificate retrieval
+  services.nginx = {
+    enable = true;
+    virtualHosts."nextcloud.dickson-family.com" = {
+      forceSSL = true;
+      #addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8081";
+      };
+    };
+  };
+  security.acme = {
+    acceptTerms = true;
+    certs = {
+      "nextcloud.dickson-family.com".email = "lyndseyrd@gmail.com";
+    };
+  };
 
   # nextcloud startup
   systemd.services.dockerNextcloud = {
