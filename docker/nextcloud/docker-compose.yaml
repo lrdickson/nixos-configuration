@@ -21,6 +21,18 @@ services:
     image: redis
     restart: always
 
+  collabora:
+    image: collabora/code:latest
+    restart: always
+    ports:
+      - 9980:9980
+    environment:
+      - server_name=collabora.dickson-family.com
+      - domain=collabora.dickson-family.com
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
+    cap_add:
+      - MKNOD
+
   app:
     image: nextcloud:fpm
     restart: always

@@ -1,0 +1,8 @@
+
+    environment:
+      - server_name=collabora\.dickson-family\.com
+      - domain=collabora\.dickson-family\.com
+      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
+      - DONT_GEN_SSL_CERT=YES
+    environment:
+      - server_name=collabora.dickson-family.com

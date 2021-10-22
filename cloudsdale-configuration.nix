@@ -27,6 +27,7 @@
   # Setup nginx to handle https and automate certificate retrieval
   services.nginx = {
     enable = true;
+    #sslProtocols = "TLSv1.1 TLSv1.2";
     virtualHosts."nextcloud.dickson-family.com" = {
       forceSSL = true;
       #addSSL = true;
@@ -35,11 +36,20 @@
         proxyPass = "http://127.0.0.1:8081";
       };
     };
+    virtualHosts."collabora.dickson-family.com" = {
+      forceSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9980";
+        proxyWebsockets = true;
+      };
+    };
   };
   security.acme = {
     acceptTerms = true;
     certs = {
       "nextcloud.dickson-family.com".email = "lyndseyrd@gmail.com";
+      "collabora.dickson-family.com".email = "lyndseyrd@gmail.com";
     };
   };
 
