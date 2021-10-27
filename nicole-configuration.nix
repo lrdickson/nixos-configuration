@@ -11,9 +11,25 @@
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.allowedTCPPorts = [ 25565 ];
+  networking.firewall.allowedUDPPorts = [ 25565 ];
+  networking.firewall.enable = true;
+
+  # minecraft startup
+  systemd.services.dockerMinecraft = {
+    description = "Minecraft running inside Docker Compose";
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
+    wantedBy = [ "multi-user.target" ]; # causes service to run at startup
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      WorkingDirectory = "/etc/nixos/docker/minecraft";
+      ExecStartPre = "${pkgs.docker-compose}/bin/docker-compose down";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+      TimeoutStartSec = "0";
+    };
+  };
 }
 
