@@ -10,6 +10,7 @@
     qbittorrent
     reaper
     vlc
+    zoom-us
 
     # Terminal utilities
     gnupg

@@ -9,9 +9,10 @@
       "rtw88_8821ce"
     ];
     extraModulePackages = [
-      pkgs.linuxPackages_latest.rtl8821ce
+      #pkgs.linuxPackages_latest.rtl8821ce
+      pkgs.linuxPackages.rtl8821ce
     ];
-    kernelPackages = pkgs.linuxPackages_latest;
+    #kernelPackages = pkgs.linuxPackages_latest;
   };
 
   networking.hostName = "hpbox";
