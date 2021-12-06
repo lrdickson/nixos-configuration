@@ -20,6 +20,11 @@ nnn-git = pkgs.fetchFromGitHub {
 };
 nicoleConfiguration =
   if options.nicole then [ ./nicole-configuration.nix ] else [];
+nicoleFish = if options.nicole then ''
+  function rcon-cli
+    sudo docker exec -i minecraft rcon-cli
+  end
+  '' else "";
 cloudsdaleConfiguration =
   if options.cloudsdale then [ ./cloudsdale-configuration.nix ] else [];
 in
@@ -112,7 +117,7 @@ in
 
       # Turn on vi keybindings
       fish_vi_key_bindings
-    '';
+    '' + nicoleFish;
     shellInit = ''
       # Set the default editor
       export EDITOR=nvim
