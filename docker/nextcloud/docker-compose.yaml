@@ -26,12 +26,10 @@ services:
     restart: always
     ports:
       - 9980:9980
-    environment:
-      - server_name=collabora.dickson-family.com
-      - domain=collabora.dickson-family.com
-      - extra_params=--o:ssl.enable=false --o:ssl.termination=true
     cap_add:
       - MKNOD
+    volumes:
+      - /etc/nixos/docker/nextcloud/loolwsd.xml:/etc/loolwsd/loolwsd.xml
 
   app:
     image: nextcloud:fpm

@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+secrets = import ./secrets.nix;
+in
 {
   environment.systemPackages = with pkgs; [
   ];
@@ -28,7 +31,7 @@
   services.nginx = {
     enable = true;
     #sslProtocols = "TLSv1.1 TLSv1.2";
-    virtualHosts."nextcloud.dickson-family.com" = {
+    virtualHosts."nextcloud.${secrets.domainName}" = {
       forceSSL = true;
       #addSSL = true;
       enableACME = true;
@@ -36,20 +39,58 @@
         proxyPass = "http://127.0.0.1:8081";
       };
     };
-    virtualHosts."collabora.dickson-family.com" = {
+    virtualHosts."collabora.${secrets.domainName}" = {
       forceSSL = true;
       enableACME = true;
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:9980";
-        proxyWebsockets = true;
+      #locations."/" = {
+      locations."^~ /loleaflet" = {
+        proxyPass = "https://127.0.0.1:9980";
+	extraConfig = "proxy_set_header Host $host;";
       };
+      locations."^~ /hosting/discovery" = {
+        proxyPass = "https://127.0.0.1:9980";
+	extraConfig = "proxy_set_header Host $host;";
+      };
+      locations."^~ /hosting/capabilities" = {
+        proxyPass = "https://127.0.0.1:9980";
+	extraConfig = "proxy_set_header Host $host;";
+      };
+      locations."~ ^/lool/(.*)/ws$" = {
+        proxyPass = "https://127.0.0.1:9980";
+        proxyWebsockets = true;
+	extraConfig = ''
+	  proxy_set_header Host $host;
+	  proxy_read_timeout 36000s;
+	'';
+      };
+      locations."~ ^/lool" = {
+        proxyPass = "https://127.0.0.1:9980";
+	extraConfig = "proxy_set_header Host $host;";
+      };
+      locations."^~ /lool/adminws" = {
+        proxyPass = "https://127.0.0.1:9980";
+        proxyWebsockets = true;
+	extraConfig = ''
+	  proxy_set_header Host $host;
+	  proxy_read_timeout 36000s;
+	'';
+      };
+      locations."/" = {
+        proxyPass = "https://127.0.0.1:9980";
+        proxyWebsockets = true;
+	extraConfig = ''
+	  proxy_set_header Host $host;
+	  proxy_read_timeout 36000s;
+	'';
+      };
+
     };
   };
   security.acme = {
     acceptTerms = true;
     certs = {
-      "nextcloud.dickson-family.com".email = "lyndseyrd@gmail.com";
-      "collabora.dickson-family.com".email = "lyndseyrd@gmail.com";
+      "nextcloud.${secrets.domainName}".email = "lyndseyrd@gmail.com";
+      "collabora.${secrets.domainName}".email = "lyndseyrd@gmail.com";
     };
   };
 

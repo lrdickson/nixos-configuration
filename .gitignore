@@ -13,3 +13,6 @@ options.nix
 
 # environemt file to hold docker secrets
 docker/**/.env
+
+# secrets file
+secrets.nix
