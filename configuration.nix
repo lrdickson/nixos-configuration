@@ -176,7 +176,7 @@ in
       enable = true;
       allowReboot = false;
     };
-    stateVersion = "21.05";
+    stateVersion = "21.11";
     #stateVersion = "unstable";
   };
 }

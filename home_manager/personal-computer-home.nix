@@ -6,6 +6,7 @@
     discord
     etcher
     filezilla
+    gparted
     libreoffice
     qbittorrent
     reaper
