@@ -208,7 +208,7 @@ in
 
   # Starship settings
   programs.starship = {
-    enable = true;
+    enable = false;
     enableBashIntegration = false;
     settings = {
       character = if options.wsl then {

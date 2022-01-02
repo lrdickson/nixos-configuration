@@ -11,17 +11,17 @@
   networking.networkmanager.enable = true;
 
   # Setup x
-  programs.xwayland.enable = true;
+  #programs.xwayland.enable = true;
   services.xserver = {
     enable = true;
     desktopManager = {
-      cinnamon.enable = true;
+      #cinnamon.enable = true;
       #gnome.enable = true;
-      #plasma5.enable = true;
+      plasma5.enable = true;
       #xfce.enable = true;
       xterm.enable = false;
     };
-    displayManager.defaultSession = "cinnamon";
+    displayManager.defaultSession = "plasma";
     #displayManager.gdm.wayland = true;
     libinput.touchpad.tapping = false;
   };
@@ -54,8 +54,10 @@
     brave
     chromium
     firefox
+    libsForQt5.filelight
     libsForQt5.okular
     minecraft
+    nextcloud-client
     pinentry-gtk2
     qutebrowser
     sakura
