@@ -8,8 +8,6 @@ let
 options = import ./defaultOptions.nix // import ./options.nix;
 desktopConfiguration =
   if options.desktop then [ ./desktop-configuration.nix ] else [];
-homeManagerConfiguration =
-  if options.homeManager then [ ./home-manager-configuration.nix ] else [];
 hpPavilionConfiguration =
   if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
 nnn-git = pkgs.fetchFromGitHub {
@@ -35,7 +33,6 @@ in
       ./hardware-configuration.nix
     ] ++
     cloudsdaleConfiguration ++
-    homeManagerConfiguration ++
     hpPavilionConfiguration ++
     desktopConfiguration ++
     nicoleConfiguration;

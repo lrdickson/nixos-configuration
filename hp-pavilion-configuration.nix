@@ -26,22 +26,17 @@
     libreoffice
     qbittorrent
     reaper
-    vlc
-    zoom-us
     sakura
+    vlc
     zettlr
+    zoom-us
 
     # Terminal utilities
-    gnupg
-    nerdfonts # fonts for terminal
-    OVMF # uefi firmware for qemu
-    usbutils
-    qemu_full
-    dotnet-sdk
     file # Provide information about a file
+    gnupg
     html-tidy # Formatter for HTML
     mono # open source dotnet framework implementation
-    neofetch # Display a the distro logo
+    nerdfonts # fonts for terminal
     nnn # terminal file manager
     omnisharp-roslyn # C# linting engine
     pandoc # universal document converter
@@ -53,14 +48,17 @@
     sqlint
     universal-ctags
     unzip
+    usbutils
     w3m # terminal web browser
     zip
 
     # programming
     arduino
     arduino-cli
+    dotnet-sdk
     gcc
     gdb
+    nodejs
 
     # General rust development
     rust-analyzer
