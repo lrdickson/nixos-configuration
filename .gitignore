@@ -12,7 +12,7 @@ hardware-configuration.nix
 options.nix
 
 # environemt file to hold docker secrets
-docker/**/.env
+docker/**/*.env
 
 # secrets file
 secrets.nix
