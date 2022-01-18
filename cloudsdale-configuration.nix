@@ -5,7 +5,15 @@ secrets = import ./secrets.nix;
 in
 {
   environment.systemPackages = with pkgs; [
+    mailutils
   ];
+
+  services.cron = {
+    enable = true;
+    systemCronJobs = [
+      "0 2 * * *      root    /etc/nixos/cron/raid_notifications.sh"
+    ];
+  };
 
   # Setup networking
   networking.hostName = "cloudsdale";
@@ -22,6 +30,15 @@ in
     permitRootLogin = "no";
   };
 
+  services.ssmtp = {
+    enable = true;
+    authPassFile = "/run/keys/dicksonservergmail";
+    authUser = "dicksonserver@gmail.com";
+    hostName = "smtp.gmail.com:587";
+    useSTARTTLS = true;
+    useTLS = true;
+  };
+
   # Open ports in the firewall.
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 80 443 ];
@@ -36,6 +53,9 @@ in
       #addSSL = true;
       enableACME = true;
       locations."/" = {
+        extraConfig = ''
+          client_max_body_size 800M;
+	'';
         proxyPass = "http://127.0.0.1:8081";
       };
     };

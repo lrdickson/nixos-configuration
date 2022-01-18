@@ -1,1 +1,1 @@
-0 5 * * * /srv/minecraft_liberty_friends/backup.sh
+0 5 * * * root /srv/minecraft_liberty_friends/backup.sh
