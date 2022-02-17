@@ -10,7 +10,7 @@ services:
     restart: always
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --skip-innodb-read-only-compressed
     volumes:
-      - /data/nextcloud/mysql:/var/lib/mysql
+      - /data/data/nextcloud/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -39,7 +39,7 @@ services:
       - redis
     volumes:
       - /srv/nextcloud/custom_apps:/var/www/html/custom_apps
-      - /data/nextcloud/html:/var/www/html
+      - /data/data/nextcloud/html:/var/www/html
     environment:
       - OVERWRITEHOST=${NEXTCLOUD_HOST}
       - OVERWRITEPROTOCOL=https
