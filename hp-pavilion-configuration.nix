@@ -36,6 +36,7 @@
     gnupg
     html-tidy # Formatter for HTML
     mono # open source dotnet framework implementation
+    neovim-remote
     nerdfonts # fonts for terminal
     nnn # terminal file manager
     omnisharp-roslyn # C# linting engine
@@ -55,7 +56,9 @@
     # programming
     arduino
     arduino-cli
+    dart
     dotnet-sdk
+    flutter
     gcc
     gdb
     nodejs
