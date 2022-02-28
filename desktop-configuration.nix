@@ -56,25 +56,15 @@
     firefox
     libsForQt5.filelight
     libsForQt5.okular
-    minecraft
     nextcloud-client
     pinentry-gtk2
     qutebrowser
     sakura
 
-    # rust
-    cargo
-    rustc
-    rustup
-
     # pass
     pass
     qtpass
   ];
-
-  # Steam
-  programs.steam.enable = true;
-  hardware.opengl.driSupport32Bit = true;
 
   # Add Nix Flakes
   nix = {

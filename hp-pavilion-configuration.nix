@@ -20,10 +20,10 @@
   environment.systemPackages = with pkgs; [
     # Gui
     discord
-    etcher
     filezilla
     gparted
     libreoffice
+    minecraft
     qbittorrent
     reaper
     sakura
@@ -35,17 +35,14 @@
     file # Provide information about a file
     gnupg
     html-tidy # Formatter for HTML
-    mono # open source dotnet framework implementation
     neovim-remote
     nerdfonts # fonts for terminal
     nnn # terminal file manager
-    omnisharp-roslyn # C# linting engine
     pandoc # universal document converter
     python
     python39Packages.sqlparse # For vim SQL formatting
     ripgrep
     ripgrep-all
-    screen # terminal multiplexer
     sqlint
     universal-ctags
     unzip
@@ -56,25 +53,32 @@
     # programming
     arduino
     arduino-cli
-    dart
-    dotnet-sdk
-    flutter
     gcc
     gdb
     nodejs
 
-    # General rust development
+    # rust
+    cargo
     rust-analyzer
-
-    # Rust embedded development
-    cargo-binutils
-    cargo-generate
-    openocd
-
-    # Rust wasm
+    rustc
+    rustup
     wasm-pack
+
+    # flutter
+    clang
+    cmake
+    dart
+    flutter
+    gtk3
+    ninja
+    pkgconfig
 
     # latex support
     texlive.combined.scheme-small
   ];
+
+  # Steam
+  programs.steam.enable = true;
+  hardware.opengl.driSupport32Bit = true;
+
 }
