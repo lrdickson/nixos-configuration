@@ -88,6 +88,8 @@ in
     htop
     neovim
     nnn
+    psmisc # killall and others
+    smartmontools # hard drive health monitoring
     tcpdump
     vim
     wget
@@ -122,6 +124,9 @@ in
       # Source fish_init_extra if it exists
       if test -f "$HOME/.fish_init_extra"
         . "$HOME/.fish_init_extra"
+      end
+      if test -f "$HOME/.fishrc"
+        . "$HOME/.fishrc"
       end
     '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
   };
@@ -173,7 +178,7 @@ in
       enable = true;
       allowReboot = false;
     };
-    stateVersion = "21.11";
+    stateVersion = "22.05";
     #stateVersion = "unstable";
   };
 }

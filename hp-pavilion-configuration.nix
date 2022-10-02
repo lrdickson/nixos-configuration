@@ -6,11 +6,11 @@
     # kernelPackages = pkgs.linuxPackages_testing;
     # The rtw88_8821ce module kind of stinks
     blacklistedKernelModules = [
-      "rtw88_8821ce"
+      #"rtw88_8821ce"
     ];
     extraModulePackages = [
       #pkgs.linuxPackages_latest.rtl8821ce
-      pkgs.linuxPackages.rtl8821ce
+      #pkgs.linuxPackages_zen.rtl8821ce
     ];
     #kernelPackages = pkgs.linuxPackages_latest;
   };
@@ -28,6 +28,8 @@
     reaper
     sakura
     vlc
+    wineWowPackages.stable
+    mono
     zettlr
     zoom-us
 
@@ -39,6 +41,7 @@
     nerdfonts # fonts for terminal
     nnn # terminal file manager
     pandoc # universal document converter
+    poppler_utils
     python
     python39Packages.sqlparse # For vim SQL formatting
     ripgrep
@@ -55,6 +58,8 @@
     arduino-cli
     gcc
     gdb
+    nim
+    nimlsp # nim language server
     nodejs
 
     # rust
@@ -72,6 +77,7 @@
     gtk3
     ninja
     pkgconfig
+    virtualgl # for viewing GL over ssh
 
     # latex support
     texlive.combined.scheme-small
@@ -81,4 +87,14 @@
   programs.steam.enable = true;
   hardware.opengl.driSupport32Bit = true;
 
+  # Testing go libp2p chat
+  networking.firewall.allowedTCPPorts = [ 3001 ];
+
+  # Nix flakes
+  nix = {
+    package = pkgs.nixFlakes;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
 }

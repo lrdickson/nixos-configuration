@@ -8,6 +8,8 @@
       "audio" ];
   };
 
+  boot.kernelPackages = pkgs.linuxPackages_zen;
+
   networking.networkmanager.enable = true;
 
   # Setup x
@@ -16,16 +18,19 @@
     enable = true;
     desktopManager = {
       #cinnamon.enable = true;
-      #gnome.enable = true;
-      plasma5.enable = true;
+      gnome.enable = true;
+      #plasma5.enable = true;
       #xfce.enable = true;
       xterm.enable = false;
     };
-    displayManager.defaultSession = "plasma";
+    displayManager.gdm.enable = true;
+    displayManager.defaultSession = "gnome";
     #displayManager.gdm.wayland = true;
     libinput.touchpad.tapping = false;
   };
   hardware.opengl.enable = true;
+  hardware.bluetooth.enable = true;
+  #extraPackages = [ pkgs.mesa.drivers ];
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -43,12 +48,19 @@
   };
   nixpkgs.config.pulseaudio = true;
 
+  # Gnome settings daemon
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+
   environment.systemPackages = with pkgs; [
     # NTFS driver
     ntfs3g
 
     # Terminal applications
     xclip
+
+    # Gnome extensions
+    gnomeExtensions.appindicator
+    gnomeExtensions.dash-to-dock
 
     # Desktop stuff
     brave
@@ -64,13 +76,15 @@
     # pass
     pass
     qtpass
+
+    glxinfo # GL testing
   ];
 
   # Add Nix Flakes
-  nix = {
-    package = pkgs.nixUnstable;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-   };
+  #nix = {
+    #package = pkgs.nixUnstable;
+    #extraOptions = ''
+      #experimental-features = nix-command flakes
+    #'';
+   #};
 }
