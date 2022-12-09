@@ -73,7 +73,10 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lyn = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "scanner" "lp" # Needed to allow scanning
+  ];
   };
 
   # Allow unfree packages
@@ -84,8 +87,10 @@ in
   environment.systemPackages = with pkgs; [
     docker-compose
     efibootmgr
+    fzf
     git
     htop
+    ncurses # for moe text editor
     neovim
     nnn
     psmisc # killall and others

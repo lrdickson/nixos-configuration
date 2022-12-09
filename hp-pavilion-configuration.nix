@@ -30,12 +30,14 @@
     vlc
     wineWowPackages.stable
     mono
+    pinta # paint application
     zettlr
     zoom-us
 
     # Terminal utilities
     file # Provide information about a file
     gnupg
+    home-manager
     html-tidy # Formatter for HTML
     neovim-remote
     nerdfonts # fonts for terminal
@@ -84,7 +86,11 @@
   ];
 
   # Steam
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
   hardware.opengl.driSupport32Bit = true;
 
   # Testing go libp2p chat

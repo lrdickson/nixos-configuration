@@ -18,13 +18,14 @@
     enable = true;
     desktopManager = {
       #cinnamon.enable = true;
-      gnome.enable = true;
+      #gnome.enable = true;
       #plasma5.enable = true;
-      #xfce.enable = true;
+      xfce.enable = true;
       xterm.enable = false;
     };
-    displayManager.gdm.enable = true;
-    displayManager.defaultSession = "gnome";
+    #displayManager.gdm.enable = true;
+    #displayManager.defaultSession = "gnome";
+    displayManager.defaultSession = "xfce";
     #displayManager.gdm.wayland = true;
     libinput.touchpad.tapping = false;
   };
@@ -38,6 +39,14 @@
     drivers = [ pkgs.hplipWithPlugin ];
   };
   programs.system-config-printer.enable = true;
+
+  # Enable scanning
+  hardware.sane = {
+    enable = true;
+    extraBackends = [ pkgs.hplipWithPlugin ];
+  };
+  services.avahi.enable = true;
+  services.avahi.nssmdns = true;
 
   # Enable sound.
   sound.enable = true;
@@ -72,6 +81,8 @@
     pinentry-gtk2
     qutebrowser
     sakura
+    xsane # For scanning
+    gnome.simple-scan
 
     # pass
     pass
