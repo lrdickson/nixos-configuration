@@ -15,6 +15,14 @@
   networking.firewall.allowedUDPPorts = [ 25565 ];
   networking.firewall.enable = true;
 
+  # Steam
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
+  hardware.opengl.driSupport32Bit = true;
+
   # minecraft startup
   systemd.services.dockerMinecraft = {
     description = "Minecraft running inside Docker Compose";
