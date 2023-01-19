@@ -6,6 +6,8 @@
 
 let
 options = import ./defaultOptions.nix // import ./options.nix;
+hardwareConfiguration =
+  if options.hardware then [ ./hardware-configuration.nix ] else [];
 desktopConfiguration =
   if options.desktop then [ ./desktop-configuration.nix ] else [];
 hpPavilionConfiguration =
@@ -25,22 +27,25 @@ nicoleFish = if options.nicole then ''
   '' else "";
 cloudsdaleConfiguration =
   if options.cloudsdale then [ ./cloudsdale-configuration.nix ] else [];
+piConfiguration =
+  if options.pi then [ ./pi-configuration.nix ] else [];
+isIntel = ! options.pi;
 in
 {
   imports =
     [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
     ] ++
+    hardwareConfiguration ++
     cloudsdaleConfiguration ++
     hpPavilionConfiguration ++
     desktopConfiguration ++
-    nicoleConfiguration;
+    nicoleConfiguration ++
+    piConfiguration;
 
   boot = {
     loader = {
       # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = true;
+      systemd-boot.enable = !options.pi;
       efi.canTouchEfiVariables = true;
 
       # Automatically detect other OS
@@ -172,7 +177,7 @@ in
   # networking.firewall.enable = false;
 
   # Security
-  hardware.cpu.intel.updateMicrocode = true;
+  hardware.cpu.intel.updateMicrocode = isIntel;
   #services.clamav = {
     #daemon.enable = true;
     #updater.enable = true;
