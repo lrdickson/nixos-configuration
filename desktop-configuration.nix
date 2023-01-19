@@ -68,8 +68,11 @@
     xclip
 
     # Gnome extensions
-    gnomeExtensions.appindicator
-    gnomeExtensions.dash-to-dock
+    #gnomeExtensions.appindicator
+    #gnomeExtensions.dash-to-dock
+
+    # xfce
+    xfce.xfce4-whiskermenu-plugin
 
     # Desktop stuff
     brave

@@ -145,7 +145,7 @@ in
   virtualisation.docker.enable = true;
 
   # IFPS
-  services.ipfs.enable = true;
+  #services.ipfs.enable = true;
 
   # Tmux configuration
   programs.tmux = {

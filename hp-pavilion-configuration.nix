@@ -83,6 +83,10 @@
 
     # latex support
     texlive.combined.scheme-small
+
+    nixos-generators
+
+    airshipper
   ];
 
   # Steam
@@ -95,6 +99,13 @@
 
   # Testing go libp2p chat
   networking.firewall.allowedTCPPorts = [ 3001 ];
+
+  # virtualbox
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "lyn" ];
+
+  # Enable binfmt emulation of aarch64-linux.
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Nix flakes
   nix = {
