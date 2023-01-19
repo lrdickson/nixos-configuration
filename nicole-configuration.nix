@@ -39,5 +39,22 @@
       TimeoutStartSec = "0";
     };
   };
+
+  # veloren startup
+  systemd.services.dockerVeloren = {
+    description = "Veloren running inside Docker Compose";
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
+    wantedBy = [ "multi-user.target" ]; # causes service to run at startup
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      WorkingDirectory = "/etc/nixos/docker/veloren";
+      ExecStartPre = "${pkgs.docker-compose}/bin/docker-compose down";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+      TimeoutStartSec = "0";
+    };
+  };
 }
 

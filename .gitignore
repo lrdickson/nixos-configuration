@@ -16,3 +16,6 @@ docker/**/*.env
 
 # secrets file
 secrets.nix
+
+# veloren user data
+docker/veloren/userdata/
