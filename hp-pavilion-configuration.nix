@@ -1,5 +1,7 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, stdenv, fetchFromGitHub, fetchgit, ... }:
+let
+  myvlang= pkgs.callPackage ./vlang.nix {};
+in
 {
   boot = {
     # Use newer kernel for wifi support
@@ -19,28 +21,31 @@
 
   environment.systemPackages = with pkgs; [
     # Gui
+    airshipper
+    bitwarden
     discord
-    filezilla
+    #filezilla
     gparted
     libreoffice
     minecraft
     qbittorrent
-    reaper
     sakura
     vlc
     wineWowPackages.stable
     mono
     pinta # paint application
-    zettlr
+    zettlr # markdown editor
     zoom-us
 
     # Terminal utilities
+    bitwarden-cli
     file # Provide information about a file
     gnupg
-    home-manager
+    #home-manager
     html-tidy # Formatter for HTML
     neovim-remote
     nerdfonts # fonts for terminal
+    #nixos-generators
     nnn # terminal file manager
     pandoc # universal document converter
     poppler_utils
@@ -49,6 +54,7 @@
     ripgrep
     ripgrep-all
     sqlint
+    texlive.combined.scheme-small # latex support
     universal-ctags
     unzip
     usbutils
@@ -56,38 +62,39 @@
     zip
 
     # programming
-    arduino
-    arduino-cli
+    #arduino
+    #arduino-cli
     gcc
     gdb
+    go
     nim
     nimlsp # nim language server
     nodejs
+    myvlang
 
     # rust
-    cargo
-    rust-analyzer
-    rustc
-    rustup
-    wasm-pack
+    #cargo
+    #rust-analyzer
+    #rustc
+    #rustup
+    #wasm-pack
 
     # flutter
-    clang
-    cmake
-    dart
-    flutter
-    gtk3
-    ninja
-    pkgconfig
-    virtualgl # for viewing GL over ssh
+    #clang
+    #cmake
+    #dart
+    #flutter
+    #gtk3
+    #ninja
+    #pkgconfig
+    #virtualgl # for viewing GL over ssh
 
-    # latex support
-    texlive.combined.scheme-small
-
-    nixos-generators
-
-    airshipper
   ];
+
+  # Flatpak
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
   # Steam
   programs.steam = {
@@ -114,4 +121,21 @@
       experimental-features = nix-command flakes
     '';
   };
+
+  # ubuntu container
+  #systemd.services.ubuntu = {
+    #description = "Ubuntu container running inside Docker Compose";
+    #after = [ "docker.service" ];
+    #requires = [ "docker.service" ];
+    #wantedBy = [ "multi-user.target" ]; # causes service to run at startup
+    #serviceConfig = {
+      #Type = "oneshot";
+      #RemainAfterExit = "yes";
+      #WorkingDirectory = "/etc/nixos/docker/ubuntu";
+      #ExecStartPre = "${pkgs.docker-compose}/bin/docker-compose down";
+      #ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
+      #ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+      #TimeoutStartSec = "0";
+    #};
+  #};
 }
