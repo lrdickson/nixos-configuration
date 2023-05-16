@@ -31,10 +31,10 @@ in
     qbittorrent
     sakura
     vlc
-    wineWowPackages.stable
-    mono
+    #wineWowPackages.stable
+    #mono
     pinta # paint application
-    zettlr # markdown editor
+    #zettlr # markdown editor
     zoom-us
 
     # Terminal utilities
@@ -43,8 +43,8 @@ in
     gnupg
     #home-manager
     html-tidy # Formatter for HTML
-    neovim-remote
-    nerdfonts # fonts for terminal
+    #neovim-remote
+    #nerdfonts # fonts for terminal
     #nixos-generators
     nnn # terminal file manager
     pandoc # universal document converter
@@ -64,13 +64,14 @@ in
     # programming
     #arduino
     #arduino-cli
+    cloc
     gcc
     gdb
     go
     nim
     nimlsp # nim language server
-    nodejs
-    myvlang
+    nodejs # needed for Coc
+    #myvlang
 
     # rust
     #cargo

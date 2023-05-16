@@ -1,45 +1,47 @@
 { lib,
-  stdenv,
-  fetchFromGitHub,
-  fetchFromRepoOrCz,
-  fetchgit,
-  boehmgc,
-  enableLargeConfig ? false,
-  enableMmap ? true,
-  freetype,
-  glfw,
-  makeWrapper,
-  openssl,
-  tinycc,
-  upx,
-  xorg
+stdenv,
+fetchFromGitHub,
+fetchFromRepoOrCz,
+fetchgit,
+binaryen,
+boehmgc,
+enableLargeConfig ? false,
+enableMmap ? true,
+freetype,
+glfw,
+makeWrapper,
+openssl,
+sqlite,
+tinycc,
+upx,
+xorg
 }:
 
 stdenv.mkDerivation rec {
   pname = "vlang";
-  version = "nightly";
+  version = "0.3.4";
 
   src = fetchFromGitHub {
     owner = "vlang";
     repo = "v";
-    rev = "858ce4e35dc5680a4dc3b7ab3e867862e5b7ced7";
-    sha256 = "sha256-mlosFlGiv11dUbO1ZyL8boPyaOqygAV36tL2CXeDcns=";
+    rev = "${version}";
+    sha256 = "sha256-JENb+9mKixHWwVgj+RuH6OWns7murWc4zovEZ/YJCuc=";
   };
 
   # Required for bootstrap.
   vc = fetchFromGitHub {
     owner = "vlang";
     repo = "vc";
-    rev = "b6fe48631661061e7dcd832276ff0abe65c73573";
-    sha256 = "sha256-Im0lrfs43ZQanYl5Q9cZXmq+NcRC5e1fOMRVVU5mE7E=";
+    rev = "6be6daffdbd8227595aea70cc981bf4c634decb7";
+    sha256 = "sha256-j4qkGvnyTEC1BFFNXo++vIQvFNhSkxCOCEU7fvYPE7s=";
   };
 
   # Required for vdoc.
   markdown = fetchFromGitHub {
     owner = "vlang";
     repo = "markdown";
-    rev = "014724a2e35c0a7e46ea9cc91f5a303f2581b62c";
-    sha256 = "sha256-jsL3m6hzNgQPKrQQhnb9mMELK1vYhvyS62sRBRwQ9CE=";
+    rev = "6e970bd0a7459ad7798588f1ace4aa46c5e789a2";
+    sha256 = "sha256-hFf7c8ZNMU1j7fgmDakuO7tBVr12Wq0dgQddJnkMajE=";
   };
 
   vlangtinycc = tinycc.overrideAttrs (finalAttrs: previousAttrs: {
@@ -59,7 +61,7 @@ stdenv.mkDerivation rec {
       "--enable-cross"
 
       # vlang tinycc flags
-      #"--extra-cflags=-03" # Hopefully this isn't critical
+      "--extra-cflags=-O3"
       "--config-bcheck=yes"
       "--config-backtrace=yes"
       "--debug"
@@ -84,11 +86,22 @@ stdenv.mkDerivation rec {
     ++ lib.optional enableLargeConfig "--enable-large-config";
   });
 
+  vlangbinaryen = binaryen.overrideAttrs (finalAttrs: previousAttrs: {
+    version = "112";
+    src = fetchFromGitHub {
+      owner = "WebAssembly";
+      repo = "binaryen";
+      rev = "version_${vlangbinaryen.version}";
+      sha256 = "sha256-xVumVmiLMHJp3SItE8eL8OBPeq58HtOOiK9LL8SP4CQ=";
+    };
+    patches = [];
+  });
+
   # The included vsh scripts with shebangs aren't critical for most development
   dontPatchShebangs = 1;
 
-  propagatedBuildInputs = [ glfw freetype openssl ]
-    ++ lib.optional stdenv.hostPlatform.isUnix upx;
+  propagatedBuildInputs = [ glfw freetype openssl sqlite ]
+  ++ lib.optional stdenv.hostPlatform.isUnix upx;
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -104,7 +117,13 @@ stdenv.mkDerivation rec {
     mkdir -p thirdparty/tcc/lib
     ln -s ${vlangtinycc}/bin/tcc thirdparty/tcc/tcc.exe
     ln -s ${vlangtinycc}/lib/tcc/libtcc1.a thirdparty/tcc/lib/libtcc.a
+
     ln -s ${libgc}/lib/libgc.a thirdparty/tcc/lib/
+
+    mkdir -p thirdparty/binaryen
+    ln -s ${vlangbinaryen}/bin/ thirdparty/binaryen/bin
+    ln -s ${vlangbinaryen}/lib/ thirdparty/binaryen/lib
+    ln -s ${vlangbinaryen}/include/ thirdparty/binaryen/include
   '';
 
   # vcreate_test.v requires git, so we must remove it when building the tools.
@@ -119,31 +138,30 @@ stdenv.mkDerivation rec {
     runHook preInstall
     mkdir -p $out/{bin,lib,share}
     cp -r examples $out/share
-    cp -r {cmd,vlib,thirdparty} $out/lib
-    cp v $out/lib
-    ln -s $out/lib/v $out/bin/v
-    wrapProgram $out/bin/v --prefix PATH : ${lib.makeBinPath [ stdenv.cc ]}
+    cp -r {cmd,vlib,thirdparty} $out/bin
+    cp v $out/bin
     mkdir -p $HOME/.vmodules;
     ln -sf ${markdown} $HOME/.vmodules/markdown
-    $out/lib/v -v build-tools
-    $out/lib/v -v $out/lib/cmd/tools/vdoc
-    $out/lib/v -v $out/lib/cmd/tools/vast
-    $out/lib/v -v $out/lib/cmd/tools/vvet
+    $out/bin/v -v build-tools
+    $out/bin/v -v $out/bin/cmd/tools/vcreate
+    $out/bin/v -v $out/bin/cmd/tools/vdoc
+    $out/bin/v -v $out/bin/cmd/tools/vast
+    $out/bin/v -v $out/bin/cmd/tools/vvet
     runHook postInstall
   '';
 
   # Return vcreate_test.v and vtest.v, so the user can use it.
   postInstall = ''
-    cp $HOME/vcreate_test.v $out/lib/cmd/tools/vcreate_test.v
+    cp $HOME/vcreate_test.v $out/bin/cmd/tools/vcreate_test.v
   '' + lib.optionalString stdenv.isDarwin ''
-    cp $HOME/vtest.v $out/lib/cmd/tools/vtest.v
+    cp $HOME/vtest.v $out/bin/cmd/tools/vtest.v
   '';
 
   meta = with lib; {
     homepage = "https://vlang.io/";
     description = "Simple, fast, safe, compiled language for developing maintainable software";
     license = licenses.mit;
-    maintainers = with maintainers; [ Madouura ];
+    #maintainers = with maintainers; [ Madouura ];
     mainProgram = "v";
     platforms = platforms.all;
   };

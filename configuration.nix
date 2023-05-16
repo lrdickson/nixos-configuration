@@ -185,10 +185,10 @@ in
   #};
 
   system = {
-    autoUpgrade = {
-      enable = true;
-      allowReboot = false;
-    };
+    #autoUpgrade = {
+      #enable = true;
+      #allowReboot = false;
+    #};
     stateVersion = "22.11";
     #stateVersion = "unstable";
   };
