@@ -3,6 +3,19 @@ let
   myvlang= pkgs.callPackage ./vlang.nix {};
 in
 {
+  fileSystems = {
+    "/".options = [ "compress=zstd" ];
+    "/home".options = [ "compress=zstd" ];
+    "/nix".options = [ "compress=zstd" "noatime" ];
+  };
+
+  boot.initrd.luks.devices = {
+      root = {
+        device = "/dev/disk/by-uuid/303d4899-b2dd-4bb6-9950-4c834f10ba9a";
+        preLVM = true;
+      };
+  };
+
   boot = {
     # Use newer kernel for wifi support
     # kernelPackages = pkgs.linuxPackages_testing;

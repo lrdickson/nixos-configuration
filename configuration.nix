@@ -45,12 +45,23 @@ in
   boot = {
     loader = {
       # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = !options.pi;
+      systemd-boot.enable = !options.pi && !options.luks;
       efi.canTouchEfiVariables = true;
-
-      # Automatically detect other OS
-      grub.useOSProber = options.multiboot;
     };
+  };
+
+  boot.loader.grub = if options.luks then {
+    enable = true;
+    version = 2;
+    device = "nodev";
+    efiSupport = true;
+    enableCryptodisk = true;
+
+    # Automatically detect other OS
+    useOSProber = options.multiboot;
+  } else {
+    # Automatically detect other OS
+    useOSProber = options.multiboot;
   };
 
   # Set your time zone.
@@ -81,7 +92,7 @@ in
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "scanner" "lp" # Needed to allow scanning
-  ];
+    ];
   };
 
   # Allow unfree packages
