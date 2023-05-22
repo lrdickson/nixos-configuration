@@ -12,23 +12,39 @@
 
   networking.networkmanager.enable = true;
 
+  # hyprland
+  programs.hyprland = {
+    enable = true;
+
+    xwayland = {
+      enable = true;
+      hidpi = false;
+    };
+
+    nvidiaPatches = false;
+  };
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  xdg.portal.wlr.enable = true;
+  security.polkit.enable = true;
+
   # Setup x
   #programs.xwayland.enable = true;
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      #cinnamon.enable = true;
-      #gnome.enable = true;
-      #plasma5.enable = true;
-      xfce.enable = true;
-      xterm.enable = false;
-    };
-    #displayManager.gdm.enable = true;
-    #displayManager.defaultSession = "gnome";
-    displayManager.defaultSession = "xfce";
-    #displayManager.gdm.wayland = true;
-    libinput.touchpad.tapping = false;
-  };
+  #services.xserver = {
+    #enable = true;
+    #desktopManager = {
+      ##cinnamon.enable = true;
+      ##gnome.enable = true;
+      ##plasma5.enable = true;
+      #xfce.enable = true;
+      #xterm.enable = false;
+    #};
+    ##displayManager.gdm.enable = true;
+    ##displayManager.defaultSession = "gnome";
+    #displayManager.defaultSession = "xfce";
+    ##displayManager.gdm.wayland = true;
+    #libinput.touchpad.tapping = false;
+  #};
   hardware.opengl.enable = true;
   hardware.bluetooth.enable = true;
   #extraPackages = [ pkgs.mesa.drivers ];
@@ -58,8 +74,10 @@
   nixpkgs.config.pulseaudio = true;
 
   # Gnome settings daemon
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  #services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
+  # xbacklight doesn't work with wayland
+  programs.light.enable = true;
   environment.systemPackages = with pkgs; [
     # NTFS driver
     ntfs3g
@@ -72,26 +90,38 @@
     #gnomeExtensions.dash-to-dock
 
     # xfce
-    xfce.xfce4-whiskermenu-plugin
+    #xfce.xfce4-whiskermenu-plugin
+
+    # hyprland
+    foot
+    font-awesome
+    mako # wayland notification daemon
+    waybar
+    wofi # wayland app launcher
+    libsForQt5.polkit-kde-agent # Authentication agent
 
     # Desktop stuff
-    brave
-    chromium
-    firefox
-    libsForQt5.filelight
-    libsForQt5.okular
-    nextcloud-client
+    #brave
+    #chromium
+    #firefox
+    #libsForQt5.filelight
+    #libsForQt5.okular
+    #nextcloud-client
     pinentry-gtk2
-    qutebrowser
-    sakura
-    xsane # For scanning
-    gnome.simple-scan
-
-    # pass
-    pass
-    qtpass
+    #qutebrowser
+    #sakura
+    #xsane # For scanning
+    #gnome.simple-scan
 
     glxinfo # GL testing
+  ];
+
+  fonts.fonts = with pkgs; [
+    cantarell-fonts
+    noto-fonts
+    nerdfonts
+
+    font-awesome
   ];
 
   # Add Nix Flakes

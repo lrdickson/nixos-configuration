@@ -92,6 +92,7 @@ in
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "scanner" "lp" # Needed to allow scanning
+      "video"
     ];
   };
 
@@ -104,6 +105,7 @@ in
     #btrfs-progs
     docker-compose
     efibootmgr
+    emacs
     fzf
     git
     htop
@@ -113,7 +115,7 @@ in
     psmisc # killall and others
     smartmontools # hard drive health monitoring
     tcpdump
-    vim
+    #vim
     wget
   ];
 

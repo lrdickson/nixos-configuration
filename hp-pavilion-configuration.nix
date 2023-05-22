@@ -34,39 +34,39 @@ in
 
   environment.systemPackages = with pkgs; [
     # Gui
-    airshipper
-    bitwarden
-    discord
+    #airshipper
+    #bitwarden
+    #discord
     #filezilla
     gparted
-    libreoffice
-    minecraft
-    qbittorrent
+    #libreoffice
+    #minecraft
+    #qbittorrent
     sakura
-    vlc
+    #vlc
     #wineWowPackages.stable
     #mono
-    pinta # paint application
+    #pinta # paint application
     #zettlr # markdown editor
-    zoom-us
+    #zoom-us
 
     # Terminal utilities
     bitwarden-cli
     file # Provide information about a file
     gnupg
     #home-manager
-    html-tidy # Formatter for HTML
+    #html-tidy # Formatter for HTML
     #neovim-remote
     #nerdfonts # fonts for terminal
     #nixos-generators
     nnn # terminal file manager
     pandoc # universal document converter
     poppler_utils
-    python
-    python39Packages.sqlparse # For vim SQL formatting
+    #python
+    #python39Packages.sqlparse # For vim SQL formatting
     ripgrep
     ripgrep-all
-    sqlint
+    #sqlint
     texlive.combined.scheme-small # latex support
     universal-ctags
     unzip
@@ -78,11 +78,11 @@ in
     #arduino
     #arduino-cli
     cloc
-    gcc
-    gdb
-    go
-    nim
-    nimlsp # nim language server
+    #gcc
+    #gdb
+    #go
+    #nim
+    #nimlsp # nim language server
     nodejs # needed for Coc
     #myvlang
 
@@ -122,11 +122,11 @@ in
   networking.firewall.allowedTCPPorts = [ 3001 ];
 
   # virtualbox
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "lyn" ];
+  #virtualisation.virtualbox.host.enable = true;
+  #users.extraGroups.vboxusers.members = [ "lyn" ];
 
   # Enable binfmt emulation of aarch64-linux.
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  #boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Nix flakes
   nix = {
