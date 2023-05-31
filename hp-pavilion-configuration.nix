@@ -81,10 +81,9 @@ in
     #gcc
     #gdb
     #go
-    #nim
-    #nimlsp # nim language server
     nodejs # needed for Coc
     #myvlang
+    zig
 
     # rust
     #cargo
@@ -129,12 +128,12 @@ in
   #boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Nix flakes
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-  };
+  #nix = {
+    #package = pkgs.nixFlakes;
+    #extraOptions = ''
+      #experimental-features = nix-command flakes
+    #'';
+  #};
 
   # ubuntu container
   #systemd.services.ubuntu = {
