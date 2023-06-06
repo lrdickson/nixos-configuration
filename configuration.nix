@@ -12,6 +12,8 @@ desktopConfiguration =
   if options.desktop then [ ./desktop-configuration.nix ] else [];
 hpPavilionConfiguration =
   if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
+hyprlandConfiguration =
+  if options.hpPavilion then [ ./hyprland-configuration.nix ] else [];
 nnn-git = pkgs.fetchFromGitHub {
   owner = "jarun";
   repo = "nnn";
@@ -38,6 +40,7 @@ in
     hardwareConfiguration ++
     cloudsdaleConfiguration ++
     hpPavilionConfiguration ++
+    hyprlandConfiguration ++
     desktopConfiguration ++
     nicoleConfiguration ++
     piConfiguration;
@@ -52,7 +55,6 @@ in
 
   boot.loader.grub = if options.luks then {
     enable = true;
-    version = 2;
     device = "nodev";
     efiSupport = true;
     enableCryptodisk = true;

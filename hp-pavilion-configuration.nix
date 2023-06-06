@@ -38,19 +38,22 @@ in
     #bitwarden
     #discord
     #filezilla
+    gnome.gnome-software # software manager - here for flatpak
     gparted
     #libreoffice
     #minecraft
     #qbittorrent
-    sakura
+    #sakura
     #vlc
     #wineWowPackages.stable
     #mono
+    nextcloud-client # The flatpak version can't open browsers
     #pinta # paint application
     #zettlr # markdown editor
     #zoom-us
 
     # Terminal utilities
+    acpi # battery monitoring cli
     bitwarden-cli
     file # Provide information about a file
     gnupg
@@ -84,6 +87,7 @@ in
     nodejs # needed for Coc
     #myvlang
     zig
+    zls # zig language server
 
     # rust
     #cargo
@@ -91,16 +95,6 @@ in
     #rustc
     #rustup
     #wasm-pack
-
-    # flutter
-    #clang
-    #cmake
-    #dart
-    #flutter
-    #gtk3
-    #ninja
-    #pkgconfig
-    #virtualgl # for viewing GL over ssh
 
   ];
 
@@ -117,38 +111,33 @@ in
   };
   hardware.opengl.driSupport32Bit = true;
 
-  # Testing go libp2p chat
-  networking.firewall.allowedTCPPorts = [ 3001 ];
+  xdg.mime = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+    };
+  };
+
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      #dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      #defaultNetwork.dnsname.enable = true;
+      # For Nixos version > 22.11
+      defaultNetwork.settings = {
+        dns_enabled = true;
+      };
+    };
+  };
 
   # virtualbox
   #virtualisation.virtualbox.host.enable = true;
   #users.extraGroups.vboxusers.members = [ "lyn" ];
 
   # Enable binfmt emulation of aarch64-linux.
-  #boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  # Nix flakes
-  #nix = {
-    #package = pkgs.nixFlakes;
-    #extraOptions = ''
-      #experimental-features = nix-command flakes
-    #'';
-  #};
-
-  # ubuntu container
-  #systemd.services.ubuntu = {
-    #description = "Ubuntu container running inside Docker Compose";
-    #after = [ "docker.service" ];
-    #requires = [ "docker.service" ];
-    #wantedBy = [ "multi-user.target" ]; # causes service to run at startup
-    #serviceConfig = {
-      #Type = "oneshot";
-      #RemainAfterExit = "yes";
-      #WorkingDirectory = "/etc/nixos/docker/ubuntu";
-      #ExecStartPre = "${pkgs.docker-compose}/bin/docker-compose down";
-      #ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
-      #ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
-      #TimeoutStartSec = "0";
-    #};
-  #};
 }

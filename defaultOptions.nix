@@ -3,6 +3,7 @@
   cloudsdale = false;
   desktop = false;
   hpPavilion = false;
+  hyprland = false;
   luks = false;
   multiboot = false;
   nicole = false;
