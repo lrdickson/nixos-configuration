@@ -111,6 +111,7 @@ in
     fzf
     git
     htop
+    kakoune
     #ncurses # for moe text editor
     neovim
     nnn

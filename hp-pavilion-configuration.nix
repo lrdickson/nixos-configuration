@@ -32,6 +32,8 @@ in
 
   networking.hostName = "hpbox";
 
+  services.udisks2.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Gui
     #airshipper
@@ -55,6 +57,7 @@ in
     # Terminal utilities
     acpi # battery monitoring cli
     bitwarden-cli
+    cargo
     file # Provide information about a file
     gnupg
     #home-manager
@@ -83,7 +86,8 @@ in
     cloc
     #gcc
     #gdb
-    #go
+    go
+    gopls
     nodejs # needed for Coc
     #myvlang
     zig
