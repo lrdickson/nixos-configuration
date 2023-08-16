@@ -56,6 +56,7 @@
     # Terminal applications
     distrobox
     xclip
+    xorg.xhost # For allowing root applications to display GUIs
 
     # xfce
     #xfce.xfce4-whiskermenu-plugin

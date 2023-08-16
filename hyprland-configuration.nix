@@ -5,7 +5,7 @@ let
   xdph-cfg = {};
   iniSettingsFormat = pkgs.formats.ini { };
   xdphConfigFile = iniSettingsFormat.generate "xdg-desktop-portal-wlr.ini" xdph-cfg;
-  waybarHyperland = builtins.getFlake "github:hyprwm/hyprland";
+  # waybarHyperland = builtins.getFlake "github:hyprwm/hyprland";
   #waybar-hyprland = pkgs.waybar.overrideAttrs (finalAttrs: previousAttrs: {
     #version = "nightly";
     #src = pkgs.fetchFromGitHub {
@@ -21,6 +21,7 @@ let
       #"-Dexperimental=true"
     #];
   #});
+  myeww = pkgs.callPackage ./eww.nix {};
 in
 {
   # hyprland
@@ -43,7 +44,7 @@ in
     "${xdph}/libexec/xdg-desktop-portal-wlr --config=${xdphConfigFile}"
   ];
 
-  nixpkgs.overlays = [waybarHyperland.overlays.default];
+  # nixpkgs.overlays = [waybarHyperland.overlays.default];
   # xbacklight doesn't work with wayland
   programs.light.enable = true;
   environment.systemPackages = with pkgs; [
@@ -53,9 +54,15 @@ in
     mako # wayland notification daemon
     swayidle
     swaylock
-    waybar-hyprland
+    # waybar-hyprland
     wofi # wayland app launcher
     libsForQt5.polkit-kde-agent # Authentication agent
+
+    # Packages for eww
+    eww-wayland
+    python3
+    jq
+    socat
   ];
 
   # Add Nix Flakes

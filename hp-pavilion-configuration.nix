@@ -3,6 +3,8 @@ let
   myvlang= pkgs.callPackage ./vlang.nix {};
 in
 {
+  imports = [ ./hyprland-configuration.nix ];
+
   fileSystems = {
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];
@@ -84,14 +86,17 @@ in
     #arduino
     #arduino-cli
     cloc
+    clang
+    flutter
     #gcc
     #gdb
     go
     gopls
+    gotools
     nodejs # needed for Coc
     #myvlang
-    zig
-    zls # zig language server
+    # zig
+    # zls # zig language server
 
     # rust
     #cargo

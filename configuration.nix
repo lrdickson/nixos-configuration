@@ -104,58 +104,42 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    #btrfs-progs
+    aspell # for kakoune spell
+    aspellDicts.en
+    carapace # Shell completion
     docker-compose
     efibootmgr
+    elvish
     emacs
     fzf
     git
     htop
     kakoune
-    #ncurses # for moe text editor
     neovim
     nnn
+    nushell
+    oh-my-posh
     psmisc # killall and others
     smartmontools # hard drive health monitoring
     tcpdump
-    #vim
     wget
   ];
 
   # bashrc
   programs.bash = {
     interactiveShellInit = ''
-        # Set neovim as the default editor
-        export EDITOR=nvim
-
-        # Fix terminal colors
-        export TERM=xterm-256color
+        # Set kakoune as the default editor
+        export EDITOR=kak
       '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh";
     };
 
   # Fish
+  # users.defaultUserShell = pkgs.elvish;
   users.defaultUserShell = pkgs.fish;
+  # users.defaultUserShell = pkgs.nushell;
   programs.fish = {
     enable = true;
-    interactiveShellInit = ''
-      # Fix terminal colors
-      set -x TERM xterm-256color
-
-      # Turn on vi keybindings
-      fish_vi_key_bindings
-    '' + nicoleFish;
-    shellInit = ''
-      # Set the default editor
-      export EDITOR=nvim
-
-      # Source fish_init_extra if it exists
-      if test -f "$HOME/.fish_init_extra"
-        . "$HOME/.fish_init_extra"
-      end
-      if test -f "$HOME/.fishrc"
-        . "$HOME/.fishrc"
-      end
-    '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
+    interactiveShellInit = nicoleFish + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
   };
 
   # Docker
@@ -165,12 +149,21 @@ in
   #services.ipfs.enable = true;
 
   # Tmux configuration
+      # set -g default-command ${pkgs.nushell}/bin/nu
+      # set -g default-shell ${pkgs.nushell}/bin/nu
+      # set -g default-command ${pkgs.elvish}/bin/elvish
+      # set -g default-shell ${pkgs.elvish}/bin/elvish
   programs.tmux = {
     enable = true;
+    escapeTime = 10;
     keyMode = "vi";
+    terminal = "screen-256color";
     extraConfig = ''
       set -g default-command ${pkgs.fish}/bin/fish
       set -g default-shell ${pkgs.fish}/bin/fish
+
+      set-option -sa terminal-overrides ",xterm*:RGB"
+      set-option -g focus-events on
       '';
   };
 
