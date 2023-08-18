@@ -13,7 +13,7 @@ desktopConfiguration =
 hpPavilionConfiguration =
   if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
 hyprlandConfiguration =
-  if options.hpPavilion then [ ./hyprland-configuration.nix ] else [];
+  if options.hyprland then [ ./hyprland-configuration.nix ] else [];
 nnn-git = pkgs.fetchFromGitHub {
   owner = "jarun";
   repo = "nnn";
@@ -40,7 +40,6 @@ in
     hardwareConfiguration ++
     cloudsdaleConfiguration ++
     hpPavilionConfiguration ++
-    hyprlandConfiguration ++
     desktopConfiguration ++
     nicoleConfiguration ++
     piConfiguration;
@@ -164,6 +163,8 @@ in
 
       set-option -sa terminal-overrides ",xterm*:RGB"
       set-option -g focus-events on
+
+      set-option -g update-environment "DISPLAY WAYLAND_DISPLAY SWAYSOCK SSH_AUTH_SOCK"
       '';
   };
 

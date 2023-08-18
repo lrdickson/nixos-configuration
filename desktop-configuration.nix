@@ -1,5 +1,13 @@
 { config, pkgs, ... }:
 
+let
+options = import ./defaultOptions.nix // import ./options.nix;
+hyprlandConfiguration =
+  if options.hyprland then [ ./hyprland-configuration.nix ] else [];
+swayConfiguration =
+  if options.sway then [ ./sway-configuration.nix ] else [];
+in
+
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.lyn = {
@@ -7,6 +15,12 @@
       "wheel" # Enable ‘sudo’ for the user.
       "audio" ];
   };
+
+  imports =
+    [
+    ] ++
+    hyprlandConfiguration ++
+    swayConfiguration;
 
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
@@ -37,7 +51,8 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio = {
-    enable = true;
+    enable = if options.sway then false else true;
+    # enable = true;
     package = pkgs.pulseaudioFull;
     support32Bit = true;
   };

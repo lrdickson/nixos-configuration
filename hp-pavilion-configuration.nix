@@ -3,8 +3,6 @@ let
   myvlang= pkgs.callPackage ./vlang.nix {};
 in
 {
-  imports = [ ./hyprland-configuration.nix ];
-
   fileSystems = {
     "/".options = [ "compress=zstd" ];
     "/home".options = [ "compress=zstd" ];

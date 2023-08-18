@@ -10,5 +10,6 @@
   nonNixos = false;
   personalComputer = false;
   pi = false;
+  sway = false;
   wsl = false;
 }
