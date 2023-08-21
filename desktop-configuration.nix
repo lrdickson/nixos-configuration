@@ -22,11 +22,23 @@ in
     hyprlandConfiguration ++
     swayConfiguration;
 
+  # Linux zen kernel for better latency
   boot.kernelPackages = pkgs.linuxPackages_zen;
+
+  services.xserver = {
+    enable = true;
+    # desktopManager.gnome.enable = true;
+    # desktopManager.plasma5.enable = true;
+    displayManager.gdm.enable = true;
+    # displayManager.sddm.enable = true;
+    # displayManager.defaultSession = if options.sway then "plasma" else "sway";
+  };
+
+  # Gnome settings daemon
+  # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   networking.networkmanager.enable = true;
 
-  services.xserver.enable = true;
   security.polkit.enable = true;
   security.pam.services.swaylock = {};
   hardware.opengl.enable = true;
@@ -58,9 +70,6 @@ in
   };
   nixpkgs.config.pulseaudio = true;
 
-  # Gnome settings daemon
-  #services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
-
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
 
@@ -85,7 +94,10 @@ in
   fonts.fonts = with pkgs; [
     cantarell-fonts
     noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
     nerdfonts
+    unifont
 
     font-awesome
   ];

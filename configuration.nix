@@ -114,6 +114,7 @@ in
     git
     htop
     kakoune
+    lf # command line file manager
     neovim
     nnn
     nushell
@@ -165,6 +166,10 @@ in
       set-option -g focus-events on
 
       set-option -g update-environment "DISPLAY WAYLAND_DISPLAY SWAYSOCK SSH_AUTH_SOCK"
+
+      # Pane movement
+      bind-key j command-prompt -p "join pane from:"  "join-pane -s '%%'"
+      bind-key g command-prompt -p "send pane to:"  "join-pane -t '%%'"
       '';
   };
 

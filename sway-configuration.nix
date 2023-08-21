@@ -84,6 +84,7 @@ in
     enable = true;
     wlr.enable = true;
     # gtk portal needed to make gtk apps happy
+    # Gnome also comes with xdg-desktop-portal-gtk
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
@@ -92,5 +93,4 @@ in
     enable = true;
     wrapperFeatures.gtk = true;
   };
-  services.xserver.displayManager.sddm.enable = true;
 }
