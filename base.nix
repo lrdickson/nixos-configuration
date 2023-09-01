@@ -6,63 +6,37 @@
 
 let
 options = import ./defaultOptions.nix // import ./options.nix;
-hardwareConfiguration =
-  if options.hardware then [ ./hardware-configuration.nix ] else [];
-desktopConfiguration =
-  if options.desktop then [ ./desktop-configuration.nix ] else [];
-hpPavilionConfiguration =
-  if options.hpPavilion then [ ./hp-pavilion-configuration.nix ] else [];
-hyprlandConfiguration =
-  if options.hyprland then [ ./hyprland-configuration.nix ] else [];
 nnn-git = pkgs.fetchFromGitHub {
   owner = "jarun";
   repo = "nnn";
   rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
   sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
 };
-nicoleConfiguration =
-  if options.nicole then [ ./nicole-configuration.nix ] else [];
 nicoleFish = if options.nicole then ''
   function rcon-cli
     sudo docker exec -i minecraft rcon-cli
   end
   '' else "";
-cloudsdaleConfiguration =
-  if options.cloudsdale then [ ./cloudsdale-configuration.nix ] else [];
-piConfiguration =
-  if options.pi then [ ./pi-configuration.nix ] else [];
 isIntel = ! options.pi;
 in
 {
-  imports =
-    [
-    ] ++
-    hardwareConfiguration ++
-    cloudsdaleConfiguration ++
-    hpPavilionConfiguration ++
-    desktopConfiguration ++
-    nicoleConfiguration ++
-    piConfiguration;
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
-  boot = {
-    loader = {
-      # Use the systemd-boot EFI boot loader.
-      systemd-boot.enable = !options.pi && !options.luks;
-      efi.canTouchEfiVariables = true;
+  # Automatically detect other OS
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = if options.luks then {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      enableCryptodisk = true;
+      useOSProber = options.multiboot;
+    } else {
+      useOSProber = options.multiboot;
     };
-  };
-
-  boot.loader.grub = if options.luks then {
-    enable = true;
-    device = "nodev";
-    efiSupport = true;
-    enableCryptodisk = true;
-
-    # Automatically detect other OS
-    useOSProber = options.multiboot;
-  } else {
-    # Automatically detect other OS
-    useOSProber = options.multiboot;
+    systemd-boot.enable = !options.pi && !options.luks;
   };
 
   # Set your time zone.
@@ -108,7 +82,6 @@ in
     carapace # Shell completion
     docker-compose
     efibootmgr
-    elvish
     emacs
     fzf
     git

@@ -2,10 +2,6 @@
 
 let
 options = import ./defaultOptions.nix // import ./options.nix;
-hyprlandConfiguration =
-  if options.hyprland then [ ./hyprland-configuration.nix ] else [];
-swayConfiguration =
-  if options.sway then [ ./sway-configuration.nix ] else [];
 in
 
 {
@@ -15,12 +11,6 @@ in
       "wheel" # Enable ‘sudo’ for the user.
       "audio" ];
   };
-
-  imports =
-    [
-    ] ++
-    hyprlandConfiguration ++
-    swayConfiguration;
 
   # Linux zen kernel for better latency
   boot.kernelPackages = pkgs.linuxPackages_zen;

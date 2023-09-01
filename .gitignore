@@ -10,6 +10,7 @@ hardware-configuration.nix
 
 # computer specific options
 options.nix
+configuration.nix
 
 # environemt file to hold docker secrets
 docker/**/*.env

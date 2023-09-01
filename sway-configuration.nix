@@ -50,6 +50,7 @@ in
     dracula-theme # gtk theme
     font-awesome # Fonts for status bar
     foot # Lightweight wayland terminal
+    fuzzel # application launcher
     glib # gsettings
     gnome3.adwaita-icon-theme  # default gnome cursors
     grim # screenshot functionality
