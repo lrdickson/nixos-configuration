@@ -30,6 +30,16 @@ in
     #kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  # Don't power off when short pressing the power button
+  services.logind = {
+      lidSwitch = "suspend-then-hibernate";
+      extraConfig = ''
+        # don’t shutdown when power button is short-pressed
+        HandlePowerKey=suspend-then-hibernate
+      '';
+  };
+  systemd.sleep.extraConfig = "HibernateDelaySec=1h";
+
   networking.hostName = "hpbox";
 
   services.udisks2.enable = true;
