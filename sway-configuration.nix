@@ -42,13 +42,16 @@ let
 
 in
 {
+  services.xserver = {
+    displayManager.gdm.enable = true;
+  };
+
   programs.light.enable = true;
   environment.systemPackages = with pkgs; [
     bemenu # wayland clone of dmenu
     configure-gtk
     dbus-sway-environment
     dracula-theme # gtk theme
-    font-awesome # Fonts for status bar
     foot # Lightweight wayland terminal
     fuzzel # application launcher
     glib # gsettings
@@ -56,14 +59,12 @@ in
     grim # screenshot functionality
     i3status # status for swaybar
     mako # notification system developed by swaywm maintainer
-    pulseaudio # needed for pactl
     slurp # screenshot functionality
     swayidle
     swaylock
     wayland
     wdisplays # tool to configure displays
     wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
-    xdg-utils # for opening default programs when clicking links
   ];
 
 
@@ -80,13 +81,8 @@ in
   # (/org/freedesktop/portal/desktop).
   # The portal interfaces include APIs for file access, opening URIs,
   # printing and others.
-  services.dbus.enable = true;
   xdg.portal = {
-    enable = true;
     wlr.enable = true;
-    # gtk portal needed to make gtk apps happy
-    # Gnome also comes with xdg-desktop-portal-gtk
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # enable sway window manager

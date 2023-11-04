@@ -35,7 +35,7 @@ in
 
     nvidiaPatches = false;
   };
-  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
   #xdg.portal.wlr.enable = true;
 
   systemd.user.services.xdg-desktop-portal-wlr.serviceConfig.ExecStart = [

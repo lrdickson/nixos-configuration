@@ -30,7 +30,6 @@ in
     #kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  # Don't power off when short pressing the power button
   services.logind = {
       lidSwitch = "suspend-then-hibernate";
       extraConfig = ''
@@ -38,7 +37,7 @@ in
         HandlePowerKey=suspend-then-hibernate
       '';
   };
-  systemd.sleep.extraConfig = "HibernateDelaySec=1h";
+  systemd.sleep.extraConfig = "HibernateDelaySec=30m";
 
   networking.hostName = "hpbox";
 
@@ -95,6 +94,7 @@ in
     #arduino-cli
     cloc
     clang
+    clang-tools
     flutter
     #gcc
     #gdb

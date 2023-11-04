@@ -17,11 +17,6 @@ in
 
   services.xserver = {
     enable = true;
-    # desktopManager.gnome.enable = true;
-    # desktopManager.plasma5.enable = true;
-    displayManager.gdm.enable = true;
-    # displayManager.sddm.enable = true;
-    # displayManager.defaultSession = if options.sway then "plasma" else "sway";
   };
 
   # Gnome settings daemon
@@ -61,11 +56,16 @@ in
   nixpkgs.config.pulseaudio = true;
 
   programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [ thunar-archive-plugin thunar-volman ];
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin thunar-volman
+  ];
 
   environment.systemPackages = with pkgs; [
-    # NTFS driver
+    pulseaudio # needed for pactl
+
+    # filessystem drivers
     ntfs3g
+    jmtpfs # For android file mount
 
     # Terminal applications
     distrobox
@@ -78,7 +78,9 @@ in
     # Desktop stuff
     #libsForQt5.filelight
     #libsForQt5.okular
+    alacritty
     pinentry-gtk2
+    xdg-utils # for opening default programs when clicking links
   ];
 
   fonts.fonts = with pkgs; [
@@ -91,6 +93,20 @@ in
 
     font-awesome
   ];
+
+  # xdg-desktop-portal works by exposing a series of D-Bus interfaces
+  # known as portals under a well-known name
+  # (org.freedesktop.portal.Desktop) and object path
+  # (/org/freedesktop/portal/desktop).
+  # The portal interfaces include APIs for file access, opening URIs,
+  # printing and others.
+  services.dbus.enable = true;
+  xdg.portal = {
+    enable = true;
+    # gtk portal needed to make gtk apps happy
+    # Gnome also comes with xdg-desktop-portal-gtk
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
 
   # Add Nix Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
