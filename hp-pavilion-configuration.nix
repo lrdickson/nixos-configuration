@@ -1,6 +1,7 @@
 { config, pkgs, stdenv, fetchFromGitHub, fetchgit, ... }:
 let
   myvlang= pkgs.callPackage ./vlang.nix {};
+  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
 in
 {
   fileSystems = {
@@ -105,6 +106,8 @@ in
     #myvlang
     # zig
     # zls # zig language server
+
+    # unstable.godot_4 # Open source game engine
 
     # rust
     #cargo

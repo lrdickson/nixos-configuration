@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-options = import ./defaultOptions.nix // import ./options.nix;
+  options = import ./defaultOptions.nix // import ./options.nix;
 in
 
 {

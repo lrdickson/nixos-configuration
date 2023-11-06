@@ -25,8 +25,10 @@
   };
 
   environment.systemPackages = with pkgs; [
+    brightnessctl
     networkmanagerapplet
     rofi
+    xsel
     xss-lock
   ];
 }
