@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, fetchFromGitHub, ... }:
+{ pkgs, ... }:
 
 let
   options = import ./defaultOptions.nix // import ./options.nix;
@@ -18,7 +18,7 @@ let
     end
     '' else "";
   isIntel = ! options.pi;
-  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
+  unstable = import (fetchTarball "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz") { };
 in
 {
   imports = [
@@ -81,7 +81,6 @@ in
   environment.systemPackages = with pkgs; [
     aspell # for kakoune spell
     aspellDicts.en
-    carapace # Shell completion
     docker-compose
     efibootmgr
     emacs
@@ -91,6 +90,7 @@ in
     kakoune
     lf # command line file manager
     neovim
+    nil # nix language server
     nnn
     nushell
     oh-my-posh

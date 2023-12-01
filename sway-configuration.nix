@@ -19,6 +19,8 @@ let
     '';
   };
 
+  security.pam.services.swaylock = {};
+
   # currently, there is some friction between sway and gtk:
   # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
   # the suggested way to set gtk settings is with gsettings

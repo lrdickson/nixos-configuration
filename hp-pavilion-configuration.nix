@@ -1,8 +1,4 @@
-{ config, pkgs, stdenv, fetchFromGitHub, fetchgit, ... }:
-let
-  myvlang= pkgs.callPackage ./vlang.nix {};
-  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
-in
+{ pkgs, ... }:
 {
   fileSystems = {
     "/".options = [ "compress=zstd" ];
@@ -15,20 +11,6 @@ in
         device = "/dev/disk/by-uuid/303d4899-b2dd-4bb6-9950-4c834f10ba9a";
         preLVM = true;
       };
-  };
-
-  boot = {
-    # Use newer kernel for wifi support
-    # kernelPackages = pkgs.linuxPackages_testing;
-    # The rtw88_8821ce module kind of stinks
-    blacklistedKernelModules = [
-      #"rtw88_8821ce"
-    ];
-    extraModulePackages = [
-      #pkgs.linuxPackages_latest.rtl8821ce
-      #pkgs.linuxPackages_zen.rtl8821ce
-    ];
-    #kernelPackages = pkgs.linuxPackages_latest;
   };
 
   services.logind = {
@@ -46,23 +28,9 @@ in
 
   environment.systemPackages = with pkgs; [
     # Gui
-    #airshipper
-    #bitwarden
-    #discord
-    #filezilla
     gnome.gnome-software # software manager - here for flatpak
     gparted
-    #libreoffice
-    #minecraft
-    #qbittorrent
-    #sakura
-    #vlc
-    #wineWowPackages.stable
-    #mono
     nextcloud-client # The flatpak version can't open browsers
-    #pinta # paint application
-    #zettlr # markdown editor
-    #zoom-us
 
     # Terminal utilities
     acpi # battery monitoring cli
@@ -70,7 +38,6 @@ in
     cargo
     file # Provide information about a file
     gnupg
-    #nixos-generators
     nnn # terminal file manager
     nushell
     pandoc # universal document converter
@@ -88,30 +55,14 @@ in
     zip
 
     # programming
-    #arduino
-    #arduino-cli
     cloc
     clang
     clang-tools
     flutter
-    #gcc
-    #gdb
     go
     gopls
     gotools
     nodejs # needed for Coc
-    #myvlang
-    # zig
-    # zls # zig language server
-
-    # unstable.godot_4 # Open source game engine
-
-    # rust
-    #cargo
-    #rust-analyzer
-    #rustc
-    #rustup
-    #wasm-pack
 
   ];
 
@@ -152,9 +103,7 @@ in
   };
 
   # virtualbox
-  #virtualisation.virtualbox.host.enable = true;
-  #users.extraGroups.vboxusers.members = [ "lyn" ];
-
-  # Enable binfmt emulation of aarch64-linux.
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "lyn" ];
 
 }

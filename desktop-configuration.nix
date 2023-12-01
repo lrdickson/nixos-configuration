@@ -1,8 +1,4 @@
-{ config, pkgs, ... }:
-
-let
-  options = import ./defaultOptions.nix // import ./options.nix;
-in
+{ pkgs, ... }:
 
 {
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -25,7 +21,6 @@ in
   networking.networkmanager.enable = true;
 
   security.polkit.enable = true;
-  security.pam.services.swaylock = {};
   hardware.opengl.enable = true;
   hardware.bluetooth.enable = true;
   #extraPackages = [ pkgs.mesa.drivers ];
@@ -49,20 +44,6 @@ in
   hardware.pulseaudio.support32Bit = true;
   nixpkgs.config.pulseaudio = true;
 
-  # Enable sound.
-  # sound.enable = true;
-
-  # rtkit is optional but recommended
-  # security.rtkit.enable = true;
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  #   # If you want to use JACK applications, uncomment this
-  #   jack.enable = true;
-  # };
-
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
     thunar-archive-plugin thunar-volman
@@ -78,18 +59,16 @@ in
 
     # Terminal applications
     distrobox
-    xclip
+    xsel
     xorg.xhost # For allowing root applications to display GUIs
 
     # Desktop stuff
-    #libsForQt5.filelight
-    #libsForQt5.okular
     alacritty
     pinentry-gtk2
     xdg-utils # for opening default programs when clicking links
   ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     cantarell-fonts
     noto-fonts
     noto-fonts-cjk-sans
