@@ -70,12 +70,9 @@ in
     cargo
     file # Provide information about a file
     gnupg
-    #home-manager
-    #html-tidy # Formatter for HTML
-    #neovim-remote
-    #nerdfonts # fonts for terminal
     #nixos-generators
     nnn # terminal file manager
+    nushell
     pandoc # universal document converter
     poppler_utils
     #python

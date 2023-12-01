@@ -45,15 +45,23 @@ in
   services.avahi.enable = true;
   services.avahi.nssmdns = true;
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = if options.sway then false else true;
-    # enable = true;
-    package = pkgs.pulseaudioFull;
-    support32Bit = true;
-  };
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true;
   nixpkgs.config.pulseaudio = true;
+
+  # Enable sound.
+  # sound.enable = true;
+
+  # rtkit is optional but recommended
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   # If you want to use JACK applications, uncomment this
+  #   jack.enable = true;
+  # };
 
   programs.thunar.enable = true;
   programs.thunar.plugins = with pkgs.xfce; [
@@ -62,6 +70,7 @@ in
 
   environment.systemPackages = with pkgs; [
     pulseaudio # needed for pactl
+    pulseaudio-ctl
 
     # filessystem drivers
     ntfs3g
@@ -71,9 +80,6 @@ in
     distrobox
     xclip
     xorg.xhost # For allowing root applications to display GUIs
-
-    # xfce
-    #xfce.xfce4-whiskermenu-plugin
 
     # Desktop stuff
     #libsForQt5.filelight

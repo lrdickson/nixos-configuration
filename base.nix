@@ -5,19 +5,20 @@
 { config, pkgs, fetchFromGitHub, ... }:
 
 let
-options = import ./defaultOptions.nix // import ./options.nix;
-nnn-git = pkgs.fetchFromGitHub {
-  owner = "jarun";
-  repo = "nnn";
-  rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
-  sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
-};
-nicoleFish = if options.nicole then ''
-  function rcon-cli
-    sudo docker exec -i minecraft rcon-cli
-  end
-  '' else "";
-isIntel = ! options.pi;
+  options = import ./defaultOptions.nix // import ./options.nix;
+  nnn-git = pkgs.fetchFromGitHub {
+    owner = "jarun";
+    repo = "nnn";
+    rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
+    sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
+  };
+  nicoleFish = if options.nicole then ''
+    function rcon-cli
+      sudo docker exec -i minecraft rcon-cli
+    end
+    '' else "";
+  isIntel = ! options.pi;
+  unstable = import (fetchTarball https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz) { };
 in
 {
   imports = [
@@ -68,6 +69,7 @@ in
       "wheel" # Enable ‘sudo’ for the user.
       "scanner" "lp" # Needed to allow scanning
       "video"
+      "audio"
     ];
   };
 
@@ -96,6 +98,12 @@ in
     smartmontools # hard drive health monitoring
     tcpdump
     wget
+    zoxide
+
+    unstable.helix
+    ltex-ls
+    marksman # markdown lsp
+    taplo # toml lsp
   ];
 
   # bashrc
