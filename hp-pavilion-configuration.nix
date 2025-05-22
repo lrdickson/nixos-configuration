@@ -13,6 +13,8 @@
       };
   };
 
+  services.displayManager.defaultSession = "mate";
+
   services.logind = {
       lidSwitch = "suspend-then-hibernate";
       extraConfig = ''
@@ -26,44 +28,30 @@
 
   services.udisks2.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    # Gui
-    gnome.gnome-software # software manager - here for flatpak
-    gparted
-    nextcloud-client # The flatpak version can't open browsers
+  services.printing.drivers = [ pkgs.gutenprintBin pkgs.canon-cups-ufr2 ];
 
+  environment.systemPackages = with pkgs; [
     # Terminal utilities
-    acpi # battery monitoring cli
     bitwarden-cli
-    cargo
-    file # Provide information about a file
-    gnupg
-    nnn # terminal file manager
-    nushell
-    pandoc # universal document converter
-    poppler_utils
-    #python
-    #python39Packages.sqlparse # For vim SQL formatting
-    ripgrep
-    ripgrep-all
-    #sqlint
-    texlive.combined.scheme-small # latex support
-    universal-ctags
-    unzip
-    usbutils
-    w3m # terminal web browser
-    zip
 
     # programming
-    cloc
     clang
     clang-tools
-    flutter
     go
     gopls
     gotools
     nodejs # needed for Coc
 
+    dotnet-sdk_8
+    dotnet-runtime_8
+    fsautocomplete
+
+    cargo
+    rust-analyzer
+    rustc
+    rustfmt
+
+    python3
   ];
 
   # Flatpak
@@ -77,7 +65,7 @@
     remotePlay.openFirewall = true;
     dedicatedServer.openFirewall = true;
   };
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
 
   xdg.mime = {
     enable = true;
@@ -103,7 +91,7 @@
   };
 
   # virtualbox
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "lyn" ];
+  # virtualisation.virtualbox.host.enable = true;
+  # users.extraGroups.vboxusers.members = [ "lyn" ];
 
 }

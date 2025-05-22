@@ -21,7 +21,7 @@
   networking.networkmanager.enable = true;
 
   security.polkit.enable = true;
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   hardware.bluetooth.enable = true;
   #extraPackages = [ pkgs.mesa.drivers ];
 
@@ -38,16 +38,11 @@
     extraBackends = [ pkgs.hplipWithPlugin ];
   };
   services.avahi.enable = true;
-  services.avahi.nssmdns = true;
+  services.avahi.nssmdns4 = true;
 
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
   hardware.pulseaudio.support32Bit = true;
   nixpkgs.config.pulseaudio = true;
-
-  programs.thunar.enable = true;
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin thunar-volman
-  ];
 
   environment.systemPackages = with pkgs; [
     pulseaudio # needed for pactl
@@ -58,14 +53,32 @@
     jmtpfs # For android file mount
 
     # Terminal applications
+    acpi # battery monitoring cli
     distrobox
+    file # Provide information about a file
     xsel
     xorg.xhost # For allowing root applications to display GUIs
+    unzip
+    usbutils
+    zip
+    pandoc # universal document converter
+    poppler_utils
+    ripgrep
+    ripgrep-all
+    texlive.combined.scheme-small # latex support
 
     # Desktop stuff
-    alacritty
     pinentry-gtk2
+    wezterm
     xdg-utils # for opening default programs when clicking links
+
+    # Packages for canon printer
+    canon-cups-ufr2
+    cups-bjnp
+    carps-cups
+    gutenprintBin
+    simple-scan
+    kdePackages.skanlite
   ];
 
   fonts.packages = with pkgs; [

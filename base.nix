@@ -6,12 +6,6 @@
 
 let
   options = import ./defaultOptions.nix // import ./options.nix;
-  nnn-git = pkgs.fetchFromGitHub {
-    owner = "jarun";
-    repo = "nnn";
-    rev = "f6856f61f74977a7929a601a4fc28168d2cc043c";
-    sha256 = "1zd6vnbb08fslyk7grbkp1lg31jci9ryway02ms4bw54xvaqf4d3";
-  };
   nicoleFish = if options.nicole then ''
     function rcon-cli
       sudo docker exec -i minecraft rcon-cli
@@ -79,21 +73,12 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    aspell # for kakoune spell
-    aspellDicts.en
     docker-compose
     efibootmgr
-    emacs
-    fzf
     git
     htop
-    kakoune
-    lf # command line file manager
     neovim
-    nil # nix language server
-    nnn
     nushell
-    oh-my-posh
     psmisc # killall and others
     smartmontools # hard drive health monitoring
     tcpdump
@@ -101,18 +86,15 @@ in
     zoxide
 
     unstable.helix
-    ltex-ls
-    marksman # markdown lsp
-    taplo # toml lsp
-  ];
+    unstable.yazi
+    unstable.zellij
 
-  # bashrc
-  programs.bash = {
-    interactiveShellInit = ''
-        # Set kakoune as the default editor
-        export EDITOR=kak
-      '' + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.bash_zsh";
-    };
+    ltex-ls # latex and markdown lsp, with spell checking
+    marksman # markdown lsp
+    nil # nix language server
+    taplo # toml lsp
+    typos-lsp # spell-checker language server
+  ];
 
   # Fish
   # users.defaultUserShell = pkgs.elvish;
@@ -120,7 +102,7 @@ in
   # users.defaultUserShell = pkgs.nushell;
   programs.fish = {
     enable = true;
-    interactiveShellInit = nicoleFish + builtins.readFile "${nnn-git}/misc/quitcd/quitcd.fish";
+    interactiveShellInit = nicoleFish;
   };
 
   # Docker
@@ -130,8 +112,8 @@ in
   #services.ipfs.enable = true;
 
   # Tmux configuration
-      # set -g default-command ${pkgs.nushell}/bin/nu
-      # set -g default-shell ${pkgs.nushell}/bin/nu
+      # set -g default-command ${pkgs.fish}/bin/fish
+      # set -g default-shell ${pkgs.fish}/bin/fish
       # set -g default-command ${pkgs.elvish}/bin/elvish
       # set -g default-shell ${pkgs.elvish}/bin/elvish
   programs.tmux = {
@@ -140,8 +122,8 @@ in
     keyMode = "vi";
     terminal = "screen-256color";
     extraConfig = ''
-      set -g default-command ${pkgs.fish}/bin/fish
-      set -g default-shell ${pkgs.fish}/bin/fish
+      set -g default-command ${pkgs.nushell}/bin/nu
+      set -g default-shell ${pkgs.nushell}/bin/nu
 
       set-option -sa terminal-overrides ",xterm*:RGB"
       set-option -g focus-events on
@@ -179,13 +161,4 @@ in
     #daemon.enable = true;
     #updater.enable = true;
   #};
-
-  system = {
-    #autoUpgrade = {
-      #enable = true;
-      #allowReboot = false;
-    #};
-    stateVersion = "22.11";
-    #stateVersion = "unstable";
-  };
 }
