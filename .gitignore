@@ -20,3 +20,6 @@ secrets.nix
 
 # veloren user data
 docker/veloren/userdata/
+
+# The result of nixos-rebuild test
+result

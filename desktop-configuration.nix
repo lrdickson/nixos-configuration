@@ -1,29 +1,28 @@
 { pkgs, ... }:
 
 {
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.lyn = {
-    extraGroups = [
-      "wheel" # Enable ‘sudo’ for the user.
-      "audio" ];
-  };
-
   # Linux zen kernel for better latency
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_zen;
 
-  services.xserver = {
-    enable = true;
-  };
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
 
   # Gnome settings daemon
   # services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
+  # networking.hostName = "nixos"; # Define your hostname.
+  # Pick only one of the below networking options.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
 
   security.polkit.enable = true;
   hardware.graphics.enable = true;
   hardware.bluetooth.enable = true;
   #extraPackages = [ pkgs.mesa.drivers ];
+
+  # Configure keymap in X11
+  services.xserver.xkb.layout = "us";
+  # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -40,9 +39,13 @@
   services.avahi.enable = true;
   services.avahi.nssmdns4 = true;
 
-  hardware.pulseaudio.enable = false;
-  hardware.pulseaudio.support32Bit = true;
-  nixpkgs.config.pulseaudio = true;
+  # Enable sound.
+  # hardware.pulseaudio.enable = true;
+  # OR
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     pulseaudio # needed for pactl
