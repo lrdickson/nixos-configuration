@@ -67,7 +67,7 @@ in
 
     ltex-ls # latex and markdown lsp, with spell checking
     marksman # markdown lsp
-    nil # nix language server
+    # nil # nix language server
     nixd # official nix language server
     taplo # toml lsp
     typos-lsp # spell-checker language server

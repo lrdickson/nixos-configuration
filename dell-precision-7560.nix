@@ -34,6 +34,9 @@ in
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  # Security
+  hardware.cpu.intel.updateMicrocode = true;
+
   environment.systemPackages = with pkgs; [
     cudatoolkit
 
@@ -43,19 +46,36 @@ in
     gpustat
   ];
 
+  # Enable OpenGL
+  hardware.graphics= {
+    enable = true;
+    enable32Bit = true;
+  };
+
   # Activate ollama
   services.ollama = {
     enable = true;
     acceleration = "cuda";
   };
 
-  # Security
-  hardware.cpu.intel.updateMicrocode = true;
-
-  # Enable OpenGL
-  hardware.graphics= {
-    enable = true;
-    enable32Bit = true;
+  # Update the exec to effectively use nvidia-offload.
+  systemd.user.services.ollama = {
+    # NOTE: If you see this failure:
+    #
+    #     cuda driver library init failure: 999.
+    #
+    # Run the following command:
+    #
+    #     sudo rmmod nvidia_uvm; sudo modprobe nvidia_uvm
+    #
+    # However, this assumes there is no other GPU usage, or if they are, they
+    # could be safely killed with the above command.
+    environment = {
+      __NV_PRIME_RENDER_OFFLOAD = "1";
+      __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      __VK_LAYER_NV_optimus = "NVIDIA_only";
+    };
   };
 
   # Load nvidia driver for Xorg and Wayland
