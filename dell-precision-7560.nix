@@ -1,7 +1,11 @@
 { config, lib, pkgs, ... }:
 
+let
+  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+in
 {
   boot.initrd.luks.devices.cryptroot.device = "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
+  boot.loader.grub.useOSProber = true;
 
   fileSystems = {
     "/".options = [ "compress=zstd" ];
@@ -29,6 +33,19 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  environment.systemPackages = with pkgs; [
+    cudatoolkit
+
+    unstable.codex
+    unstable.lsp-ai
+  ];
+
+  # Activate ollama
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
 
   # Security
   hardware.cpu.intel.updateMicrocode = true;

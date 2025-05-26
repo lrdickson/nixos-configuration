@@ -89,7 +89,7 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
-    nerdfonts
+    # nerdfonts
     unifont
 
     font-awesome
