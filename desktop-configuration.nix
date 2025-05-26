@@ -71,6 +71,7 @@
     texlive.combined.scheme-small # latex support
 
     # Desktop stuff
+    bitwarden-desktop
     pinentry-gtk2
     wezterm
     xdg-utils # for opening default programs when clicking links

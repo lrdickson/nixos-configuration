@@ -39,6 +39,8 @@ in
 
     unstable.codex
     unstable.lsp-ai
+
+    gpustat
   ];
 
   # Activate ollama
@@ -51,15 +53,18 @@ in
   hardware.cpu.intel.updateMicrocode = true;
 
   # Enable OpenGL
-  hardware.graphics = {
+  hardware.graphics= {
     enable = true;
+    enable32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
+  # services.xserver.videoDrivers = ["modesetting" "nvidia"];
 
   # Disable wayland
   services.xserver.displayManager.gdm.wayland = false;
+  services.displayManager.sddm.wayland.enable = false;
 
   hardware.nvidia = {
 
@@ -70,11 +75,11 @@ in
     # Enable this if you have graphical corruption issues or application crashes after waking
     # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
     # of just the bare essentials.
-    powerManagement.enable = false;
+    powerManagement.enable = true;
 
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+    powerManagement.finegrained = true;
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
@@ -91,8 +96,28 @@ in
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+    # In order to correctly finish configuring your Nvidia graphics driver, you must follow
+    # the below steps, which differ depending on whether or not you are using a hybrid
+    # graphics setup or not. A laptop with hybrid graphics possesses both an integrated GPU
+    # (often from the central processor) and a discrete, more powerful Nvidia GPU, typically
+    # for performance-intensive tasks. This dual-GPU setup allows for power-saving during
+    # basic tasks and higher graphics performance when needed.
+    # 
+    # Offload mode puts your Nvidia GPU to sleep and lets the Intel GPU handle all tasks,
+    # except if you call the Nvidia GPU specifically by "offloading" an application to it.
+    # 
+    # Enabling PRIME sync introduces better performance and greatly reduces screen tearing, at
+    # the expense of higher power consumption since the Nvidia GPU will not go to sleep
+    # completely unless called for, as is the case in Offload Mode. It may also cause its own
+    # issues in rare cases.
+    #
+    # PRIME Sync and Offload Mode cannot be enabled at the same time.
     prime = {
-      sync.enable = true;
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      # sync.enable = true;
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };
