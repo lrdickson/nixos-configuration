@@ -50,15 +50,19 @@ in
   environment.systemPackages = with pkgs; [
     docker-compose
     efibootmgr
+    file # Provide information about a file
     git
     htop
     neovim
     nushell
     psmisc # killall and others
+    ripgrep
     smartmontools # hard drive health monitoring
     tcpdump
     tldr
+    unzip
     wget
+    zip
     zoxide
 
     unstable.helix
@@ -67,6 +71,8 @@ in
 
     ltex-ls # latex and markdown lsp, with spell checking
     marksman # markdown lsp
+    unstable.markdown-oxide
+
     # nil # nix language server
     nixd # official nix language server
     taplo # toml lsp

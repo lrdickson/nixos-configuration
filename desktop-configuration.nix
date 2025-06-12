@@ -58,20 +58,17 @@
     # Terminal applications
     acpi # battery monitoring cli
     distrobox
-    file # Provide information about a file
     xsel
     xorg.xhost # For allowing root applications to display GUIs
-    unzip
     usbutils
-    zip
     pandoc # universal document converter
     poppler_utils
-    ripgrep
     ripgrep-all
     texlive.combined.scheme-small # latex support
 
     # Desktop stuff
     bitwarden-desktop
+    obsidian
     pinentry-gtk2
     wezterm
     xdg-utils # for opening default programs when clicking links
