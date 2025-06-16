@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 
 let
-  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
-in
-{
-  boot.initrd.luks.devices.cryptroot.device = "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
+  # unstable = import (fetchTarball
+  #   "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+in {
+  boot.initrd.luks.devices.cryptroot.device =
+    "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
   boot.loader.grub.useOSProber = true;
 
   fileSystems = {
@@ -12,6 +13,20 @@ in
     "/home".options = [ "compress=zstd" ];
     "/nix".options = [ "compress=zstd" "noatime" ];
   };
+
+  imports = [
+    ./base2.nix
+    ./btrfs-configuration.nix
+    ./lazyvim-configuration.nix
+    ./desktop-configuration.nix
+
+    # Desktop
+    # ./budgie-configuration.nix
+    # ./cinnamon-configuration.nix
+    # ./gnome-configuration.nix
+    ./kde-configuration.nix
+    # ./pantheon-configuration.nix
+  ];
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -50,12 +65,12 @@ in
     # unstable.lsp-ai
 
     # distrobox
- 
+
     browsh
   ];
 
   # Enable OpenGL
-  hardware.graphics= {
+  hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
@@ -78,16 +93,16 @@ in
     #
     # However, this assumes there is no other GPU usage, or if they are, they
     # could be safely killed with the above command.
-    environment = {
-      __NV_PRIME_RENDER_OFFLOAD = "1";
-      __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-      __VK_LAYER_NV_optimus = "NVIDIA_only";
-    };
+    # environment = {
+    #   __NV_PRIME_RENDER_OFFLOAD = "1";
+    #   __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+    #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    #   __VK_LAYER_NV_optimus = "NVIDIA_only";
+    # };
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   # services.xserver.videoDrivers = ["modesetting" "nvidia"];
 
   hardware.nvidia = {
@@ -103,7 +118,7 @@ in
 
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = true;
+    # powerManagement.finegrained = true;
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
@@ -137,11 +152,11 @@ in
     #
     # PRIME Sync and Offload Mode cannot be enabled at the same time.
     prime = {
-      offload = {
-        enable = true;
-        enableOffloadCmd = true;
-      };
-      # sync.enable = true;
+      # offload = {
+      #   enable = true;
+      #   enableOffloadCmd = true;
+      # };
+      sync.enable = true;
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };

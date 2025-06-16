@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
 let
-  unstable = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
-in
-{
+  unstable = import (fetchTarball
+    "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -36,7 +36,8 @@ in
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
-      "scanner" "lp" # Needed to allow scanning
+      "scanner"
+      "lp" # Needed to allow scanning
       "video"
       "audio"
     ];
@@ -48,7 +49,6 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    docker-compose
     efibootmgr
     file # Provide information about a file
     git
@@ -62,42 +62,30 @@ in
     tldr
     unzip
     wget
+    zellij
     zip
     zoxide
 
-    unstable.helix
     unstable.yazi
-    unstable.zellij
-
-    ltex-ls # latex and markdown lsp, with spell checking
-    marksman # markdown lsp
-    unstable.markdown-oxide
-
-    # nil # nix language server
-    nixd # official nix language server
-    taplo # toml lsp
-    typos-lsp # spell-checker language server
   ];
 
   # Fish
   # users.defaultUserShell = pkgs.elvish;
   users.defaultUserShell = pkgs.fish;
   # users.defaultUserShell = pkgs.nushell;
-  programs.fish = {
-    enable = true;
-  };
+  programs.fish = { enable = true; };
 
   # Docker
   virtualisation.docker.enable = true;
 
-  # IFPS
+  # IPFS
   #services.ipfs.enable = true;
 
   # Tmux configuration
-      # set -g default-command ${pkgs.fish}/bin/fish
-      # set -g default-shell ${pkgs.fish}/bin/fish
-      # set -g default-command ${pkgs.elvish}/bin/elvish
-      # set -g default-shell ${pkgs.elvish}/bin/elvish
+  # set -g default-command ${pkgs.fish}/bin/fish
+  # set -g default-shell ${pkgs.fish}/bin/fish
+  # set -g default-command ${pkgs.elvish}/bin/elvish
+  # set -g default-shell ${pkgs.elvish}/bin/elvish
   programs.tmux = {
     enable = true;
     escapeTime = 10;
@@ -115,7 +103,7 @@ in
       # Pane movement
       bind-key j command-prompt -p "join pane from:"  "join-pane -s '%%'"
       bind-key g command-prompt -p "send pane to:"  "join-pane -t '%%'"
-      '';
+    '';
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -139,7 +127,7 @@ in
 
   # Security
   #services.clamav = {
-    #daemon.enable = true;
-    #updater.enable = true;
+  #daemon.enable = true;
+  #updater.enable = true;
   #};
 }
