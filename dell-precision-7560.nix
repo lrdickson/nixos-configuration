@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  # unstable = import (fetchTarball
-  #   "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+  unstable = import (fetchTarball
+    "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") {
+      config.allowUnfree = true;
+    };
 in {
   boot.initrd.luks.devices.cryptroot.device =
     "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
@@ -26,6 +28,7 @@ in {
     # ./gnome-configuration.nix
     ./kde-configuration.nix
     # ./pantheon-configuration.nix
+    # ./xfce-configuration.nix
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -55,6 +58,8 @@ in {
   # Add the docker group to allow distrobox
   users.users.lyn.extraGroups = [ "docker" ];
 
+  services.flatpak.enable = true;
+
   environment.systemPackages = with pkgs; [
     # GPU stuff
     cudatoolkit
@@ -63,11 +68,15 @@ in {
     # AI stuff
     # unstable.codex
     # unstable.lsp-ai
-
-    # distrobox
-
-    browsh
+    gpt-cli
   ];
+
+  environment.sessionVariables = {
+    # Set the OPENAI environment variables for gpt-cli
+    OPENAI_BASE_URL = "http://localhost:11434/v1";
+    OPENAI_API_KEY =
+      "ollama"; # ollama doesn't require a key but the OpenAI api does
+  };
 
   # Enable OpenGL
   hardware.graphics = {
@@ -79,6 +88,7 @@ in {
   services.ollama = {
     enable = true;
     acceleration = "cuda";
+    package = unstable.ollama;
   };
 
   # Update the exec to effectively use nvidia-offload.

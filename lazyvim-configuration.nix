@@ -28,11 +28,6 @@ in {
     python3
     tree-sitter
 
-    # fzf-lua
-    fd
-    fzf
-    ripgrep
-
     # Formatters
     nixfmt-classic
     stylua
@@ -47,5 +42,13 @@ in {
     taplo # toml lsp
 
     unstable.markdown-oxide
+
+    # fzf-lua
+    fd
+    fzf
+    ripgrep
+
+    # Avante
+    gnumake
   ];
 }

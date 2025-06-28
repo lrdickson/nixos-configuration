@@ -7,8 +7,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    # xfce
-    xfce.xfce4-whiskermenu-plugin
-  ];
+  environment.systemPackages = with pkgs; [ xfce.xfce4-whiskermenu-plugin ];
 }
