@@ -1,8 +1,6 @@
 { pkgs, ... }:
 
-let
-  unstable = import (fetchTarball
-    "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in {
   imports = [
     # Include the results of the hardware scan.

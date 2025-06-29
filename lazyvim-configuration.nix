@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
-let
-  unstable = import (fetchTarball
-    "https://github.com/NixOS/nixpkgs/archive/nixpkgs-unstable.tar.gz") { };
+let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in {
   programs.neovim = {
     enable = true;
@@ -27,6 +25,7 @@ in {
     nodejs
     python3
     tree-sitter
+    universal-ctags # For tags generation
 
     # Formatters
     nixfmt-classic
