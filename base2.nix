@@ -48,14 +48,17 @@ in {
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     efibootmgr
+    exfatprogs
     file # Provide information about a file
     git
     htop
     neovim
     nushell
+    pciutils
     psmisc # killall and others
     ripgrep
     smartmontools # hard drive health monitoring
+    starship
     tcpdump
     tldr
     unzip

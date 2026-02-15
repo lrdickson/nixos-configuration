@@ -12,6 +12,12 @@ in {
     "/nix".options = [ "compress=zstd" "noatime" ];
   };
 
+  users.users.guest = {
+    isNormalUser = true;
+    home = "/home/guest";
+    password =
+      "guest"; # For live/temporary systems, allows login without a password
+  };
   imports = [
     ./base2.nix
     ./btrfs-configuration.nix
@@ -65,6 +71,13 @@ in {
     # unstable.codex
     # unstable.lsp-ai
     gpt-cli
+
+    # F#
+    dotnet-sdk
+    fsautocomplete # lanaguage server
+    fantomas # formatter
+
+    zoom-us
   ];
 
   environment.sessionVariables = {
@@ -85,6 +98,7 @@ in {
     enable = true;
     acceleration = "cuda";
     package = unstable.ollama;
+    environmentVariables = { OLLAMA_KEEP_ALIVE = "-1"; };
   };
 
   # Update the exec to effectively use nvidia-offload.
