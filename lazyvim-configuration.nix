@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
-
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+let
+  sources = import ./npins;
+  unstable = import sources.nixpkgs-unstable { config = { allowUnfree = true; }; };
 in {
   programs.neovim = {
     enable = true;

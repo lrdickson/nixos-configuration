@@ -1,6 +1,7 @@
 { pkgs, ... }:
-
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+let
+  sources = import ./npins;
+  unstable = import sources.nixpkgs-unstable { config = { allowUnfree = true; }; };
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -48,12 +49,15 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    carapace
     efibootmgr
     exfatprogs
     file # Provide information about a file
     git
+    helix
     htop
     neovim
+    npins # nix pinning tool
     nushell
     pciutils
     psmisc # killall and others
@@ -61,7 +65,7 @@ in {
     smartmontools # hard drive health monitoring
     starship
     tcpdump
-    tldr
+    tlrc
     unzip
     wget
     zellij

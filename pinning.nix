@@ -7,16 +7,7 @@ in {
   # will not get away with breaking it.
   nix.settings = { experimental-features = "nix-command flakes"; };
 
-  # FIXME(24.05 or nixos-unstable): change following two rules to
-  #
-  # nixpkgs.flake.source = sources.nixpkgs;
-  #
-  # which does the exact same thing, using the same machinery as flake configs
-  # do as of 24.05.
-  nix.registry.nixpkgs.to = {
-    type = "path";
-    path = sources.nixpkgs;
-  };
+  nixpkgs.flake.source = sources.nixpkgs;
   nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
 }
 

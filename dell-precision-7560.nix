@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
-
-let unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+let
+  sources = import ./npins;
+  unstable = import sources.nixpkgs-unstable { config = { allowUnfree = true; }; };
 in {
   boot.initrd.luks.devices.cryptroot.device =
     "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
@@ -19,7 +20,7 @@ in {
       "guest"; # For live/temporary systems, allows login without a password
   };
   imports = [
-    ./base2.nix
+    ./common-configuration.nix
     ./btrfs-configuration.nix
     ./lazyvim-configuration.nix
     ./desktop-configuration.nix
@@ -66,16 +67,6 @@ in {
     # GPU stuff
     cudatoolkit
     gpustat
-
-    # AI stuff
-    # unstable.codex
-    # unstable.lsp-ai
-    gpt-cli
-
-    # F#
-    dotnet-sdk
-    fsautocomplete # lanaguage server
-    fantomas # formatter
 
     zoom-us
   ];
