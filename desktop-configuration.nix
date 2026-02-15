@@ -62,7 +62,7 @@
     xorg.xhost # For allowing root applications to display GUIs
     usbutils
     pandoc # universal document converter
-    poppler_utils
+    poppler-utils
     ripgrep-all
     texlive.combined.scheme-small # latex support
 
@@ -106,7 +106,4 @@
     # Gnome also comes with xdg-desktop-portal-gtk
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  # Add Nix Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 }

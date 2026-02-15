@@ -5,6 +5,7 @@ in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./pinning.nix
   ];
 
   # Set your time zone.
