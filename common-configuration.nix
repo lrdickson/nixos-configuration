@@ -56,7 +56,10 @@ in {
     git
     helix
     htop
+    lshw
+    lshw-gui
     neovim
+    nixd # official nix language server
     npins # nix pinning tool
     nushell
     pciutils

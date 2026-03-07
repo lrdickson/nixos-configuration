@@ -68,6 +68,7 @@
 
     # Desktop stuff
     bitwarden-desktop
+    kitty
     obsidian
     pinentry-gtk2
     wezterm

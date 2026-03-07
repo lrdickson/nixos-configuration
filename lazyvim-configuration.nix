@@ -5,7 +5,7 @@ let
 in {
   programs.neovim = {
     enable = true;
-    defaultEditor = true;
+    defaultEditor = false;
     configure = {
       packages.myVimPackage = with pkgs.vimPlugins; {
         # loaded on launch
@@ -33,7 +33,6 @@ in {
     stylua
 
     # language servers
-    lsp-ai
     ltex-ls # latex and markdown lsp, with spell checking
     lua-language-server
     lua51Packages.lua-lsp
