@@ -68,14 +68,15 @@ in {
     smartmontools # hard drive health monitoring
     starship
     tcpdump
+    tree
     tlrc
     unzip
     wget
-    zellij
     zip
     zoxide
 
     unstable.yazi
+    unstable.zellij
   ];
 
   # Fish

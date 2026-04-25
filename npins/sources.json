@@ -3,14 +3,14 @@
     "nixpkgs": {
       "type": "Channel",
       "name": "nixos-25.11",
-      "url": "https://releases.nixos.org/nixos/25.11/nixos-25.11.6074.fa56d7d6de78/nixexprs.tar.xz",
-      "hash": "015nk69arhl2bq9cpqp7hv9bjvx7scdbanhns86bkvxd7p18cshv"
+      "url": "https://releases.nixos.org/nixos/25.11/nixos-25.11.9586.10e7ad5bbcb4/nixexprs.tar.xz",
+      "hash": "1849z3492d6wi1y67hnh1b88abvi092clnv9awbfj4rilh70hc62"
     },
     "nixpkgs-unstable": {
       "type": "Channel",
       "name": "nixos-unstable",
-      "url": "https://releases.nixos.org/nixos/unstable/nixos-26.05pre945868.a82ccc39b39b/nixexprs.tar.xz",
-      "hash": "1p66vk46pn839jakgq3ijszh49s8d6cdmfbrnmi1dnnfz6770k1i"
+      "url": "https://releases.nixos.org/nixos/unstable/nixos-26.05pre985613.0726a0ecb6d4/nixexprs.tar.xz",
+      "hash": "0fn9383g8vw4dkdb7sz5x9y9vq8hsyzkchig50v49c9lrn07bhy0"
     }
   },
   "version": 5

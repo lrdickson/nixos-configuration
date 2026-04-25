@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 let
   sources = import ./npins;
-  unstable = import sources.nixpkgs-unstable { config = { allowUnfree = true; }; };
+  unstable =
+    import sources.nixpkgs-unstable { config = { allowUnfree = true; }; };
 in {
   boot.initrd.luks.devices.cryptroot.device =
     "/dev/disk/by-uuid/925baef0-27b8-419b-bf55-9582cd51259e";
@@ -34,10 +35,41 @@ in {
     # ./xfce-configuration.nix
   ];
 
+  systemd.services.litellm = {
+    description = "LiteLLM Proxy Service";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      # Path to the litellm executable
+      ExecStart =
+        "${unstable.litellm}/bin/litellm --config /etc/litellm/config.yaml --host 127.0.0.1 --port 4000";
+
+      # Security & User
+      User = "litellm";
+      Group = "litellm";
+      Restart = "always";
+
+      # Environment variables (API keys)
+      # It is safer to use EnvironmentFile for secret management
+      EnvironmentFile = "/etc/litellm/secrets.env";
+    };
+  };
+
+  # Create a dedicated user for the service
+  users.users.litellm = {
+    isSystemUser = true;
+    group = "litellm";
+  };
+  users.groups.litellm = { };
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
   programs.firefox.enable = true;
+
+  # Helps manage heat/power states
+  services.thermald.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -55,17 +87,17 @@ in {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   networking.firewall = {
-   # if packets are still dropped, they will show up in dmesg
-   logReversePathDrops = true;
-   # wireguard trips rpfilter up
-   extraCommands = ''
-     ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
-     ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
-   '';
-   extraStopCommands = ''
-     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
-     ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
-   '';
+    # if packets are still dropped, they will show up in dmesg
+    logReversePathDrops = true;
+    # wireguard trips rpfilter up
+    extraCommands = ''
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
+      ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
+    '';
+    extraStopCommands = ''
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
+      ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
+    '';
   };
 
   # Security
@@ -77,19 +109,20 @@ in {
   services.flatpak.enable = true;
 
   environment.systemPackages = with pkgs; [
+    cdrtools # mkisofs and others
+    e2fsprogs
+    seafile-client
+    zoom-us
+
+    unstable.aider-chat
+    unstable.codex
+    unstable.gemini-cli
+    unstable.opencode
+
     # GPU stuff
     cudatoolkit
     gpustat
-
-    zoom-us
   ];
-
-  environment.sessionVariables = {
-    # Set the OPENAI environment variables for gpt-cli
-    OPENAI_BASE_URL = "http://localhost:11434/v1";
-    OPENAI_API_KEY =
-      "ollama"; # ollama doesn't require a key but the OpenAI api does
-  };
 
   # Enable OpenGL
   hardware.graphics = {
@@ -117,20 +150,23 @@ in {
     #
     # However, this assumes there is no other GPU usage, or if they are, they
     # could be safely killed with the above command.
-    # environment = {
-    #   __NV_PRIME_RENDER_OFFLOAD = "1";
-    #   __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
-    #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    #   __VK_LAYER_NV_optimus = "NVIDIA_only";
-    # };
+    environment = {
+      __NV_PRIME_RENDER_OFFLOAD = "1";
+      __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-G0";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      __VK_LAYER_NV_optimus = "NVIDIA_only";
+    };
   };
 
-  boot.initrd.kernelModules = [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
+  # This hopefully fixes connecting a 2nd monitor after bootup and the modeset errors at shutdown
+  # and other random times
+  boot.initrd.kernelModules =
+    [ "nvidia" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" ];
   boot.kernelParams = [ "nvidia_drm.modeset=1" "nvidia_drm.fbdev=1" ];
 
   # Load nvidia driver for Xorg and Wayland
   # services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.videoDrivers = ["modesetting" "nvidia"];
+  services.xserver.videoDrivers = [ "modesetting" "nvidia" ];
 
   hardware.nvidia = {
 
@@ -141,11 +177,12 @@ in {
     # Enable this if you have graphical corruption issues or application crashes after waking
     # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
     # of just the bare essentials.
+    # Hopefully turning this on will fix sleep
     powerManagement.enable = false;
 
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+    powerManagement.finegrained = true;
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
@@ -179,11 +216,11 @@ in {
     #
     # PRIME Sync and Offload Mode cannot be enabled at the same time.
     prime = {
-      # offload = {
-      #   enable = true;
-      #   enableOffloadCmd = true;
-      # };
-      sync.enable = true;
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      # sync.enable = true;
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };

@@ -23,3 +23,6 @@ docker/veloren/userdata/
 
 # The result of nixos-rebuild test
 result
+
+ai_api_keys.nix
+.aider*
