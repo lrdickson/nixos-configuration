@@ -20,6 +20,7 @@ in {
     password =
       "guest"; # For live/temporary systems, allows login without a password
   };
+
   imports = [
     ./common-configuration.nix
     ./btrfs-configuration.nix
@@ -34,34 +35,6 @@ in {
     # ./pantheon-configuration.nix
     # ./xfce-configuration.nix
   ];
-
-  systemd.services.litellm = {
-    description = "LiteLLM Proxy Service";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-
-    serviceConfig = {
-      # Path to the litellm executable
-      ExecStart =
-        "${unstable.litellm}/bin/litellm --config /etc/litellm/config.yaml --host 127.0.0.1 --port 4000";
-
-      # Security & User
-      User = "litellm";
-      Group = "litellm";
-      Restart = "always";
-
-      # Environment variables (API keys)
-      # It is safer to use EnvironmentFile for secret management
-      EnvironmentFile = "/etc/litellm/secrets.env";
-    };
-  };
-
-  # Create a dedicated user for the service
-  users.users.litellm = {
-    isSystemUser = true;
-    group = "litellm";
-  };
-  users.groups.litellm = { };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
@@ -108,16 +81,23 @@ in {
 
   services.flatpak.enable = true;
 
+  # Enable nix-ld for uv
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [ stdenv.cc.cc.lib ];
+
   environment.systemPackages = with pkgs; [
     cdrtools # mkisofs and others
     e2fsprogs
     seafile-client
+    uv # Python package manager
     zoom-us
 
-    unstable.aider-chat
-    unstable.codex
-    unstable.gemini-cli
-    unstable.opencode
+    (pkgs.writeShellScriptBin "cecli-ai" ''
+      export LD_LIBRARY_PATH="${
+        pkgs.lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.zlib ]
+      }:$LD_LIBRARY_PATH"
+      exec uv run cecli "$@"
+    '')
 
     # GPU stuff
     cudatoolkit
@@ -131,12 +111,12 @@ in {
   };
 
   # Activate ollama
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
-    package = unstable.ollama;
-    environmentVariables = { OLLAMA_KEEP_ALIVE = "-1"; };
-  };
+  # services.ollama = {
+  #   enable = true;
+  #   acceleration = "cuda";
+  #   package = unstable.ollama;
+  #   environmentVariables = { OLLAMA_KEEP_ALIVE = "-1"; };
+  # };
 
   # Update the exec to effectively use nvidia-offload.
   systemd.user.services.ollama = {
